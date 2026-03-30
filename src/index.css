@@ -4,20 +4,54 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Quicksand", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-editorial: "Georgia", "Times New Roman", serif;
 
+  /* Light palette */
   --color-linen: #FFE4CC;
   --color-sand: #c6a181;
   --color-driftwood: #7f5e46;
   --color-walnut: #3f2a1c;
   --color-espresso: #190f0a;
 
+  /* Accents */
   --color-canopy: #16a34a;
   --color-ember: #ea580c;
   --color-sky: #0284c7;
+
+  /* Dark palette */
+  --color-charcoal: #1a1714;
+  --color-slate: #2a2420;
+  --color-ash: #3d352e;
+  --color-fossil: #a08b78;
 }
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-linen: #1a1714;
+  --color-sand: #3d352e;
+  --color-driftwood: #a08b78;
+  --color-walnut: #d4c4b0;
+  --color-espresso: #ffe4cc;
+}
+
+/* Editorial large section numbers */
+.section-numeral {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 8rem;
+  line-height: 0.85;
+  font-weight: 400;
+  color: var(--color-sand);
+  opacity: 0.35;
+}
+
+@media (min-width: 640px) {
+  .section-numeral {
+    font-size: 12rem;
+  }
 }
