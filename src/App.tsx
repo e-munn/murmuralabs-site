@@ -1,85 +1,74 @@
-import './index.css'
+import { useTheme } from './hooks/useTheme'
+import { ThemeToggle } from './components/ThemeToggle'
 
 const NAV_LINKS = [
   { label: 'Platform', href: '#platform' },
+  { label: 'Process', href: '#process' },
   { label: 'Richmond', href: '#richmond' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
+]
+
+const STATS = [
+  { value: '4,655', label: 'H3 hex cells', sub: 'resolution 10' },
+  { value: '118', label: 'data fields', sub: 'per cell' },
+  { value: '8', label: 'data sources', sub: 'authoritative' },
+  { value: '7', label: 'impact domains', sub: 'modeled' },
 ]
 
 const CAPABILITIES = [
   {
     title: '118 data fields per cell',
     desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics — sourced from ACS, CalEnviroScreen, CDC PLACES, Zillow, GTFS, EPA, and OpenStreetMap.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
-      </svg>
-    ),
   },
   {
     title: 'Scenario modeling',
     desc: 'Test infrastructure changes, policy shifts, and investment scenarios. See cascading impacts across housing, health, environment, economic, mobility, education, and safety domains.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-      </svg>
-    ),
   },
   {
     title: 'Equity-first analysis',
     desc: 'Every scenario outputs distributional impacts — who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z" />
-      </svg>
-    ),
   },
   {
     title: 'Network intelligence',
     desc: 'Census tracts connected by 8 link types — commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-      </svg>
-    ),
   },
 ]
 
-const STATS = [
-  { value: '4,655', label: 'H3 hex cells' },
-  { value: '118', label: 'data fields per cell' },
-  { value: '8', label: 'real data sources' },
-  { value: '7', label: 'impact domains' },
-]
-
 export default function App() {
+  const { theme, toggle } = useTheme()
+
   return (
-    <div className="min-h-screen bg-linen text-walnut">
-      {/* Nav */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-linen/80 backdrop-blur-md border-b border-sand/30">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="/" className="font-display font-bold text-espresso tracking-[0.18em] lowercase text-lg">
-            murmura labs
-          </a>
-          <div className="hidden sm:flex items-center gap-8">
-            {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="text-sm text-driftwood hover:text-espresso transition-colors">
-                {l.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              className="text-sm font-medium bg-espresso text-linen px-4 py-2 rounded-lg hover:bg-walnut transition-colors"
-            >
-              Get in touch
+    <div className="min-h-screen gradient-bg text-walnut transition-colors duration-300">
+      {/* Nav — glass */}
+      <nav className="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
+        <div className="glass mx-4 mt-3 rounded-xl">
+          <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+            <a href="/" className="font-display font-bold text-espresso tracking-[0.18em] lowercase text-lg">
+              murmura labs
             </a>
+            <div className="flex items-center gap-6">
+              <div className="hidden sm:flex items-center gap-6">
+                {NAV_LINKS.map((l) => (
+                  <a key={l.href} href={l.href} className="text-sm text-driftwood hover:text-espresso transition-colors">
+                    {l.label}
+                  </a>
+                ))}
+              </div>
+              <ThemeToggle theme={theme} toggle={toggle} />
+              <a
+                href="#contact"
+                className="hidden sm:inline-flex text-sm font-medium bg-espresso text-linen px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
+              >
+                Get in touch
+              </a>
+            </div>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6">
+      <section className="pt-36 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-4">
             Urban Intelligence Platform
@@ -95,13 +84,13 @@ export default function App() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#contact"
-              className="inline-flex items-center justify-center bg-espresso text-linen px-8 py-3.5 rounded-lg font-medium hover:bg-walnut transition-colors"
+              className="inline-flex items-center justify-center bg-espresso text-linen px-8 py-3.5 rounded-xl font-medium hover:opacity-90 transition-opacity"
             >
               Request a demo
             </a>
             <a
               href="#platform"
-              className="inline-flex items-center justify-center border border-sand text-walnut px-8 py-3.5 rounded-lg font-medium hover:bg-sand/20 transition-colors"
+              className="inline-flex items-center justify-center glass rounded-xl px-8 py-3.5 font-medium text-walnut hover:bg-sand/20 transition-colors"
             >
               How it works
             </a>
@@ -109,20 +98,21 @@ export default function App() {
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="border-y border-sand/30 bg-[#f5d9be]/40">
-        <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 sm:grid-cols-4 gap-8">
+      {/* Stats — dashboard style glass cards */}
+      <section className="px-4 sm:px-6 pb-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4">
           {STATS.map((s) => (
-            <div key={s.label} className="text-center">
+            <div key={s.label} className="glass glass-hover rounded-xl p-5 text-center">
               <div className="font-mono text-3xl sm:text-4xl font-medium text-espresso">{s.value}</div>
               <div className="text-sm text-driftwood mt-1">{s.label}</div>
+              <div className="font-mono text-xs text-sand mt-0.5">{s.sub}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Platform */}
-      <section id="platform" className="py-24 px-6">
+      <section id="platform" className="py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-16">
             <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Platform</p>
@@ -135,16 +125,15 @@ export default function App() {
               a rezoning — and the system computes cascading impacts across every cell.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 gap-6">
-            {CAPABILITIES.map((c) => (
-              <div
-                key={c.title}
-                className="bg-[#f5d9be]/40 border border-sand/30 rounded-xl p-6 hover:border-sand/60 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-lg bg-espresso/10 flex items-center justify-center text-espresso mb-4">
-                  {c.icon}
+          <div className="grid sm:grid-cols-2 gap-4">
+            {CAPABILITIES.map((c, i) => (
+              <div key={c.title} className="glass glass-hover rounded-xl p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="font-mono text-xs text-driftwood w-7 h-7 rounded-lg flex items-center justify-center bg-espresso/8">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="font-display font-semibold text-lg text-espresso">{c.title}</h3>
                 </div>
-                <h3 className="font-display font-semibold text-lg text-espresso mb-2">{c.title}</h3>
                 <p className="text-sm text-driftwood leading-relaxed">{c.desc}</p>
               </div>
             ))}
@@ -152,45 +141,45 @@ export default function App() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
+      {/* Process */}
+      <section id="process" className="py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="max-w-2xl mb-16">
+          <div className="glass rounded-2xl p-8 sm:p-12">
             <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Process</p>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-4">
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-12">
               From scenario to insight in seconds
             </h2>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-10">
-            {[
-              {
-                step: '01',
-                title: 'Define the intervention',
-                desc: 'Select a geographic area and change type — road closure, transit line, rezoning, congestion pricing, or investment allocation.',
-              },
-              {
-                step: '02',
-                title: 'Compute cascading impacts',
-                desc: 'The engine evaluates direct effects on every affected cell, then propagates secondary impacts through spatial and network connections across 3 cascade steps.',
-              },
-              {
-                step: '03',
-                title: 'See who benefits and who bears the cost',
-                desc: 'Population-weighted equity assessment across 7 domains. Displacement risk, vulnerability scores, and net impact — disaggregated by income, race, and geography.',
-              },
-            ].map((item) => (
-              <div key={item.step}>
-                <div className="font-mono text-4xl font-medium text-sand mb-4">{item.step}</div>
-                <h3 className="font-display font-semibold text-lg text-espresso mb-2">{item.title}</h3>
-                <p className="text-sm text-driftwood leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+            <div className="grid sm:grid-cols-3 gap-8">
+              {[
+                {
+                  step: '01',
+                  title: 'Define the intervention',
+                  desc: 'Select a geographic area and change type — road closure, transit line, rezoning, congestion pricing, or investment allocation.',
+                },
+                {
+                  step: '02',
+                  title: 'Compute cascading impacts',
+                  desc: 'The engine evaluates direct effects on every affected cell, then propagates secondary impacts through spatial and network connections across 3 cascade steps.',
+                },
+                {
+                  step: '03',
+                  title: 'See who benefits and who bears the cost',
+                  desc: 'Population-weighted equity assessment across 7 domains. Displacement risk, vulnerability scores, and net impact — disaggregated by income, race, and geography.',
+                },
+              ].map((item) => (
+                <div key={item.step}>
+                  <div className="font-mono text-4xl font-medium text-sand/50 mb-4">{item.step}</div>
+                  <h3 className="font-display font-semibold text-lg text-espresso mb-2">{item.title}</h3>
+                  <p className="text-sm text-driftwood leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Richmond case study */}
-      <section id="richmond" className="py-24 px-6">
+      {/* Richmond */}
+      <section id="richmond" className="py-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-12">
             <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Case Study</p>
@@ -208,7 +197,7 @@ export default function App() {
               job access, and how pollution corridors shift with infrastructure changes.
             </p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-3 gap-4">
             {[
               {
                 q: 'What if $100M of the Chevron settlement goes to green infrastructure along the refinery corridor?',
@@ -223,14 +212,11 @@ export default function App() {
                 domains: ['housing', 'economic', 'safety'],
               },
             ].map((item) => (
-              <div
-                key={item.q}
-                className="bg-espresso/5 border border-sand/30 rounded-xl p-6"
-              >
+              <div key={item.q} className="glass glass-hover rounded-xl p-6">
                 <p className="text-sm text-espresso font-medium leading-relaxed mb-4">"{item.q}"</p>
                 <div className="flex flex-wrap gap-2">
                   {item.domains.map((d) => (
-                    <span key={d} className="font-mono text-xs text-driftwood bg-sand/20 px-2 py-1 rounded">
+                    <span key={d} className="font-mono text-xs text-driftwood bg-espresso/8 px-2 py-1 rounded">
                       {d}
                     </span>
                   ))}
@@ -241,31 +227,33 @@ export default function App() {
         </div>
       </section>
 
-      {/* About / Team */}
-      <section id="about" className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">About</p>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-6">
-            Built by urban scientists
-          </h2>
-          <p className="text-driftwood leading-relaxed max-w-2xl mx-auto mb-4">
-            Murmura Labs is an urban intelligence company building tools for cities that
-            need to make consequential decisions with confidence. Our platform synthesizes
-            8 authoritative data sources into a living model of neighborhood dynamics.
-          </p>
-          <p className="text-driftwood leading-relaxed max-w-2xl mx-auto">
-            Born from{' '}
-            <a href="https://aretian.com" target="_blank" rel="noopener" className="text-walnut underline underline-offset-2 hover:text-espresso">
-              Aretian
-            </a>
-            's urban analytics research, we combine complexity economics, spatial data science,
-            and scenario modeling to help policymakers see the full picture before committing resources.
-          </p>
+      {/* About */}
+      <section id="about" className="py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="glass rounded-2xl p-8 sm:p-12 max-w-4xl mx-auto text-center">
+            <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">About</p>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-6">
+              Built by urban scientists
+            </h2>
+            <p className="text-driftwood leading-relaxed max-w-2xl mx-auto mb-4">
+              Murmura Labs is an urban intelligence company building tools for cities that
+              need to make consequential decisions with confidence. Our platform synthesizes
+              8 authoritative data sources into a living model of neighborhood dynamics.
+            </p>
+            <p className="text-driftwood leading-relaxed max-w-2xl mx-auto">
+              Born from{' '}
+              <a href="https://aretian.com" target="_blank" rel="noopener" className="text-espresso underline underline-offset-2 hover:text-walnut transition-colors">
+                Aretian
+              </a>
+              's urban analytics research, we combine complexity economics, spatial data science,
+              and scenario modeling to help policymakers see the full picture before committing resources.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-24 px-6">
+      <section id="contact" className="py-24 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto text-center">
           <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Contact</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-6">
@@ -278,7 +266,7 @@ export default function App() {
           </p>
           <a
             href="mailto:hello@murmuralabs.com"
-            className="inline-flex items-center justify-center bg-espresso text-linen px-8 py-3.5 rounded-lg font-medium hover:bg-walnut transition-colors text-lg"
+            className="inline-flex items-center justify-center bg-espresso text-linen px-8 py-3.5 rounded-xl font-medium hover:opacity-90 transition-opacity text-lg"
           >
             hello@murmuralabs.com
           </a>
@@ -286,14 +274,16 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-sand/30 py-10 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="font-display font-bold text-espresso tracking-[0.18em] lowercase">
-            murmura labs
+      <footer className="py-10 px-4 sm:px-6">
+        <div className="glass rounded-xl mx-auto max-w-6xl">
+          <div className="px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="font-display font-bold text-espresso tracking-[0.18em] lowercase">
+              murmura labs
+            </div>
+            <p className="text-sm text-driftwood">
+              &copy; {new Date().getFullYear()} Murmura Labs. All rights reserved.
+            </p>
           </div>
-          <p className="text-sm text-driftwood">
-            &copy; {new Date().getFullYear()} Murmura Labs. All rights reserved.
-          </p>
         </div>
       </footer>
     </div>
