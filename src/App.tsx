@@ -1,49 +1,12 @@
-import './index.css'
+import { useTheme } from './hooks/useTheme'
+import { ThemeToggle } from './components/ThemeToggle'
 
 const NAV_LINKS = [
   { label: 'Platform', href: '#platform' },
+  { label: 'Process', href: '#process' },
   { label: 'Richmond', href: '#richmond' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
-]
-
-const CAPABILITIES = [
-  {
-    title: '118 data fields per cell',
-    desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics — sourced from ACS, CalEnviroScreen, CDC PLACES, Zillow, GTFS, EPA, and OpenStreetMap.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Scenario modeling',
-    desc: 'Test infrastructure changes, policy shifts, and investment scenarios. See cascading impacts across housing, health, environment, economic, mobility, education, and safety domains.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Equity-first analysis',
-    desc: 'Every scenario outputs distributional impacts — who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Network intelligence',
-    desc: 'Census tracts connected by 8 link types — commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-      </svg>
-    ),
-  },
 ]
 
 const STATS = [
@@ -53,24 +16,144 @@ const STATS = [
   { value: '7', label: 'impact domains' },
 ]
 
-export default function App() {
+const CAPABILITIES = [
+  {
+    title: '118 data fields per cell',
+    desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics — sourced from ACS, CalEnviroScreen, CDC PLACES, Zillow, GTFS, EPA, and OpenStreetMap.',
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+        <rect x="4" y="4" width="14" height="14" rx="3" stroke="currentColor" strokeWidth={1.5} />
+        <rect x="22" y="4" width="14" height="14" rx="3" stroke="currentColor" strokeWidth={1.5} />
+        <rect x="4" y="22" width="14" height="14" rx="3" stroke="currentColor" strokeWidth={1.5} />
+        <rect x="22" y="22" width="14" height="14" rx="3" stroke="currentColor" strokeWidth={1.5} />
+        <circle cx="11" cy="11" r="2" fill="currentColor" opacity={0.4} />
+        <circle cx="29" cy="11" r="2" fill="currentColor" opacity={0.4} />
+        <circle cx="11" cy="29" r="2" fill="currentColor" opacity={0.4} />
+        <circle cx="29" cy="29" r="2" fill="currentColor" opacity={0.4} />
+      </svg>
+    ),
+  },
+  {
+    title: 'Scenario modeling',
+    desc: 'Test infrastructure changes, policy shifts, and investment scenarios. See cascading impacts across housing, health, environment, economic, mobility, education, and safety domains.',
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+        <path d="M20 6v12M14 12l6-6 6 6" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M8 22h24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" opacity={0.4} />
+        <path d="M12 28l4 4 4-4 4 4 4-4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Equity-first analysis',
+    desc: 'Every scenario outputs distributional impacts — who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+        <path d="M20 6v28" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
+        <path d="M10 14l10-4 10 4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="10" cy="20" r="4" stroke="currentColor" strokeWidth={1.5} />
+        <circle cx="30" cy="20" r="4" stroke="currentColor" strokeWidth={1.5} />
+        <path d="M10 24v4M30 24v4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" opacity={0.4} />
+      </svg>
+    ),
+  },
+  {
+    title: 'Network intelligence',
+    desc: 'Census tracts connected by 8 link types — commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10">
+        <circle cx="20" cy="10" r="3" stroke="currentColor" strokeWidth={1.5} />
+        <circle cx="10" cy="30" r="3" stroke="currentColor" strokeWidth={1.5} />
+        <circle cx="30" cy="30" r="3" stroke="currentColor" strokeWidth={1.5} />
+        <path d="M18 12.5L12 27.5M22 12.5L28 27.5M13 30H27" stroke="currentColor" strokeWidth={1.5} opacity={0.4} />
+      </svg>
+    ),
+  },
+]
+
+/* Generate hex grid positions for hero background */
+function HexGrid() {
+  const hexes: { cx: number; cy: number; delay: number }[] = []
+  const size = 28
+  const hSpacing = size * 1.75
+  const vSpacing = size * 1.52
+  for (let row = 0; row < 12; row++) {
+    for (let col = 0; col < 16; col++) {
+      const offset = row % 2 === 0 ? 0 : hSpacing / 2
+      hexes.push({
+        cx: col * hSpacing + offset,
+        cy: row * vSpacing,
+        delay: (row * 16 + col) * 0.15,
+      })
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-linen text-walnut">
+    <svg
+      viewBox="-20 -20 740 520"
+      className="absolute inset-0 w-full h-full"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      {hexes.map((h, i) => (
+        <polygon
+          key={i}
+          points={hexPoints(h.cx, h.cy, size)}
+          fill="currentColor"
+          className="hex-cell text-espresso"
+          style={{ animationDelay: `${h.delay % 6}s` }}
+        />
+      ))}
+    </svg>
+  )
+}
+
+function hexPoints(cx: number, cy: number, size: number): string {
+  const pts: string[] = []
+  for (let i = 0; i < 6; i++) {
+    const angle = (Math.PI / 180) * (60 * i - 30)
+    pts.push(`${cx + size * Math.cos(angle)},${cy + size * Math.sin(angle)}`)
+  }
+  return pts.join(' ')
+}
+
+function AngleDivider({ flip, className }: { flip?: boolean; className?: string }) {
+  return (
+    <div className={`relative h-16 sm:h-24 ${className ?? ''}`}>
+      <svg
+        viewBox="0 0 1440 96"
+        className="absolute inset-0 w-full h-full"
+        preserveAspectRatio="none"
+        style={flip ? { transform: 'scaleY(-1)' } : undefined}
+      >
+        <polygon points="0,0 1440,0 1440,48 0,96" fill="currentColor" />
+      </svg>
+    </div>
+  )
+}
+
+export default function App() {
+  const { theme, toggle } = useTheme()
+
+  return (
+    <div className="min-h-screen bg-linen text-walnut transition-colors duration-300">
       {/* Nav */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-linen/80 backdrop-blur-md border-b border-sand/30">
+      <nav className="fixed top-0 inset-x-0 z-50 bg-linen/90 backdrop-blur-md border-b border-sand/30 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="/" className="font-display font-bold text-espresso tracking-[0.18em] lowercase text-lg">
             murmura labs
           </a>
-          <div className="hidden sm:flex items-center gap-8">
-            {NAV_LINKS.map((l) => (
-              <a key={l.href} href={l.href} className="text-sm text-driftwood hover:text-espresso transition-colors">
-                {l.label}
-              </a>
-            ))}
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:flex items-center gap-6">
+              {NAV_LINKS.map((l) => (
+                <a key={l.href} href={l.href} className="text-sm text-driftwood hover:text-espresso transition-colors">
+                  {l.label}
+                </a>
+              ))}
+            </div>
+            <ThemeToggle theme={theme} toggle={toggle} />
             <a
               href="#contact"
-              className="text-sm font-medium bg-espresso text-linen px-4 py-2 rounded-lg hover:bg-walnut transition-colors"
+              className="hidden sm:inline-flex text-sm font-medium bg-espresso text-linen px-4 py-2 rounded-lg hover:bg-walnut transition-colors"
             >
               Get in touch
             </a>
@@ -78,9 +161,12 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Hero with hex grid background */}
+      <section className="relative pt-32 pb-28 px-6 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <HexGrid />
+        </div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-4">
             Urban Intelligence Platform
           </p>
@@ -109,17 +195,23 @@ export default function App() {
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="border-y border-sand/30 bg-[#f5d9be]/40">
+      {/* Angle divider into espresso stats bar */}
+      <AngleDivider className="text-espresso" />
+
+      {/* Stats bar — dark espresso */}
+      <section className="bg-espresso text-linen">
         <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 sm:grid-cols-4 gap-8">
           {STATS.map((s) => (
             <div key={s.label} className="text-center">
-              <div className="font-mono text-3xl sm:text-4xl font-medium text-espresso">{s.value}</div>
-              <div className="text-sm text-driftwood mt-1">{s.label}</div>
+              <div className="font-mono text-3xl sm:text-4xl font-medium">{s.value}</div>
+              <div className="text-sm opacity-60 mt-1">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Angle divider out of espresso */}
+      <AngleDivider flip className="text-espresso" />
 
       {/* Platform */}
       <section id="platform" className="py-24 px-6">
@@ -139,11 +231,9 @@ export default function App() {
             {CAPABILITIES.map((c) => (
               <div
                 key={c.title}
-                className="bg-[#f5d9be]/40 border border-sand/30 rounded-xl p-6 hover:border-sand/60 transition-colors"
+                className="group bg-sand/10 border border-sand/30 rounded-xl p-6 hover:border-sand/60 transition-all hover:shadow-lg"
               >
-                <div className="w-10 h-10 rounded-lg bg-espresso/10 flex items-center justify-center text-espresso mb-4">
-                  {c.icon}
-                </div>
+                <div className="text-espresso mb-4">{c.icon}</div>
                 <h3 className="font-display font-semibold text-lg text-espresso mb-2">{c.title}</h3>
                 <p className="text-sm text-driftwood leading-relaxed">{c.desc}</p>
               </div>
@@ -152,12 +242,15 @@ export default function App() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
+      {/* Angle divider into espresso process */}
+      <AngleDivider className="text-espresso" />
+
+      {/* Process — dark section */}
+      <section id="process" className="bg-espresso text-linen py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-16">
-            <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Process</p>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-4">
+            <p className="font-mono text-sm opacity-50 tracking-widest uppercase mb-3">Process</p>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4">
               From scenario to insight in seconds
             </h2>
           </div>
@@ -180,16 +273,19 @@ export default function App() {
               },
             ].map((item) => (
               <div key={item.step}>
-                <div className="font-mono text-4xl font-medium text-sand mb-4">{item.step}</div>
-                <h3 className="font-display font-semibold text-lg text-espresso mb-2">{item.title}</h3>
-                <p className="text-sm text-driftwood leading-relaxed">{item.desc}</p>
+                <div className="font-mono text-4xl font-medium opacity-30 mb-4">{item.step}</div>
+                <h3 className="font-display font-semibold text-lg mb-2">{item.title}</h3>
+                <p className="text-sm opacity-70 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Richmond case study */}
+      {/* Angle divider out of espresso */}
+      <AngleDivider flip className="text-espresso" />
+
+      {/* Richmond */}
       <section id="richmond" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-12">
@@ -225,7 +321,7 @@ export default function App() {
             ].map((item) => (
               <div
                 key={item.q}
-                className="bg-espresso/5 border border-sand/30 rounded-xl p-6"
+                className="bg-sand/10 border border-sand/30 rounded-xl p-6 hover:border-sand/60 transition-colors"
               >
                 <p className="text-sm text-espresso font-medium leading-relaxed mb-4">"{item.q}"</p>
                 <div className="flex flex-wrap gap-2">
@@ -241,21 +337,24 @@ export default function App() {
         </div>
       </section>
 
-      {/* About / Team */}
-      <section id="about" className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
+      {/* Angle divider into about */}
+      <AngleDivider className="text-espresso" />
+
+      {/* About */}
+      <section id="about" className="bg-espresso text-linen py-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">About</p>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-6">
+          <p className="font-mono text-sm opacity-50 tracking-widest uppercase mb-3">About</p>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl mb-6">
             Built by urban scientists
           </h2>
-          <p className="text-driftwood leading-relaxed max-w-2xl mx-auto mb-4">
+          <p className="opacity-70 leading-relaxed max-w-2xl mx-auto mb-4">
             Murmura Labs is an urban intelligence company building tools for cities that
             need to make consequential decisions with confidence. Our platform synthesizes
             8 authoritative data sources into a living model of neighborhood dynamics.
           </p>
-          <p className="text-driftwood leading-relaxed max-w-2xl mx-auto">
+          <p className="opacity-70 leading-relaxed max-w-2xl mx-auto">
             Born from{' '}
-            <a href="https://aretian.com" target="_blank" rel="noopener" className="text-walnut underline underline-offset-2 hover:text-espresso">
+            <a href="https://aretian.com" target="_blank" rel="noopener" className="underline underline-offset-2 hover:opacity-100 transition-opacity">
               Aretian
             </a>
             's urban analytics research, we combine complexity economics, spatial data science,
@@ -263,6 +362,9 @@ export default function App() {
           </p>
         </div>
       </section>
+
+      {/* Angle divider out of about */}
+      <AngleDivider flip className="text-espresso" />
 
       {/* Contact */}
       <section id="contact" className="py-24 px-6">
