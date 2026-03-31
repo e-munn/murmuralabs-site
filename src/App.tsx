@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react'
+import { Menu, X } from 'lucide-react'
 import './index.css'
 
 // Register ldrs web component lazily (only used for a small nav animation)
@@ -211,6 +212,20 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
 }
 
 export default function App() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    function handleClickOutside(e: MouseEvent) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
+        setMobileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [mobileOpen])
+
   return (
     <div className="min-h-screen bg-linen text-walnut">
       <a
@@ -220,7 +235,10 @@ export default function App() {
         Skip to main content
       </a>
       {/* Nav — minimal, floating */}
-      <nav className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20">
+      <nav
+        ref={mobileMenuRef}
+        className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20"
+      >
         <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5" aria-label="Murmura Labs home">
             <svg viewBox="-60 -60 120 120" className="w-8 h-8 text-espresso" aria-hidden="true">
@@ -230,6 +248,8 @@ export default function App() {
             </svg>
             <span className="font-display font-bold text-espresso tracking-[0.22em] lowercase text-lg">murmura labs</span>
           </a>
+
+          {/* Desktop nav */}
           <div className="hidden sm:flex items-center gap-10">
             {NAV_LINKS.map((l) => (
               <a
@@ -251,7 +271,48 @@ export default function App() {
               Open murmur
             </a>
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="sm:hidden flex items-center justify-center w-9 h-9 rounded-xl text-driftwood hover:text-espresso hover:bg-sand/20 transition-colors duration-200"
+            aria-label="Navigation menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
+
+        {/* Mobile dropdown */}
+        {mobileOpen && (
+          <div
+            id="mobile-nav"
+            className="sm:hidden border-t border-sand/20 px-6 py-4 flex flex-col gap-1"
+          >
+            {NAV_LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="font-mono text-sm text-driftwood hover:text-espresso py-2.5 transition-colors duration-200"
+                onClick={() => setMobileOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="https://murmur.murmuralabs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center justify-center gap-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              {/* @ts-ignore */}
+              <l-ping size="14" speed="2" color="#FAF0E6" />
+              Open murmur
+            </a>
+          </div>
+        )}
       </nav>
 
       <main id="main-content">

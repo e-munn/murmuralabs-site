@@ -187,7 +187,7 @@ interface Props {
 export default function HexGridBackground({ className = '', dark = false, delay = 0 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
-  const presetRef = useRef(2) // preset 3: 300 light, high alpha
+  const presetRef = useRef(1) // preset 2: 300 light, med alpha
 
 
   useEffect(() => {
