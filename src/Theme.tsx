@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import HexGridBackground from './HexGridBackground'
 
 const AP7_ROT = Math.atan2(Math.sqrt(3), 5)
 function hexPoints(cx: number, cy: number, r: number, rot = 0): string {
@@ -263,8 +264,9 @@ export default function Theme() {
       <section className="mb-20">
         <h2 className="font-mono text-xs tracking-[0.3em] uppercase text-driftwood mb-8">Glass Patterns</h2>
         <div className="grid sm:grid-cols-2 gap-8">
-          <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #c6a181 0%, #7f5e46 50%, #3f2a1c 100%)' }}>
-            <div className="p-8">
+          <div className="relative rounded-2xl overflow-hidden bg-linen" style={{ minHeight: 200 }}>
+            <HexGridBackground />
+            <div className="relative z-10 p-8">
               <div className="bg-[#e8cdb3]/60 backdrop-blur-md border border-[#d4b89a]/40 rounded-xl p-6">
                 <p className="font-mono text-xs text-driftwood/60 mb-2">GLASS_WARM</p>
                 <p className="font-mono text-[10px] text-driftwood/50 leading-relaxed">
@@ -274,8 +276,9 @@ export default function Theme() {
               </div>
             </div>
           </div>
-          <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a1f2e 0%, #0d1117 50%, #080c14 100%)' }}>
-            <div className="p-8">
+          <div className="relative rounded-2xl overflow-hidden bg-espresso" style={{ minHeight: 200 }}>
+            <HexGridBackground dark />
+            <div className="relative z-10 p-8">
               <div className="bg-[#1a1f2e]/75 backdrop-blur-md border border-white/[0.08] rounded-xl p-6">
                 <p className="font-mono text-xs text-[#7a8499] mb-2">GLASS_DARK</p>
                 <p className="font-mono text-[10px] text-[#7a8499]/70 leading-relaxed">
