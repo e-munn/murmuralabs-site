@@ -120,6 +120,7 @@ function parseOSMBuildings(data: any): BuildingData[] {
 }
 
 // Fallback: Fetch from third-party Overture API
+// @ts-ignore kept for future use
 async function _fetchBuildingsFromAPI(): Promise<BuildingData[]> {
   try {
     // Using the free OvertureMapsAPI.com endpoint
@@ -142,6 +143,7 @@ async function _fetchBuildingsFromAPI(): Promise<BuildingData[]> {
 }
 
 // Parse Overture GeoJSON format
+// @ts-ignore kept for future use
 function _parseOvertureGeoJSON(geojson: any): BuildingData[] {
   const buildings: BuildingData[] = [];
 
