@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { ping } from 'ldrs'
 ping.register()
 import './index.css'
-import HexNetwork from './HexNetwork'
+const HexNetwork = lazy(() => import('./HexNetwork'))
 import HexGridBackground from './HexGridBackground'
 import SplitText from './SplitText'
 import HexResolutions2D from './HexResolutions2D'
@@ -215,8 +215,8 @@ export default function App() {
       {/* Nav — minimal, floating */}
       <nav className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20">
         <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2.5">
-            <svg viewBox="-60 -60 120 120" className="w-8 h-8 text-espresso">
+          <a href="/" className="flex items-center gap-2.5" aria-label="Murmura Labs home">
+            <svg viewBox="-60 -60 120 120" className="w-8 h-8 text-espresso" aria-hidden="true">
               <polygon points={hexPoints(0, 0, 48, -AP7_ROT * 2)} fill="currentColor" stroke="none" opacity="0.08" />
               <polygon points={hexPoints(0, 0, 48 * 0.85, -AP7_ROT)} fill="currentColor" stroke="none" opacity="0.2" />
               <polygon points={hexPoints(0, 0, 48 * 0.85 * 0.85, 0)} fill="currentColor" stroke="currentColor" strokeWidth="1" opacity="0.6" />
@@ -236,7 +236,7 @@ export default function App() {
             <a
               href="https://murmur.murmuralabs.com"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center gap-2"
             >
               {/* @ts-ignore */}
@@ -247,6 +247,7 @@ export default function App() {
         </div>
       </nav>
 
+      <main>
       {/* Hero — full viewport, cinematic */}
       <section className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden">
         <HexGridBackground delay={500} />
@@ -256,6 +257,7 @@ export default function App() {
           </p>
           <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-espresso lowercase leading-none mb-4 tracking-[0.22em]">
             murmur
+            <span className="sr-only"> — urban foresight platform by Murmura Labs</span>
           </h1>
           <p className="text-lg sm:text-xl tracking-[0.15em] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
             <TypeWriter text="urban foresight platform" speed={60} delay={800} className="text-driftwood" />
@@ -274,7 +276,7 @@ export default function App() {
 
       {/* What is murmur — full dark manifesto section like lila.ai */}
       <section className="py-32 px-8 bg-espresso text-linen relative overflow-hidden">
-        <HexNetwork className="opacity-25" dark />
+        <Suspense fallback={null}><HexNetwork className="opacity-25" dark /></Suspense>
         <div className="max-w-7xl mx-auto relative z-10">
           <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-10 flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-sand inline-block" />
@@ -387,7 +389,7 @@ export default function App() {
           </div>
           {/* Right — branch visual */}
           <div className="flex justify-center">
-            <svg viewBox="0 0 280 320" className="w-full max-w-xs" fill="none">
+            <svg viewBox="0 0 280 320" className="w-full max-w-xs" fill="none" role="img" aria-label="Diagram showing scenario branching: a baseline trunk forks into scenario A and scenario B">
               {/* Main trunk */}
               <line x1="140" y1="20" x2="140" y2="300" stroke="#c6a181" strokeWidth="2" />
               {/* Fork point A — earlier */}
@@ -436,7 +438,7 @@ export default function App() {
             8 authoritative data sources into a living model of neighborhood dynamics.
           </p>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto">
-            Founded in the complexity economics tradition of <a href="https://www.science.org/doi/10.1126/science.adq1055" target="_blank" rel="noopener" className="font-semibold text-espresso underline underline-offset-4 decoration-sand hover:decoration-espresso transition-colors duration-300">J. Doyne Farmer</a> and the Santa Fe Institute,
+            Founded in the complexity economics tradition of <a href="https://www.science.org/doi/10.1126/science.adq1055" target="_blank" rel="noopener noreferrer" className="font-semibold text-espresso underline underline-offset-4 decoration-sand hover:decoration-espresso transition-colors duration-300">J. Doyne Farmer</a> and the Santa Fe Institute,
             Murmura Labs applies agent-based modeling and spatial data science to the built environment,
             making the downstream consequences of urban decisions visible before they unfold.
           </p>
@@ -468,7 +470,7 @@ export default function App() {
             <a
               href="https://murmur.murmuralabs.com"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center border border-linen/40 text-linen px-10 py-4 rounded-full font-medium hover:bg-linen/10 transition-all duration-300 text-lg"
             >
               Try murmur
@@ -495,6 +497,8 @@ export default function App() {
         </div>
       </section>
 
+      </main>
+
       {/* Footer */}
       <footer className="border-t border-sand/20 py-16 px-8 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -502,7 +506,7 @@ export default function App() {
         </div>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
           <div className="flex items-center gap-2.5">
-            <svg viewBox="-60 -60 120 120" className="w-7 h-7 text-espresso">
+            <svg viewBox="-60 -60 120 120" className="w-7 h-7 text-espresso" aria-hidden="true">
               <polygon points={hexPoints(0, 0, 48, -AP7_ROT * 2)} fill="currentColor" stroke="none" opacity="0.08" />
               <polygon points={hexPoints(0, 0, 48 * 0.85, -AP7_ROT)} fill="currentColor" stroke="none" opacity="0.2" />
               <polygon points={hexPoints(0, 0, 48 * 0.85 * 0.85, 0)} fill="currentColor" stroke="currentColor" strokeWidth="1" opacity="0.6" />

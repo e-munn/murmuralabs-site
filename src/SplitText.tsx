@@ -68,7 +68,7 @@ export default function SplitText({
         const style: CSSProperties = {
           display: 'inline-block',
           transition: `all ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${idx * delay}ms`,
-          willChange: 'transform, opacity',
+          // willChange removed — browser handles compositing via transition hint
           ...(visible ? to : from),
         }
 
