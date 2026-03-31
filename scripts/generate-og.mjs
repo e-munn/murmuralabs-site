@@ -84,7 +84,7 @@ function undulate(x, y) {
     acc += influence;
   }
   const v = Math.min(acc, 1.0);
-  const alpha = v * v * v;
+  let alpha = v * v * v;
   if (acc > 0.001) {
     rr /= acc;
     gg /= acc;
@@ -92,6 +92,18 @@ function undulate(x, y) {
   } else {
     rr = 127; gg = 94; bb = 70;
   }
+  // Random per-cell variance: ~15% of cells get a boost or swap
+  const rand = Math.random();
+  if (rand < 0.08) {
+    // Neighbor swap: boost alpha significantly on a few random cells
+    alpha = Math.min(alpha + 0.15 + Math.random() * 0.2, 1.0);
+  } else if (rand < 0.15) {
+    // Slight random boost
+    alpha = Math.min(alpha + Math.random() * 0.1, 1.0);
+  }
+  // Small jitter on all cells
+  alpha += (Math.random() - 0.5) * 0.03;
+  alpha = Math.max(0, Math.min(alpha, 1.0));
   return { alpha, r: Math.round(rr), g: Math.round(gg), b: Math.round(bb) };
 }
 
@@ -112,7 +124,21 @@ for (const cell of cells) {
   if (sx < -R || sx > W + R || sy < -R || sy > H + R) continue;
 
   const { alpha, r, g, b } = undulate(cell.x, cell.y);
-  const fa = alpha * 0.15;
+  // Radial boost: stronger at center, fades to edges
+  const dist = Math.sqrt(cell.x * cell.x + cell.y * cell.y);
+  const maxDist = Math.sqrt((W / 2) ** 2 + (H / 2) ** 2);
+  const radial = 1.0 + 2.0 * (1 - dist / maxDist); // 3x at center, 1x at edge
+  // Clear zone — rotated oval for organic feel
+  const ovalA = 800; // wide axis
+  const ovalB = 540; // narrow axis
+  const ovalAngle = Math.PI / 6; // 30 deg rotation
+  const cos30 = Math.cos(ovalAngle);
+  const sin30 = Math.sin(ovalAngle);
+  const rx = cell.x * cos30 + cell.y * sin30;
+  const ry = -cell.x * sin30 + cell.y * cos30;
+  const ovalDist = Math.sqrt((rx / ovalA) ** 2 + (ry / ovalB) ** 2);
+  const logoClear = ovalDist < 1.0 ? 0.1 + 0.9 * ovalDist : 1.0;
+  const fa = alpha * 0.25 * radial * logoClear;
   if (fa > 0.005) {
     svg += `<polygon points="${hexPoints(sx, sy, R, rot)}" fill="rgba(${r},${g},${b},${fa.toFixed(3)})" stroke="none"/>`;
   }

@@ -4,9 +4,12 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN || ''
 
+const DOLORES: [number, number] = [-122.4256, 37.7516]
+
 export default function ContactMap() {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
+  const frameRef = useRef<number>(0)
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
@@ -35,20 +38,38 @@ export default function ContactMap() {
             show3dObjects: true,
             showPedestrianRoads: true,
             showAdminBoundaries: false,
+            showNaturalFeatures: true,
           },
         }],
         sources: {},
         layers: [],
       } as any,
-      center: [-122.4194, 37.7749], // San Francisco
-      zoom: 11,
+      center: DOLORES,
+      zoom: 16,
+      pitch: 55,
+      bearing: 0,
       interactive: false,
       attributionControl: false,
+    })
+
+    // Slow orbit
+    map.on('load', () => {
+      const speed = 0.15 // degrees per frame
+      let bearing = 0
+
+      function orbit() {
+        bearing = (bearing + speed) % 360
+        map.setBearing(bearing)
+        frameRef.current = requestAnimationFrame(orbit)
+      }
+
+      frameRef.current = requestAnimationFrame(orbit)
     })
 
     mapRef.current = map
 
     return () => {
+      cancelAnimationFrame(frameRef.current)
       map.remove()
       mapRef.current = null
     }
@@ -61,9 +82,19 @@ export default function ContactMap() {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-full rounded-2xl overflow-hidden opacity-60 [&_.mapboxgl-ctrl-logo]:!w-16 [&_.mapboxgl-ctrl-logo]:!h-4"
-    />
+    <div className="relative w-full h-full rounded-2xl overflow-hidden">
+      <div
+        ref={containerRef}
+        className="w-full h-full rounded-2xl overflow-hidden opacity-60 [&_.mapboxgl-ctrl-logo]:!w-16 [&_.mapboxgl-ctrl-logo]:!h-4"
+      />
+      {/* Logo overlay — fixed in center, no jitter */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <svg viewBox="-60 -60 120 120" className="w-10 h-10">
+          <polygon points="37.71,-29.69 44.57,17.82 6.86,47.51 -37.71,29.69 -44.57,-17.82 -6.86,-47.51" fill="#190f0a" opacity="0.08" />
+          <polygon points="38.55,-13.35 30.84,26.71 -7.71,40.06 -38.55,13.35 -30.84,-26.71 7.71,-40.06" fill="#190f0a" opacity="0.2" />
+          <polygon points="34.68,0 17.34,30.03 -17.34,30.03 -34.68,0 -17.34,-30.03 17.34,-30.03" fill="#190f0a" stroke="#190f0a" strokeWidth="1" opacity="0.6" />
+        </svg>
+      </div>
+    </div>
   )
 }

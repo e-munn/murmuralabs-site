@@ -57,10 +57,16 @@ function LogoSVG({ dark = false, size = 120 }: { dark?: boolean; size?: number }
 }
 
 function FaviconSVG({ dark = false, size = 64 }: { dark?: boolean; size?: number }) {
+  const color = dark ? '#c6a181' : '#190f0a'
+  const bg = dark ? '#190f0a' : '#FFE4CC'
   return (
     <svg viewBox="0 0 32 32" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
-      <rect width="32" height="32" rx="6" fill={dark ? '#c6a181' : '#190f0a'} />
-      <text x="16" y="22.5" textAnchor="middle" fontFamily="system-ui" fontWeight="700" fontSize="18" fill={dark ? '#190f0a' : '#FFE4CC'}>m</text>
+      <rect width="32" height="32" rx="6" fill={bg} />
+      <g transform="translate(16, 16)">
+        <polygon points={hexPoints(0, 0, 12, -AP7_ROT * 2)} fill={color} opacity={0.15} />
+        <polygon points={hexPoints(0, 0, 12 * 0.85, -AP7_ROT)} fill={color} opacity={0.35} />
+        <polygon points={hexPoints(0, 0, 12 * 0.85 * 0.85, 0)} fill={color} stroke={color} strokeWidth={0.3} opacity={0.85} />
+      </g>
     </svg>
   )
 }
@@ -166,6 +172,25 @@ export default function Theme() {
               <p className="font-mono text-sm font-medium text-linen">Dark</p>
               <p className="font-mono text-xs text-sand/60">Rounded "m" on sand</p>
             </div>
+          </div>
+        </div>
+
+        <h3 className="font-mono text-xs tracking-[0.2em] uppercase text-driftwood/60 mb-4 mt-12">Social OG Image</h3>
+        <div className="border border-sand/30 rounded-2xl p-8">
+          <img
+            src="/og-image.png"
+            alt="Murmura Labs OG social share image — 1200x630"
+            className="w-full rounded-lg border border-sand/20"
+          />
+          <div className="flex items-center justify-between mt-4">
+            <p className="font-mono text-xs text-driftwood/60">1200 &times; 630px &middot; Used for Twitter, LinkedIn, Slack previews</p>
+            <a
+              href="/og-image.png"
+              download="murmuralabs-og.png"
+              className="font-mono text-xs border border-sand/40 px-4 py-2 rounded-full hover:bg-sand/10 transition-colors"
+            >
+              PNG
+            </a>
           </div>
         </div>
       </section>
