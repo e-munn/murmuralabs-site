@@ -1,12 +1,28 @@
 import { useState, useEffect, useRef } from 'react'
+import { ping } from 'ldrs'
+ping.register()
 import './index.css'
 import HexNetwork from './HexNetwork'
+import HexGridBackground from './HexGridBackground'
 import SplitText from './SplitText'
 import HexResolutions2D from './HexResolutions2D'
+import Murmuration from './Murmuration'
+import TypeWriter from './TypeWriter'
+import ScrambleValue from './ScrambleValue'
+import { CitySection } from './city/CitySection'
+
+const AP7_ROT = Math.atan2(Math.sqrt(3), 5)
+function hexPoints(cx: number, cy: number, r: number, rot = 0): string {
+  const pts: string[] = []
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI / 3) * i - Math.PI / 6 + rot
+    pts.push(`${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`)
+  }
+  return pts.join(' ')
+}
 
 const NAV_LINKS = [
   { label: 'Platform', href: '#platform' },
-  { label: 'Richmond', href: '#richmond' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -14,7 +30,7 @@ const NAV_LINKS = [
 const CAPABILITIES = [
   {
     title: '100+ data fields per cell',
-    desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics — sourced from ACS, CalEnviroScreen, CDC PLACES, Zillow, GTFS, EPA, and OpenStreetMap.',
+    desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics across every cell.',
   },
   {
     title: 'Scenario modeling',
@@ -22,19 +38,17 @@ const CAPABILITIES = [
   },
   {
     title: 'Equity-first analysis',
-    desc: 'Every scenario outputs distributional impacts — who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
+    desc: 'Every scenario outputs distributional impacts: who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
   },
   {
     title: 'Network intelligence',
-    desc: 'Census tracts connected by 8 link types — commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
+    desc: 'Cells connected by multiple link types: commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
   },
 ]
 
 const STATS = [
-  { value: '4,655', label: 'cells' },
+  { value: '~250m', label: 'cell resolution' },
   { value: '100+', label: 'data fields per cell' },
-  { value: '8', label: 'real data sources' },
-  { value: '7', label: 'impact domains' },
 ]
 
 function HexScrollSection({ stats }: { stats: { value: string; label: string }[] }) {
@@ -65,11 +79,9 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
       dot: 'bg-driftwood',
       titleColor: 'text-driftwood',
       title: 'Data layer',
-      tags: ['income', 'age', 'race', 'PM2.5', 'asthma', 'rent',
-        'transit stops', 'walkability', 'schools', 'food access',
-        'commute mode', 'home value', 'pollution burden'],
+      tags: ['demographics', 'health', 'housing', 'environment', 'mobility', 'education', 'economy'],
       tagStyle: 'text-driftwood/80 bg-driftwood/10',
-      desc: '100+ observed fields per cell. No synthetic data, no imputation.',
+      desc: '100+ observed fields per cell.',
     },
     {
       id: 'aggregate',
@@ -77,11 +89,10 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
       dot: 'bg-sand',
       titleColor: 'text-sand',
       title: 'Aggregate layer',
-      tags: ['displacement pressure', 'health composite', 'pollution corridor',
-        'transit access score', 'housing affordability', 'vulnerability index',
-        'economic connectivity', 'school quality'],
+      tags: [],
       tagStyle: 'text-sand/80 bg-sand/10',
       desc: 'Raw signals composed into neighborhood-level indicators.',
+      json: true,
     },
     {
       id: 'policy',
@@ -89,10 +100,9 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
       dot: 'bg-linen',
       titleColor: 'text-linen',
       title: 'Policy agent',
-      tags: ['land use', 'zoning', 'residents', 'renters vs owners',
-        'local economy', 'infrastructure capacity', 'political context'],
+      tags: [],
       tagStyle: 'text-linen/70 bg-linen/10',
-      desc: 'Each cell acts as an agent — with residents, competing interests, and zoning. It responds to interventions the way a neighborhood actually would.',
+      desc: 'Parent cell acts as an agent with resident interests, zoning constraints, and neighboring influence. It responds to interventions the way a neighborhood actually would.',
     },
   ]
 
@@ -111,7 +121,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
             <div className={`transition-all duration-700 ${phase === 0 ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0'}`}>
               <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-3">Multi-resolution model</p>
               <p className="text-base text-sand leading-relaxed">
-                Three interlocking scales — data flows up, decisions flow down.
+                Three resolutions. One interconnected model.
               </p>
             </div>
 
@@ -125,7 +135,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                   className="transition-all duration-700"
                   style={{
                     opacity: visible ? 1 : 0,
-                    maxHeight: visible ? 400 : 0,
+                    minHeight: 120,
                     transform: visible ? 'translateY(0)' : 'translateY(20px)',
                     overflow: 'hidden',
                   }}
@@ -140,20 +150,36 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
 
                   {/* Tags + desc — only for current phase */}
                   <div
-                    className="transition-all duration-700 overflow-hidden"
+                    className="transition-all duration-700 overflow-hidden pl-4"
                     style={{
                       maxHeight: current ? 300 : 0,
                       opacity: current ? 1 : 0,
                     }}
                   >
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {l.tags.map((tag) => (
-                        <span key={tag} className={`font-mono text-xs ${l.tagStyle} px-2 py-0.5 rounded-full`}>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <p className="text-sm text-sand/60 leading-relaxed">{l.desc}</p>
+                    {'json' in l && l.json ? (
+                      <pre className="font-mono text-xs text-sand/60 leading-relaxed bg-linen/5 rounded-lg p-3 mb-3 overflow-hidden">
+                        <span className="text-sand/30">{'{\n'}</span>
+                        {[
+                          { key: 'displacement_risk', val: '0.73' },
+                          { key: 'health_burden', val: '0.61' },
+                          { key: 'connectivity', val: '0.82' },
+                        ].map((field) => (
+                          <span key={field.key}>
+                            {'  '}<span className="text-sand/50">"{field.key}"</span>: <ScrambleValue value={field.val} active={current} speed={35} settleDelay={1800} />,{'\n'}
+                          </span>
+                        ))}
+                        <span className="text-sand/30">{'  ...\n}'}</span>
+                      </pre>
+                    ) : l.tags.length > 0 ? (
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {l.tags.map((tag) => (
+                          <span key={tag} className={`font-mono text-xs ${l.tagStyle} px-2 py-0.5 rounded-full`}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    {l.desc && <p className="text-base text-sand/60 leading-relaxed">{l.desc}</p>}
                   </div>
                 </div>
               )
@@ -187,10 +213,15 @@ export default function App() {
   return (
     <div className="min-h-screen bg-linen text-walnut">
       {/* Nav — minimal, floating */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-linen/60 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-          <a href="/" className="font-display font-bold text-espresso tracking-[0.22em] lowercase text-lg">
-            murmura labs
+      <nav className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20">
+        <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2.5">
+            <svg viewBox="-60 -60 120 120" className="w-8 h-8 text-espresso">
+              <polygon points={hexPoints(0, 0, 48, -AP7_ROT * 2)} fill="currentColor" stroke="none" opacity="0.08" />
+              <polygon points={hexPoints(0, 0, 48 * 0.85, -AP7_ROT)} fill="currentColor" stroke="none" opacity="0.2" />
+              <polygon points={hexPoints(0, 0, 48 * 0.85 * 0.85, 0)} fill="currentColor" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+            </svg>
+            <span className="font-display font-bold text-espresso tracking-[0.22em] lowercase text-lg">murmura labs</span>
           </a>
           <div className="hidden sm:flex items-center gap-10">
             {NAV_LINKS.map((l) => (
@@ -203,10 +234,14 @@ export default function App() {
               </a>
             ))}
             <a
-              href="#contact"
-              className="text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300"
+              href="https://murmur.murmuralabs.com"
+              target="_blank"
+              rel="noopener"
+              className="text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center gap-2"
             >
-              Get in touch
+              {/* @ts-ignore */}
+              <l-ping size="14" speed="2" color="#FAF0E6" />
+              Open murmur
             </a>
           </div>
         </div>
@@ -214,35 +249,21 @@ export default function App() {
 
       {/* Hero — full viewport, cinematic */}
       <section className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden">
-        <HexNetwork className="opacity-40" />
+        <HexGridBackground delay={500} />
         <div className="text-center max-w-5xl mx-auto animate-fade-in relative z-10">
-          <p className="font-mono text-sm text-driftwood tracking-[0.3em] uppercase mb-8">
+          <p className="font-display font-bold text-sm text-driftwood tracking-[0.22em] lowercase mb-6">
             murmura labs presents
           </p>
-          <h1 className="font-display font-bold text-7xl sm:text-8xl lg:text-9xl text-espresso leading-[0.95] mb-8 tracking-tight">
+          <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-espresso lowercase leading-none mb-4 tracking-[0.22em]">
             murmur
           </h1>
-          <p className="text-xl sm:text-2xl text-driftwood max-w-2xl mx-auto leading-relaxed mb-12 font-light">
-            See the second-order effects of urban decisions
-            before they're made.
+          <p className="text-lg sm:text-xl tracking-[0.15em] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
+            <TypeWriter text="urban foresight platform" speed={60} delay={800} className="text-driftwood" />
           </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <a
-              href="#contact"
-              className="group inline-flex items-center justify-center bg-espresso text-linen px-10 py-4 rounded-full font-medium hover:bg-walnut transition-all duration-300"
-            >
-              Request a demo
-              <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-              </svg>
-            </a>
-            <a
-              href="#platform"
-              className="inline-flex items-center justify-center border border-sand/60 text-walnut px-10 py-4 rounded-full font-medium hover:bg-espresso/5 transition-all duration-300"
-            >
-              How it works
-            </a>
-          </div>
+          <span className="inline-flex items-center gap-2 font-mono text-xs bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 px-3 py-1 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            v0.1 &middot; launching April 2026
+          </span>
         </div>
 
         {/* Scroll indicator */}
@@ -252,9 +273,9 @@ export default function App() {
       </section>
 
       {/* What is murmur — full dark manifesto section like lila.ai */}
-      <section className="min-h-screen flex items-center px-8 bg-espresso text-linen relative overflow-hidden">
+      <section className="py-32 px-8 bg-espresso text-linen relative overflow-hidden">
         <HexNetwork className="opacity-25" dark />
-        <div className="max-w-7xl mx-auto py-32 relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10">
           <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-10 flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-sand inline-block" />
             What is murmur?
@@ -262,8 +283,8 @@ export default function App() {
 
           <div className="mb-10 max-w-4xl">
             <SplitText
-              text="murmur is building"
-              className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-linen leading-[1.15]"
+              text="agent based simulations"
+              className="font-bold text-4xl sm:text-5xl lg:text-6xl text-linen leading-[1.15]"
               tag="h2"
               splitType="words"
               delay={80}
@@ -273,8 +294,8 @@ export default function App() {
             />
             {' '}
             <SplitText
-              text="Urban Foresight."
-              className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-sand leading-[1.15]"
+              text="at the urban scale."
+              className="font-bold text-4xl sm:text-5xl lg:text-6xl text-sand leading-[1.15]"
               tag="span"
               splitType="words"
               delay={80}
@@ -297,48 +318,44 @@ export default function App() {
             />
           </div>
 
-          <div className="max-w-4xl">
-            <SplitText
-              text="See the full picture before committing resources."
-              className="text-2xl sm:text-3xl lg:text-4xl text-linen/90 font-light leading-[1.3]"
-              tag="p"
-              splitType="words"
-              delay={40}
-              duration={700}
-              from={{ opacity: 0, transform: 'translateY(30px)' }}
-              to={{ opacity: 1, transform: 'translateY(0)' }}
-            />
-          </div>
         </div>
       </section>
 
       {/* Hex resolutions — scrolling reveal */}
       <HexScrollSection stats={STATS} />
 
-      {/* Platform — generous whitespace, left-aligned intro */}
+      {/* Platform — city viz + description */}
       <section id="platform" className="py-32 px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-20">
-            <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">Platform</p>
-            <h2 className="font-display font-bold text-4xl sm:text-5xl text-espresso mb-6 leading-tight">
-              A digital twin for
-              <br />every neighborhood
-            </h2>
-            <p className="text-lg text-driftwood leading-relaxed">
-              murmur divides a city into cells. Each cell carries 100+ real-world
-              data fields from 8 authoritative sources. Apply a scenario — a new bike lane, a transit line,
-              a rezoning — and the system computes cascading impacts across every cell.
-            </p>
+          <div className="grid lg:grid-cols-5 gap-12 items-start mb-20">
+            {/* Text — 2/5 width */}
+            <div className="lg:col-span-2 flex flex-col justify-center">
+              <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">Platform</p>
+              <h2 className="font-bold text-3xl sm:text-4xl text-espresso mb-6 leading-tight">
+                A living model
+                <br />of every neighborhood
+              </h2>
+              <p className="text-lg text-driftwood leading-relaxed">
+                murmur divides a city into cells. Each cell carries 100+ real-world
+                data fields. Apply a scenario like a new bike lane, a transit line,
+                or a rezoning, and the system computes cascading impacts across every cell.
+              </p>
+            </div>
+
+            {/* City visualization — 3/5 width */}
+            <div className="lg:col-span-3">
+              <CitySection className="w-full aspect-square rounded-2xl" />
+            </div>
           </div>
 
-          {/* Capability cards — hover zoom like lila */}
+          {/* Capability cards */}
           <div className="grid sm:grid-cols-2 gap-px bg-sand/20 rounded-2xl overflow-hidden">
             {CAPABILITIES.map((c) => (
               <div
                 key={c.title}
                 className="bg-linen p-10 hover:bg-[#f5d9be]/30 transition-all duration-500 group"
               >
-                <h3 className="font-display font-semibold text-xl text-espresso mb-3 group-hover:translate-x-1 transition-transform duration-300">
+                <h3 className="font-semibold text-xl text-espresso mb-3 group-hover:translate-x-1 transition-transform duration-300">
                   {c.title}
                 </h3>
                 <p className="text-sm text-driftwood leading-relaxed">{c.desc}</p>
@@ -348,111 +365,69 @@ export default function App() {
         </div>
       </section>
 
-      {/* Separator line */}
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="h-px bg-sand/20" />
-      </div>
 
-      {/* How it works — numbered steps, wide layout */}
-      <section className="py-32 px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-20">
-            <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">Process</p>
-            <h2 className="font-display font-bold text-4xl sm:text-5xl text-espresso leading-tight">
-              From scenario to insight
-              <br />in seconds
+      {/* Fork a scenario — collaborative branching */}
+      <section className="py-32 px-8 bg-espresso text-linen">
+        <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-16 items-center">
+          {/* Left — text */}
+          <div>
+            <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Collaborate</p>
+            <h2 className="font-bold text-4xl sm:text-5xl text-linen leading-tight mb-8">
+              Fork a scenario.
+              <br />Compare futures.
             </h2>
+            <p className="text-base text-sand leading-relaxed mb-6">
+              The model is persistent. Every team starts from the same living baseline.
+              When you want to test an idea, fork a scenario and run it independently.
+            </p>
+            <p className="text-base text-sand leading-relaxed">
+              Compare branches side by side. Merge the best outcomes back. City planning
+              as version control.
+            </p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-16">
-            {[
-              {
-                step: '01',
-                title: 'Define the intervention',
-                desc: 'Select a geographic area and change type — road closure, transit line, rezoning, congestion pricing, or investment allocation.',
-              },
-              {
-                step: '02',
-                title: 'Compute cascading impacts',
-                desc: 'The engine evaluates direct effects on every affected cell, then propagates secondary impacts through spatial and network connections across 3 cascade steps.',
-              },
-              {
-                step: '03',
-                title: 'See who benefits and who bears the cost',
-                desc: 'Population-weighted equity assessment across 7 domains. Displacement risk, vulnerability scores, and net impact — disaggregated by income, race, and geography.',
-              },
-            ].map((item) => (
-              <div key={item.step} className="group">
-                <div className="font-mono text-6xl font-medium text-sand/40 mb-6 group-hover:text-sand transition-colors duration-500">
-                  {item.step}
-                </div>
-                <h3 className="font-display font-semibold text-lg text-espresso mb-3">{item.title}</h3>
-                <p className="text-sm text-driftwood leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+          {/* Right — branch visual */}
+          <div className="flex justify-center">
+            <svg viewBox="0 0 280 320" className="w-full max-w-xs" fill="none">
+              {/* Main trunk */}
+              <line x1="140" y1="20" x2="140" y2="300" stroke="#c6a181" strokeWidth="2" />
+              {/* Fork point A — earlier */}
+              <circle cx="140" cy="90" r="5" fill="#c6a181" />
+              {/* Branch left from fork A */}
+              <path d="M140 90 C140 140, 75 120, 75 180" stroke="#c6a181" strokeWidth="2" fill="none" />
+              <circle cx="75" cy="180" r="3" fill="#c6a181" opacity="0.6" />
+              <line x1="75" y1="180" x2="75" y2="280" stroke="#c6a181" strokeWidth="2" opacity="0.6" />
+              <circle cx="75" cy="230" r="3" fill="#c6a181" opacity="0.3" />
+              <circle cx="75" cy="280" r="4" fill="#c6a181" opacity="0.6" />
+              {/* Fork point B — later */}
+              <circle cx="140" cy="170" r="5" fill="#c6a181" />
+              {/* Branch right from fork B */}
+              <path d="M140 170 C140 220, 210 200, 210 250" stroke="#c6a181" strokeWidth="2" fill="none" />
+              <circle cx="210" cy="250" r="3" fill="#c6a181" opacity="0.6" />
+              <line x1="210" y1="250" x2="210" y2="280" stroke="#c6a181" strokeWidth="2" opacity="0.6" />
+              <circle cx="210" cy="280" r="4" fill="#c6a181" opacity="0.6" />
+              {/* Main end */}
+              <circle cx="140" cy="300" r="4" fill="#c6a181" />
+              {/* Labels */}
+              <text x="140" y="14" textAnchor="middle" className="font-mono" fill="#c6a181" fontSize="9" opacity="0.5">baseline</text>
+              <text x="75" y="296" textAnchor="middle" className="font-mono" fill="#c6a181" fontSize="9" opacity="0.5">scenario A</text>
+              <text x="210" y="296" textAnchor="middle" className="font-mono" fill="#c6a181" fontSize="9" opacity="0.5">scenario B</text>
+              <text x="140" y="316" textAnchor="middle" className="font-mono" fill="#c6a181" fontSize="9" opacity="0.5">main</text>
+              {/* Commit dot on trunk */}
+              <circle cx="140" cy="50" r="3" fill="#c6a181" opacity="0.4" />
+              <circle cx="140" cy="130" r="3" fill="#c6a181" opacity="0.4" />
+              <circle cx="140" cy="230" r="3" fill="#c6a181" opacity="0.4" />
+              <circle cx="140" cy="265" r="3" fill="#c6a181" opacity="0.4" />
+            </svg>
           </div>
         </div>
       </section>
 
-      {/* Richmond case study — dark inverted section */}
-      <section id="richmond" className="py-32 px-8 bg-espresso text-linen relative overflow-hidden">
-        <HexNetwork className="opacity-15" dark />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="max-w-3xl mb-16">
-            <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Case Study</p>
-            <h2 className="font-display font-bold text-4xl sm:text-5xl text-linen mb-6 leading-tight">
-              Richmond, California
-            </h2>
-            <p className="text-lg text-sand leading-relaxed mb-6">
-              Our first city model covers Richmond's 130,000 residents across 4,655 cells.
-              Richmond faces a historic moment: a $550M Chevron settlement, $9.56M in federal
-              Reconnecting Communities funding, and the Hilltop Horizon redevelopment of 5,000-7,500 new units.
-            </p>
-            <p className="text-lg text-sand leading-relaxed">
-              murmur can model how each of these investments propagates through the city —
-              which neighborhoods see displacement pressure, where transit improvements unlock
-              job access, and how pollution corridors shift with infrastructure changes.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[
-              {
-                q: 'What if $100M of the Chevron settlement goes to green infrastructure along the refinery corridor?',
-                domains: ['environment', 'health', 'housing'],
-              },
-              {
-                q: 'How does the Harbour Way complete streets project affect transit access for carless households?',
-                domains: ['mobility', 'economic', 'equity'],
-              },
-              {
-                q: 'What displacement risk does Hilltop Horizon create for renters in adjacent neighborhoods?',
-                domains: ['housing', 'economic', 'safety'],
-              },
-            ].map((item) => (
-              <div
-                key={item.q}
-                className="border border-sand/20 rounded-2xl p-8 hover:border-sand/40 transition-all duration-300 group"
-              >
-                <p className="text-sm text-linen/90 font-medium leading-relaxed mb-6 group-hover:text-linen transition-colors duration-300">
-                  "{item.q}"
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {item.domains.map((d) => (
-                    <span key={d} className="font-mono text-xs text-sand/80 bg-sand/10 px-3 py-1 rounded-full">
-                      {d}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* About */}
       <section id="about" className="py-32 px-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">About</p>
-          <h2 className="font-display font-bold text-4xl sm:text-5xl text-espresso mb-8 leading-tight">
+          <h2 className="font-bold text-4xl sm:text-5xl text-espresso mb-8 leading-tight">
             Built by urban scientists
           </h2>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto mb-6">
@@ -461,42 +436,62 @@ export default function App() {
             8 authoritative data sources into a living model of neighborhood dynamics.
           </p>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto">
-            Born from{' '}
-            <a
-              href="https://aretian.com"
-              target="_blank"
-              rel="noopener"
-              className="text-espresso underline underline-offset-4 decoration-sand hover:decoration-espresso transition-colors duration-300"
-            >
-              Aretian
-            </a>
-            's urban analytics research, we combine complexity economics, spatial data science,
-            and scenario modeling to help policymakers see the full picture before committing resources.
+            Founded in the complexity economics tradition of <a href="https://www.science.org/doi/10.1126/science.adq1055" target="_blank" rel="noopener" className="font-semibold text-espresso underline underline-offset-4 decoration-sand hover:decoration-espresso transition-colors duration-300">J. Doyne Farmer</a> and the Santa Fe Institute,
+            Murmura Labs applies agent-based modeling and spatial data science to the built environment,
+            making the downstream consequences of urban decisions visible before they unfold.
           </p>
         </div>
       </section>
 
       {/* Contact — clean, centered */}
-      <section id="contact" className="py-32 px-8 bg-[#f5d9be]/30">
+      <section id="contact" className="py-32 px-8 bg-espresso text-linen">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">Contact</p>
-          <h2 className="font-display font-bold text-4xl sm:text-5xl text-espresso mb-8 leading-tight">
+          <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Contact</p>
+          <h2 className="font-bold text-4xl sm:text-5xl text-linen mb-8 leading-tight">
             Let's model your city
           </h2>
-          <p className="text-lg text-driftwood leading-relaxed mb-12">
-            We're working with cities in the Bay Area and beyond. If you're a policymaker,
-            urban planner, or community leader facing a consequential decision, we'd love
-            to show you what murmur can reveal.
+          <p className="text-lg text-sand leading-relaxed mb-12">
+            Based in San Francisco and working with cities across the Bay Area and beyond.
+            If you're a policymaker, urban planner, or community leader facing a consequential
+            decision, schedule a visit or we'll come to you. We prefer to present in person.
           </p>
-          <a
-            href="mailto:hello@murmuralabs.com"
-            className="group inline-flex items-center justify-center bg-espresso text-linen px-10 py-4 rounded-full font-medium hover:bg-walnut transition-all duration-300 text-lg"
-          >
-            hello@murmuralabs.com
-            <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-            </svg>
-          </a>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <a
+              href="mailto:hello@murmuralabs.com"
+              className="group inline-flex items-center justify-center bg-linen text-espresso px-10 py-4 rounded-full font-medium hover:bg-sand transition-all duration-300 text-lg"
+            >
+              hello@murmuralabs.com
+              <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+            <a
+              href="https://murmur.murmuralabs.com"
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center justify-center border border-linen/40 text-linen px-10 py-4 rounded-full font-medium hover:bg-linen/10 transition-all duration-300 text-lg"
+            >
+              Try murmur
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Murmuration definition */}
+      <section className="py-32 px-8 sm:px-16 lg:px-24 bg-linen relative overflow-hidden">
+        {/* Boid canvas on right half */}
+        <div className="absolute top-0 right-0 w-1/2 h-full hidden sm:block">
+          <Murmuration />
+        </div>
+        <div className="relative z-10">
+          <div className="max-w-lg">
+            <p className="font-mono text-sm text-driftwood/60 tracking-[0.2em] uppercase mb-3">mur·mu·ra·tion</p>
+            <p className="font-mono text-xs text-driftwood/40 mb-10">/ˌmərmyəˈrāSH(ə)n/</p>
+            <p className="text-xl sm:text-2xl text-driftwood leading-relaxed font-light italic">
+              The phenomenon in which many individual agents, each following simple local
+              rules, produce coherent, system-wide behavior without central direction.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -506,8 +501,13 @@ export default function App() {
           <HexResolutions2D visibleLayers={3} />
         </div>
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
-          <div className="font-display font-bold text-espresso tracking-[0.22em] lowercase">
-            murmura labs
+          <div className="flex items-center gap-2.5">
+            <svg viewBox="-60 -60 120 120" className="w-7 h-7 text-espresso">
+              <polygon points={hexPoints(0, 0, 48, -AP7_ROT * 2)} fill="currentColor" stroke="none" opacity="0.08" />
+              <polygon points={hexPoints(0, 0, 48 * 0.85, -AP7_ROT)} fill="currentColor" stroke="none" opacity="0.2" />
+              <polygon points={hexPoints(0, 0, 48 * 0.85 * 0.85, 0)} fill="currentColor" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+            </svg>
+            <span className="font-display font-bold text-espresso tracking-[0.22em] lowercase">murmura labs</span>
           </div>
           <p className="text-sm text-driftwood">
             &copy; {new Date().getFullYear()} Murmura Labs. All rights reserved.

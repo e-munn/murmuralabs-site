@@ -44,6 +44,21 @@ function honeycomb(r: number, rot: number, rings: number): [number, number][] {
   return centers
 }
 
+// Check if point is inside a flat-top hex with given center, radius, and rotation
+function insideHex(px: number, py: number, cx: number, cy: number, r: number, rot: number): boolean {
+  // Transform point into hex-local coordinates
+  const dx = px - cx
+  const dy = py - cy
+  const cos = Math.cos(-rot)
+  const sin = Math.sin(-rot)
+  const lx = dx * cos - dy * sin
+  const ly = dx * sin + dy * cos
+  // Hex containment check (pointy-top after rotation removal)
+  const ax = Math.abs(lx)
+  const ay = Math.abs(ly)
+  return ay <= r * Math.sqrt(3) / 2 && ax <= r && ax + ay / Math.sqrt(3) <= r
+}
+
 interface Props {
   className?: string
   visibleLayers?: number // 1, 2, or 3
@@ -63,35 +78,55 @@ export default function HexResolutions2D({ className = '', visibleLayers = 3 }: 
   const layer2 = honeycomb(R2, rot2, 1)
   const layer3 = honeycomb(R3, rot3, 4)
 
+  // Determine which layer3 hexes are covered by any layer2 hex
+  const layer3Covered = layer3.map(([cx, cy]) => {
+    return layer2.some(([l2x, l2y]) => insideHex(cx, cy, l2x, l2y, R2 * 0.98, rot2))
+  })
+
   const viewBox = '-180 -180 360 360'
 
   return (
     <div className={className} style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <svg viewBox={viewBox} style={{ width: '80%', height: '80%' }}>
         {/* Layer 3 — finest (data layer) — always visible */}
-        {layer3.map(([cx, cy], i) => (
-          <polygon
-            key={`l3-${i}`}
-            points={hexPoints(cx, cy, R3 * 0.97, rot3)}
-            fill="none"
-            stroke="#7f5e46"
-            strokeWidth={0.3}
-            opacity={0.5}
-            style={{ transition: 'opacity 0.6s ease' }}
-          />
-        ))}
+        {layer3.map(([cx, cy], i) => {
+          const maxDist = R3 * Math.sqrt(3) * 4
+          const dist = Math.sqrt(cx * cx + cy * cy)
+          const t = dist / maxDist
+          const fillAlpha = 0.3 * Math.exp(-3 * t * t)
+          const isOverhang = !layer3Covered[i]
+          // Fade out overhanging hexes when aggregate layer is visible
+          const hexOpacity = isOverhang && visibleLayers <= 2 ? 0 : 0.5
+          return (
+            <polygon
+              key={`l3-${i}`}
+              points={hexPoints(cx, cy, R3 * 0.97, rot3)}
+              fill={`rgba(127, 94, 70, ${fillAlpha})`}
+              stroke="#7f5e46"
+              strokeWidth={0.3}
+              opacity={hexOpacity}
+              style={{ transition: 'opacity 0.6s ease' }}
+            />
+          )
+        })}
         {/* Layer 2 — medium (aggregate layer) */}
-        {layer2.map(([cx, cy], i) => (
-          <polygon
-            key={`l2-${i}`}
-            points={hexPoints(cx, cy, R2 * 0.98, rot2)}
-            fill="none"
-            stroke="#c6a181"
-            strokeWidth={1}
-            opacity={visibleLayers <= 2 ? 0.7 : 0}
-            style={{ transition: 'opacity 0.6s ease' }}
-          />
-        ))}
+        {layer2.map(([cx, cy], i) => {
+          const maxDist = R2 * Math.sqrt(3) * 1 // outermost ring distance (1 ring)
+          const dist = Math.sqrt(cx * cx + cy * cy)
+          const t = dist / maxDist
+          const fillAlpha = 0.05 + 0.15 * Math.exp(-3 * t * t)
+          return (
+            <polygon
+              key={`l2-${i}`}
+              points={hexPoints(cx, cy, R2 * 0.98, rot2)}
+              fill={`rgba(198, 161, 129, ${fillAlpha})`}
+              stroke="#c6a181"
+              strokeWidth={1}
+              opacity={visibleLayers <= 2 ? 0.7 : 0}
+              style={{ transition: 'opacity 0.6s ease' }}
+            />
+          )
+        })}
         {/* Layer 1 — parent (policy layer) */}
         {layer1.map(([cx, cy], i) => (
           <polygon

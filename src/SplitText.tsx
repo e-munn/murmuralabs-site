@@ -9,7 +9,7 @@ interface SplitTextProps {
   from?: CSSProperties
   to?: CSSProperties
   threshold?: number
-  tag?: keyof HTMLElementTagNameMap
+  tag?: string
   textAlign?: CSSProperties['textAlign']
 }
 
@@ -22,7 +22,7 @@ export default function SplitText({
   from = { opacity: 0, transform: 'translateY(40px)' },
   to = { opacity: 1, transform: 'translateY(0)' },
   threshold = 0.1,
-  tag: Tag = 'p',
+  tag: Tag = 'p' as any,
   textAlign = 'left',
 }: SplitTextProps) {
   const ref = useRef<HTMLElement>(null)
@@ -52,7 +52,7 @@ export default function SplitText({
   let tokenIndex = 0
 
   return (
-    // @ts-expect-error dynamic tag
+    // @ts-ignore dynamic tag
     <Tag
       ref={ref}
       className={`split-parent ${className}`}
