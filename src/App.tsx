@@ -2,55 +2,122 @@ import './index.css'
 
 const NAV_LINKS = [
   { label: 'Platform', href: '#platform' },
+  { label: 'Science', href: '#science' },
   { label: 'Richmond', href: '#richmond' },
   { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const CAPABILITIES = [
   {
     title: '118 data fields per cell',
-    desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics — sourced from ACS, CalEnviroScreen, CDC PLACES, Zillow, GTFS, EPA, and OpenStreetMap.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
-      </svg>
-    ),
+    desc: 'Demographics, health, pollution, housing, transit, amenities, schools, and network metrics — from ACS, CalEnviroScreen, CDC PLACES, Zillow, GTFS, EPA, and OpenStreetMap.',
+    tag: 'data',
   },
   {
-    title: 'Scenario modeling',
-    desc: 'Test infrastructure changes, policy shifts, and investment scenarios. See cascading impacts across housing, health, environment, economic, mobility, education, and safety domains.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-      </svg>
-    ),
+    title: 'Empirically-calibrated response engine',
+    desc: 'Every coefficient is derived from observed cross-field correlations, not assumed. Distribution percentiles replace magic-number thresholds. Bootstrap confidence intervals on every domain shift.',
+    tag: 'calibration',
   },
   {
-    title: 'Equity-first analysis',
-    desc: 'Every scenario outputs distributional impacts — who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z" />
-      </svg>
-    ),
+    title: 'Network-informed cascade',
+    desc: '8 link types connect neighborhoods: commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, housing pressure. Effects propagate along real relationships, not just distance.',
+    tag: 'network',
   },
   {
-    title: 'Network intelligence',
-    desc: 'Census tracts connected by 8 link types — commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-6 h-6">
-        <path d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-      </svg>
-    ),
+    title: 'Counterfactual comparison',
+    desc: 'Fork reality: baseline distribution vs scenario distribution per domain. Paired t-tests with Bonferroni correction. Cohen\'s d effect sizes. KDE density plots. 95% bootstrap confidence intervals.',
+    tag: 'statistics',
+  },
+  {
+    title: 'Equity decomposition',
+    desc: 'Income quartile breakdowns. Vulnerability tier analysis. Progressivity index (Spearman). Impact Gini coefficient. Displacement risk with destination modeling.',
+    tag: 'equity',
+  },
+  {
+    title: 'Spatial clustering',
+    desc: 'Moran\'s I for global autocorrelation. Getis-Ord Gi* for local hot/cold spots. Impacts that cluster geographically are flagged — random scatter means the signal is noise.',
+    tag: 'spatial',
   },
 ]
 
 const STATS = [
-  { value: '4,655', label: 'H3 hex cells' },
-  { value: '118', label: 'data fields per cell' },
-  { value: '8', label: 'real data sources' },
-  { value: '7', label: 'impact domains' },
+  { value: '4,655', label: 'H3 hex cells', sub: 'resolution 10 (~65m)' },
+  { value: '118', label: 'data fields', sub: 'per cell' },
+  { value: '8', label: 'change types', sub: 'infrastructure to policy' },
+  { value: '29', label: 'tract network', sub: '8 link types' },
+]
+
+const PIPELINE = [
+  {
+    step: '01',
+    title: 'Census data → Cell profiles',
+    desc: '118 fields from 8 sources mapped to 4,655 H3 hexagonal cells. Dasymetric disaggregation ensures sub-block-group variation.',
+    time: '~2s',
+  },
+  {
+    step: '02',
+    title: 'Statistical calibration',
+    desc: 'Distribution percentiles, cross-field correlations, and ABC-sampled posterior distributions replace all hard-coded parameters.',
+    time: '~50ms',
+  },
+  {
+    step: '03',
+    title: 'Tract network construction',
+    desc: '8-link-type network with Brandes betweenness centrality and compound vulnerability scoring. Calibrated link affinity from cross-tract correlations.',
+    time: '~10ms',
+  },
+  {
+    step: '04',
+    title: 'Direct impact computation',
+    desc: 'Each affected cell responds based on its full 118-field profile. 7 impact domains × magnitude × direction. Displacement probability from empirical weights.',
+    time: '~100ms',
+  },
+  {
+    step: '05',
+    title: 'Network cascade propagation',
+    desc: 'Effects cascade along tract network links for 3 steps. Hub tracts amplify. Vulnerable tracts absorb more damage. Per-cascade-type vulnerability modifiers.',
+    time: '~30ms',
+  },
+  {
+    step: '06',
+    title: 'Counterfactual comparison',
+    desc: 'Fork baseline → apply scenario → paired t-test per domain → bootstrap CIs → Moran\'s I spatial clustering → equity decomposition by income quartile.',
+    time: '~200ms',
+  },
+]
+
+const SCENARIO_RESULTS = [
+  {
+    name: 'Bike lane: Macdonald Avenue',
+    type: 'add_bike_lane',
+    score: '+0.068',
+    scoreColor: '#16a34a',
+    benefited: '14,455',
+    harmed: '0',
+    progressive: '+0.288',
+    insight: 'Q1 (lowest income) gets 4× the benefit of Q4. Carless residents in Iron Triangle gain the most from protected cycling access.',
+  },
+  {
+    name: 'Pedestrian bridge: over I-580',
+    type: 'pedestrianization',
+    score: '+0.119',
+    scoreColor: '#16a34a',
+    benefited: '20,466',
+    harmed: '0',
+    displacement: '546',
+    progressive: '+0.099',
+    insight: 'Reconnecting Iron Triangle to Marina Bay across the freeway barrier. Highest net score of any tested scenario. Displacement risk concentrated on the rent-burdened Iron Triangle side.',
+  },
+  {
+    name: 'I-580 truck restriction',
+    type: 'truck_restriction',
+    score: 'testing',
+    scoreColor: '#0284c7',
+    benefited: '—',
+    harmed: '—',
+    progressive: '—',
+    insight: 'Tests the pollution↔health correlation (r=0.42). Air quality cascade propagates along pollution network links. No traffic diversion — only trucks are rerouted.',
+  },
 ]
 
 export default function App() {
@@ -60,7 +127,7 @@ export default function App() {
       <nav className="fixed top-0 inset-x-0 z-50 bg-linen/80 backdrop-blur-md border-b border-sand/30">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="/" className="font-display font-bold text-espresso tracking-[0.18em] lowercase text-lg">
-            murmura labs
+            murmur
           </a>
           <div className="hidden sm:flex items-center gap-8">
             {NAV_LINKS.map((l) => (
@@ -72,7 +139,7 @@ export default function App() {
               href="#contact"
               className="text-sm font-medium bg-espresso text-linen px-4 py-2 rounded-lg hover:bg-walnut transition-colors"
             >
-              Get in touch
+              Request demo
             </a>
           </div>
         </div>
@@ -82,15 +149,15 @@ export default function App() {
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-4">
-            Urban Intelligence Platform
+            City Intelligence Platform
           </p>
           <h1 className="font-display font-bold text-5xl sm:text-7xl text-espresso leading-[1.05] mb-6">
-            Listen to the city.
+            See the second-order<br />effects first.
           </h1>
           <p className="text-lg sm:text-xl text-driftwood max-w-2xl mx-auto leading-relaxed mb-10">
-            See the second-order effects of urban decisions before they're made.
-            Every neighborhood, every policy, every investment — modeled across
-            demographics, health, environment, housing, transit, and equity.
+            Every urban decision creates cascading impacts across neighborhoods.
+            murmur computes them — with statistical confidence — before a single
+            dollar is spent.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -100,10 +167,10 @@ export default function App() {
               Request a demo
             </a>
             <a
-              href="#platform"
+              href="#science"
               className="inline-flex items-center justify-center border border-sand text-walnut px-8 py-3.5 rounded-lg font-medium hover:bg-sand/20 transition-colors"
             >
-              How it works
+              The science
             </a>
           </div>
         </div>
@@ -116,35 +183,36 @@ export default function App() {
             <div key={s.label} className="text-center">
               <div className="font-mono text-3xl sm:text-4xl font-medium text-espresso">{s.value}</div>
               <div className="text-sm text-driftwood mt-1">{s.label}</div>
+              <div className="text-xs text-sand mt-0.5">{s.sub}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Platform */}
+      {/* Platform capabilities */}
       <section id="platform" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-16">
             <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Platform</p>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-4">
-              A digital twin for every neighborhood
+              Not a dashboard. A computation engine.
             </h2>
             <p className="text-driftwood leading-relaxed">
-              murmur.ai divides a city into H3 hexagonal cells. Each cell carries 118 real-world
-              data fields from 8 authoritative sources. Apply a scenario — a new bike lane, a transit line,
-              a rezoning — and the system computes cascading impacts across every cell.
+              Most urban analytics tools visualize data. murmur <em>reasons</em> about it — computing
+              how interventions propagate through 4,655 cells across 7 domains, with empirically-calibrated
+              coefficients and statistical significance testing on every output.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {CAPABILITIES.map((c) => (
               <div
                 key={c.title}
                 className="bg-[#f5d9be]/40 border border-sand/30 rounded-xl p-6 hover:border-sand/60 transition-colors"
               >
-                <div className="w-10 h-10 rounded-lg bg-espresso/10 flex items-center justify-center text-espresso mb-4">
-                  {c.icon}
-                </div>
-                <h3 className="font-display font-semibold text-lg text-espresso mb-2">{c.title}</h3>
+                <span className="font-mono text-[10px] text-driftwood bg-sand/20 px-2 py-1 rounded uppercase tracking-wider">
+                  {c.tag}
+                </span>
+                <h3 className="font-display font-semibold text-lg text-espresso mt-3 mb-2">{c.title}</h3>
                 <p className="text-sm text-driftwood leading-relaxed">{c.desc}</p>
               </div>
             ))}
@@ -152,35 +220,27 @@ export default function App() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
+      {/* Science — The Pipeline */}
+      <section id="science" className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-16">
-            <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Process</p>
+            <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Science</p>
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-4">
-              From scenario to insight in seconds
+              Six-stage analysis pipeline
             </h2>
+            <p className="text-driftwood leading-relaxed">
+              Inspired by J. Doyne Farmer's complexity economics at the Oxford Institute for New
+              Economic Thinking. Calibrate against distributions, not means. Compare counterfactuals,
+              not absolutes. Let spatial structure carry information.
+            </p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-10">
-            {[
-              {
-                step: '01',
-                title: 'Define the intervention',
-                desc: 'Select a geographic area and change type — road closure, transit line, rezoning, congestion pricing, or investment allocation.',
-              },
-              {
-                step: '02',
-                title: 'Compute cascading impacts',
-                desc: 'The engine evaluates direct effects on every affected cell, then propagates secondary impacts through spatial and network connections across 3 cascade steps.',
-              },
-              {
-                step: '03',
-                title: 'See who benefits and who bears the cost',
-                desc: 'Population-weighted equity assessment across 7 domains. Displacement risk, vulnerability scores, and net impact — disaggregated by income, race, and geography.',
-              },
-            ].map((item) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {PIPELINE.map((item) => (
               <div key={item.step}>
-                <div className="font-mono text-4xl font-medium text-sand mb-4">{item.step}</div>
+                <div className="flex items-baseline gap-3 mb-3">
+                  <span className="font-mono text-3xl font-medium text-sand">{item.step}</span>
+                  <span className="font-mono text-xs text-driftwood bg-sand/20 px-2 py-0.5 rounded">{item.time}</span>
+                </div>
                 <h3 className="font-display font-semibold text-lg text-espresso mb-2">{item.title}</h3>
                 <p className="text-sm text-driftwood leading-relaxed">{item.desc}</p>
               </div>
@@ -189,7 +249,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Richmond case study */}
+      {/* Richmond case study with real results */}
       <section id="richmond" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-2xl mb-12">
@@ -197,43 +257,116 @@ export default function App() {
             <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-4">
               Richmond, California
             </h2>
-            <p className="text-driftwood leading-relaxed mb-6">
-              Our first city model covers Richmond's 130,000 residents across 4,655 hexagonal cells.
-              Richmond faces a historic moment: a $550M Chevron settlement, $9.56M in federal
-              Reconnecting Communities funding, and the Hilltop Horizon redevelopment of 5,000-7,500 new units.
+            <p className="text-driftwood leading-relaxed mb-4">
+              130,000 residents. 4,655 hex cells. 118 fields per cell.
+              Richmond faces a $550M Chevron settlement, $9.56M in federal Reconnecting
+              Communities funding, and the Hilltop Horizon redevelopment. murmur models how
+              each investment cascades through the city's neighborhoods.
             </p>
             <p className="text-driftwood leading-relaxed">
-              murmur.ai can model how each of these investments propagates through the city —
-              which neighborhoods see displacement pressure, where transit improvements unlock
-              job access, and how pollution corridors shift with infrastructure changes.
+              Here are real outputs from the platform — not mockups.
             </p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-6">
+
+          <div className="space-y-4">
+            {SCENARIO_RESULTS.map((s) => (
+              <div
+                key={s.name}
+                className="bg-[#f5d9be]/40 border border-sand/30 rounded-xl p-6"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                  <div>
+                    <h3 className="font-display font-semibold text-lg text-espresso">{s.name}</h3>
+                    <span className="font-mono text-xs text-driftwood bg-sand/20 px-2 py-0.5 rounded">
+                      {s.type.replace(/_/g, ' ')}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <div className="font-mono text-2xl font-bold" style={{ color: s.scoreColor }}>
+                        {s.score}
+                      </div>
+                      <div className="text-xs text-driftwood">net city score</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                  <div>
+                    <div className="font-mono text-sm font-medium text-canopy">{s.benefited}</div>
+                    <div className="text-xs text-driftwood">benefited</div>
+                  </div>
+                  <div>
+                    <div className="font-mono text-sm font-medium" style={{ color: s.harmed === '0' ? '#16a34a' : '#dc2626' }}>{s.harmed}</div>
+                    <div className="text-xs text-driftwood">harmed</div>
+                  </div>
+                  <div>
+                    <div className="font-mono text-sm font-medium text-sky">{s.progressive}</div>
+                    <div className="text-xs text-driftwood">progressivity</div>
+                  </div>
+                  {s.displacement && (
+                    <div>
+                      <div className="font-mono text-sm font-medium text-ember">{s.displacement}</div>
+                      <div className="text-xs text-driftwood">displacement risk</div>
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-sm text-driftwood leading-relaxed italic">
+                  {s.insight}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Questions the platform can answer */}
+          <div className="mt-12 grid sm:grid-cols-3 gap-6">
+            {[
+              'What if $100M of the Chevron settlement goes to green infrastructure along the refinery corridor?',
+              'How does the Harbour Way complete streets project affect displacement risk for rent-burdened households?',
+              'Which neighborhoods see cascading health improvements when truck traffic is restricted from residential streets?',
+            ].map((q) => (
+              <div key={q} className="bg-espresso/5 border border-sand/30 rounded-xl p-5">
+                <p className="text-sm text-espresso font-medium leading-relaxed">"{q}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Methodology */}
+      <section className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
+        <div className="max-w-4xl mx-auto">
+          <div className="max-w-2xl mb-12">
+            <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Methodology</p>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-4">
+              Complexity economics for cities
+            </h2>
+          </div>
+          <div className="space-y-8">
             {[
               {
-                q: 'What if $100M of the Chevron settlement goes to green infrastructure along the refinery corridor?',
-                domains: ['environment', 'health', 'housing'],
+                principle: 'Calibrate against distributions, not means.',
+                detail: 'Median income tells you little — the full distribution determines how a policy lands. Every analysis outputs distributional impacts with confidence intervals.',
               },
               {
-                q: 'How does the Harbour Way complete streets project affect transit access for carless households?',
-                domains: ['mobility', 'economic', 'equity'],
+                principle: 'Counterfactual comparison as first-class operation.',
+                detail: 'The question is never "what happens?" but "what happens differently than baseline?" with paired t-tests, effect sizes, and Bonferroni-corrected significance.',
               },
               {
-                q: 'What displacement risk does Hilltop Horizon create for renters in adjacent neighborhoods?',
-                domains: ['housing', 'economic', 'safety'],
+                principle: 'Spatial structure carries information.',
+                detail: 'Network position determines how effects propagate. High-betweenness tracts amplify shocks. Isolated tracts absorb them. Cascade follows real connectivity.',
               },
-            ].map((item) => (
-              <div
-                key={item.q}
-                className="bg-espresso/5 border border-sand/30 rounded-xl p-6"
-              >
-                <p className="text-sm text-espresso font-medium leading-relaxed mb-4">"{item.q}"</p>
-                <div className="flex flex-wrap gap-2">
-                  {item.domains.map((d) => (
-                    <span key={d} className="font-mono text-xs text-driftwood bg-sand/20 px-2 py-1 rounded">
-                      {d}
-                    </span>
-                  ))}
+              {
+                principle: 'Approximate Bayesian Calibration.',
+                detail: 'Response coefficients derived from observed cross-sectional correlations with posterior distributions. Not assumed from literature — computed from Richmond\'s 4,655-cell dataset.',
+              },
+            ].map((p) => (
+              <div key={p.principle} className="flex gap-6">
+                <div className="w-1 shrink-0 rounded-full bg-espresso/20" />
+                <div>
+                  <h3 className="font-display font-semibold text-espresso mb-1">{p.principle}</h3>
+                  <p className="text-sm text-driftwood leading-relaxed">{p.detail}</p>
                 </div>
               </div>
             ))}
@@ -241,40 +374,39 @@ export default function App() {
         </div>
       </section>
 
-      {/* About / Team */}
-      <section id="about" className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
+      {/* About */}
+      <section id="about" className="py-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">About</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-6">
             Built by urban scientists
           </h2>
           <p className="text-driftwood leading-relaxed max-w-2xl mx-auto mb-4">
-            Murmura Labs is an urban intelligence company building tools for cities that
-            need to make consequential decisions with confidence. Our platform synthesizes
-            8 authoritative data sources into a living model of neighborhood dynamics.
+            Murmura Labs builds computation engines for cities facing consequential decisions.
+            We synthesize 8 authoritative data sources into a living model of neighborhood dynamics —
+            with every coefficient empirically grounded and every output statistically tested.
           </p>
           <p className="text-driftwood leading-relaxed max-w-2xl mx-auto">
             Born from{' '}
             <a href="https://aretian.com" target="_blank" rel="noopener" className="text-walnut underline underline-offset-2 hover:text-espresso">
               Aretian
             </a>
-            's urban analytics research, we combine complexity economics, spatial data science,
-            and scenario modeling to help policymakers see the full picture before committing resources.
+            's urban analytics research, informed by J. Doyne Farmer's complexity economics
+            at the Oxford Institute for New Economic Thinking.
           </p>
         </div>
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-24 px-6">
+      <section id="contact" className="py-24 px-6 bg-[#f5d9be]/40 border-y border-sand/30">
         <div className="max-w-2xl mx-auto text-center">
           <p className="font-mono text-sm text-driftwood tracking-widest uppercase mb-3">Contact</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso mb-6">
-            Let's model your city
+            Model your city's next decision
           </h2>
           <p className="text-driftwood leading-relaxed mb-10">
-            We're working with cities in the Bay Area and beyond. If you're a policymaker,
-            urban planner, or community leader facing a consequential decision, we'd love
-            to show you what murmur.ai can reveal.
+            We work with city governments, planning agencies, and community organizations
+            facing infrastructure, transit, housing, and environmental justice decisions.
           </p>
           <a
             href="mailto:hello@murmuralabs.com"
@@ -286,7 +418,7 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-sand/30 py-10 px-6">
+      <footer className="py-10 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="font-display font-bold text-espresso tracking-[0.18em] lowercase">
             murmura labs
