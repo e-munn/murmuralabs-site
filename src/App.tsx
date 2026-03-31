@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react'
-import { ping } from 'ldrs'
-ping.register()
 import './index.css'
+
+// Register ldrs web component lazily (only used for a small nav animation)
+import('ldrs').then(({ ping }) => ping.register())
 const HexNetwork = lazy(() => import('./HexNetwork'))
 import HexGridBackground from './HexGridBackground'
 import SplitText from './SplitText'
 import HexResolutions2D from './HexResolutions2D'
-import Murmuration from './Murmuration'
+const Murmuration = lazy(() => import('./Murmuration'))
 import TypeWriter from './TypeWriter'
 import ScrambleValue from './ScrambleValue'
 import { CitySection } from './city/CitySection'
@@ -212,6 +213,12 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
 export default function App() {
   return (
     <div className="min-h-screen bg-linen text-walnut">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-espresso focus:text-linen focus:px-4 focus:py-2 focus:rounded-lg"
+      >
+        Skip to main content
+      </a>
       {/* Nav — minimal, floating */}
       <nav className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20">
         <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
@@ -247,7 +254,7 @@ export default function App() {
         </div>
       </nav>
 
-      <main>
+      <main id="main-content">
       {/* Hero — full viewport, cinematic */}
       <section className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden">
         <HexGridBackground delay={500} />
@@ -483,7 +490,9 @@ export default function App() {
       <section className="py-32 px-8 sm:px-16 lg:px-24 bg-linen relative overflow-hidden">
         {/* Boid canvas on right half */}
         <div className="absolute top-0 right-0 w-1/2 h-full hidden sm:block">
-          <Murmuration />
+          <Suspense fallback={null}>
+            <Murmuration />
+          </Suspense>
         </div>
         <div className="relative z-10">
           <div className="max-w-lg">

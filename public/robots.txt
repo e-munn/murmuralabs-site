@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /logos
+Disallow: /theme
 
 Sitemap: https://murmuralabs.com/sitemap.xml

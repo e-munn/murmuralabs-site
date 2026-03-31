@@ -189,17 +189,6 @@ export default function HexGridBackground({ className = '', dark = false, delay 
   const animRef = useRef<number>(0)
   const presetRef = useRef(2) // preset 3: 300 light, high alpha
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const n = parseInt(e.key)
-      if (n >= 1 && n <= 9) {
-        presetRef.current = n - 1
-        console.log(`[HexGrid] ${PRESETS[n - 1].label}`)
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current

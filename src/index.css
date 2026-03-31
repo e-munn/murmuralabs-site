@@ -31,3 +31,36 @@ body {
 .animate-fade-in {
   animation: fade-in 1s ease-out both;
 }
+
+/* Accessibility: focus indicators */
+:focus-visible {
+  outline: 2px solid #3f2a1c;
+  outline-offset: 2px;
+}
+.bg-espresso :focus-visible,
+[class*="bg-espresso"] :focus-visible {
+  outline-color: #FFE4CC;
+}
+
+/* Accessibility: screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-bounce, .animate-pulse, .animate-fade-in {
+    animation: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

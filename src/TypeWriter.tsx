@@ -44,10 +44,13 @@ export default function TypeWriter({ text, speed = 50, className = '', delay = 0
 
   return (
     <span ref={ref} className={className}>
-      {displayed}
-      {started && displayed.length < text.length && (
-        <span className="animate-pulse">|</span>
-      )}
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {displayed}
+        {started && displayed.length < text.length && (
+          <span className="animate-pulse">|</span>
+        )}
+      </span>
     </span>
   )
 }
