@@ -39,11 +39,11 @@ const CAPABILITIES = [
   },
   {
     title: 'Equity-first analysis',
-    desc: 'Every scenario outputs distributional impacts: who benefits, who bears the cost, displacement risk, and vulnerability propagation through the urban network.',
+    desc: 'Every scenario shows who benefits and who bears the cost \u2014 with displacement risk, equity breakdowns, and ripple effects mapped across the city.',
   },
   {
     title: 'Network intelligence',
-    desc: 'Cells connected by multiple link types: commute flows, economic ties, demographic similarity, transit, schools, pollution corridors, food access, and housing pressure.',
+    desc: 'Neighborhoods are connected the way real cities work: by commute patterns, shared school districts, pollution corridors, housing markets, and economic ties.',
   },
 ]
 
@@ -269,6 +269,9 @@ export default function App() {
           <p className="text-lg sm:text-xl tracking-[0.15em] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
             <TypeWriter text="urban foresight platform" speed={60} delay={800} className="text-driftwood" />
           </p>
+          <p className="text-base text-driftwood/80 max-w-xl mx-auto mt-4 mb-5 leading-relaxed">
+            Model the cascading impacts of city decisions before they're made.
+          </p>
           <span className="inline-flex items-center gap-2 font-mono text-xs bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 px-3 py-1 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             v0.1 &middot; launching April 2026
@@ -345,9 +348,9 @@ export default function App() {
                 <br />of every neighborhood
               </h2>
               <p className="text-lg text-driftwood leading-relaxed">
-                murmur divides a city into cells. Each cell carries 100+ real-world
-                data fields. Apply a scenario like a new bike lane, a transit line,
-                or a rezoning, and the system computes cascading impacts across every cell.
+                murmur divides your city into hex cells, each carrying 100+ real-world
+                data fields. Apply a scenario &mdash; a new bike lane, a transit line,
+                a rezoning &mdash; and see cascading impacts across every neighborhood.
               </p>
             </div>
 
@@ -386,8 +389,9 @@ export default function App() {
               <br />Compare futures.
             </h2>
             <p className="text-base text-sand leading-relaxed mb-6">
-              The model is persistent. Every team starts from the same living baseline.
-              When you want to test an idea, fork a scenario and run it independently.
+              Every team starts from the same living baseline &mdash; a shared, always-current
+              model of your city. When you want to test an idea, fork a scenario and
+              explore it independently.
             </p>
             <p className="text-base text-sand leading-relaxed">
               Compare branches side by side. Merge the best outcomes back. City planning
@@ -440,9 +444,9 @@ export default function App() {
             Built by urban scientists
           </h2>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto mb-6">
-            Murmura Labs is an urban intelligence company building tools for cities that
-            need to make consequential decisions with confidence. Our platform synthesizes
-            8 authoritative data sources into a living model of neighborhood dynamics.
+            Murmura Labs builds decision tools for cities facing consequential choices.
+            Our platform synthesizes 8 authoritative data sources into a living model
+            of neighborhood dynamics.
           </p>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto">
             Founded in the complexity economics tradition of <a href="https://www.science.org/doi/10.1126/science.adq1055" target="_blank" rel="noopener noreferrer" className="font-semibold text-espresso underline underline-offset-4 decoration-sand hover:decoration-espresso transition-colors duration-300">J. Doyne Farmer</a> and the Santa Fe Institute,
@@ -462,7 +466,7 @@ export default function App() {
           <p className="text-lg text-sand leading-relaxed mb-12">
             Based in San Francisco and working with cities across the Bay Area and beyond.
             If you're a policymaker, urban planner, or community leader facing a consequential
-            decision, schedule a visit or we'll come to you. We prefer to present in person.
+            decision, we'd love to show you what murmur can do. We prefer to present in person &mdash; schedule a visit, or we'll come to you.
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
             <a
