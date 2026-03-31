@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react'
-import { Menu, X, Users, HeartPulse, Home, Leaf, Footprints, Coins } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import './index.css'
 
 // Register ldrs web component lazily (only used for a small nav animation)
 import('ldrs').then(({ ping }) => ping.register())
 const HexNetwork = lazy(() => import('./HexNetwork'))
-const ContactMap = lazy(() => import('./ContactMap'))
 import HexGridBackground from './HexGridBackground'
 import SplitText from './SplitText'
 import HexResolutions2D from './HexResolutions2D'
@@ -49,7 +48,10 @@ const CAPABILITIES = [
   },
 ]
 
-const STATS: { value: string; label: string }[] = []
+const STATS = [
+  { value: '~250m', label: 'cell resolution' },
+  { value: '100+', label: 'data fields per cell' },
+]
 
 function HexScrollSection({ stats }: { stats: { value: string; label: string }[] }) {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -78,29 +80,20 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
       phase: 1,
       dot: 'bg-driftwood',
       titleColor: 'text-driftwood',
-      title: 'Parcel scale',
-      scale: '~25 m',
-      tags: [
-        { label: 'demographics', icon: Users },
-        { label: 'health', icon: HeartPulse },
-        { label: 'housing', icon: Home },
-        { label: 'environment', icon: Leaf },
-        { label: 'mobility', icon: Footprints },
-        { label: 'economy', icon: Coins },
-      ],
+      title: 'Data layer',
+      tags: ['demographics', 'health', 'housing', 'environment', 'mobility', 'education', 'economy'],
       tagStyle: 'text-driftwood/80 bg-driftwood/10',
-      desc: '100+ data fields per cell.',
+      desc: '100+ observed fields per cell.',
     },
     {
       id: 'aggregate',
       phase: 2,
       dot: 'bg-sand',
       titleColor: 'text-sand',
-      title: 'Block scale',
-      scale: '~250 m',
+      title: 'Aggregate layer',
       tags: [],
       tagStyle: 'text-sand/80 bg-sand/10',
-      desc: 'Aggregate layer. Composite indices summarize conditions across children.',
+      desc: 'Raw signals composed into neighborhood-level indicators.',
       json: true,
     },
     {
@@ -108,11 +101,10 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
       phase: 3,
       dot: 'bg-linen',
       titleColor: 'text-linen',
-      title: 'Neighborhood scale',
-      scale: '~1 km',
+      title: 'Policy agent',
       tags: [],
       tagStyle: 'text-linen/70 bg-linen/10',
-      desc: (<>Policy agent. Acts <strong className="text-sand/80">on behalf of its residents' interests</strong>, zoning constraints, and neighboring influence.</>),
+      desc: 'Parent cell acts as an agent with resident interests, zoning constraints, and neighboring influence. It responds to interventions the way a neighborhood actually would.',
     },
   ]
 
@@ -156,11 +148,6 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                     <span className={`font-mono text-xs ${l.titleColor} tracking-[0.2em] uppercase`}>
                       {l.title}
                     </span>
-                    {l.scale && (
-                      <span className="font-mono text-[10px] text-driftwood/40 tracking-[0.15em]">
-                        {l.scale}
-                      </span>
-                    )}
                   </div>
 
                   {/* Tags + desc — only for current phase */}
@@ -172,7 +159,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                     }}
                   >
                     {'json' in l && l.json ? (
-                      <pre className="font-mono text-xs text-sand/60 leading-relaxed bg-linen/5 rounded-lg p-3 mb-3 overflow-hidden max-w-[280px]">
+                      <pre className="font-mono text-xs text-sand/60 leading-relaxed bg-linen/5 rounded-lg p-3 mb-3 overflow-hidden">
                         <span className="text-sand/30">{'{\n'}</span>
                         {[
                           { key: 'displacement_risk', val: '0.73' },
@@ -187,16 +174,11 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                       </pre>
                     ) : l.tags.length > 0 ? (
                       <div className="flex flex-wrap gap-1.5 mb-3">
-                        {l.tags.map((tag) => {
-                          const Icon = typeof tag === 'object' ? tag.icon : null
-                          const label = typeof tag === 'object' ? tag.label : tag
-                          return (
-                            <span key={label} className={`font-mono text-xs ${l.tagStyle} px-2 py-0.5 rounded-full inline-flex items-center gap-1`}>
-                              {Icon && <Icon size={11} />}
-                              {label}
-                            </span>
-                          )
-                        })}
+                        {l.tags.map((tag) => (
+                          <span key={tag} className={`font-mono text-xs ${l.tagStyle} px-2 py-0.5 rounded-full`}>
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     ) : null}
                     {l.desc && <p className="text-base text-sand/60 leading-relaxed">{l.desc}</p>}
@@ -336,7 +318,7 @@ export default function App() {
       <main id="main-content">
       {/* Hero — full viewport, cinematic */}
       <section className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden">
-        <HexGridBackground delay={2000} />
+        <HexGridBackground delay={500} />
         <div className="text-center max-w-5xl mx-auto animate-fade-in relative z-10">
           <p className="font-display font-bold text-sm text-driftwood tracking-[0.22em] lowercase mb-6">
             murmura labs presents
@@ -348,13 +330,13 @@ export default function App() {
           <p className="text-lg sm:text-xl tracking-[0.15em] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
             <TypeWriter text="urban foresight platform" speed={60} delay={800} className="text-driftwood" />
           </p>
-          <div className="flex items-center justify-center gap-3 mt-5">
-            <span className="inline-flex items-center gap-1.5 font-mono text-xs bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 px-2.5 py-1 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              v0.1
-            </span>
-            <span className="font-mono text-xs text-driftwood/50">April 2026</span>
-          </div>
+          <p className="text-base text-driftwood/80 max-w-xl mx-auto mt-4 mb-5 leading-relaxed">
+            Model the cascading impacts of city decisions before they're made.
+          </p>
+          <span className="inline-flex items-center gap-2 font-mono text-xs bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 px-3 py-1 rounded-full">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            v0.1 &middot; launching April 2026
+          </span>
         </div>
 
         {/* Scroll indicator */}
@@ -458,9 +440,8 @@ export default function App() {
 
 
       {/* Fork a scenario — collaborative branching */}
-      <section className="py-32 px-8 bg-espresso text-linen relative overflow-hidden">
-        <HexGridBackground dark />
-        <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-16 items-center relative z-10">
+      <section className="py-32 px-8 bg-espresso text-linen">
+        <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-16 items-center">
           {/* Left — text */}
           <div>
             <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Collaborate</p>
@@ -468,8 +449,14 @@ export default function App() {
               Fork a scenario.
               <br />Compare futures.
             </h2>
+            <p className="text-base text-sand leading-relaxed mb-6">
+              Every team starts from the same living baseline &mdash; a shared, always-current
+              model of your city. When you want to test an idea, fork a scenario and
+              explore it independently.
+            </p>
             <p className="text-base text-sand leading-relaxed">
-              One living baseline. Fork a scenario, run it independently, compare side by side. City planning as version control.
+              Compare branches side by side. Merge the best outcomes back. City planning
+              as version control.
             </p>
           </div>
           {/* Right — branch visual */}
@@ -511,70 +498,61 @@ export default function App() {
 
 
       {/* About */}
-      <section id="about" className="py-48 px-8">
+      <section id="about" className="py-32 px-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">About</p>
           <h2 className="font-bold text-4xl sm:text-5xl text-espresso mb-8 leading-tight">
             Built by urban scientists
           </h2>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto mb-6">
-            Murmura Labs builds decision tools for cities — powered by the latest in
-            agent-based modeling, spatial data science, and generative AI.
+            Murmura Labs builds decision tools for cities facing consequential choices.
+            Our platform synthesizes 8 authoritative data sources into a living model
+            of neighborhood dynamics.
           </p>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto">
-            Founded in the complexity economics tradition of the Santa Fe Institute{' '}
-            <a href="https://www.science.org/doi/10.1126/science.adq1055" target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-sand/60 hover:text-espresso transition-colors">[1]</a>{' '}
-            <a href="https://www.nature.com/articles/s42254-019-0063-3" target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-sand/60 hover:text-espresso transition-colors">[2]</a>{' '}
-            <a href="https://arxiv.org/abs/2301.07358" target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-sand/60 hover:text-espresso transition-colors">[3]</a>,
+            Founded in the complexity economics tradition of <a href="https://www.science.org/doi/10.1126/science.adq1055" target="_blank" rel="noopener noreferrer" className="font-semibold text-espresso underline underline-offset-4 decoration-sand hover:decoration-espresso transition-colors duration-300">J. Doyne Farmer</a> and the Santa Fe Institute,
             Murmura Labs applies agent-based modeling and spatial data science to the built environment,
             making the downstream consequences of urban decisions visible before they unfold.
           </p>
         </div>
       </section>
 
-      {/* Contact — two-column with map */}
-      <section id="contact" className="py-48 px-8 bg-espresso text-linen">
-        <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-16 items-center">
-          {/* Left — map */}
-          <div className="h-[400px] sm:h-[500px] order-2 sm:order-1">
-            <Suspense fallback={<div className="w-full h-full rounded-2xl bg-espresso/50 border border-linen/10" />}>
-              <ContactMap />
-            </Suspense>
-          </div>
-          {/* Right — text */}
-          <div className="order-1 sm:order-2">
-            <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Contact</p>
-            <h2 className="font-bold text-4xl sm:text-5xl text-linen mb-8 leading-tight">
-              Let's model your city
-            </h2>
-            <p className="text-lg text-sand leading-relaxed mb-12">
-              Based in San Francisco and working with cities across the Bay Area and beyond. Find out how murmur can help your city.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-5">
-              <a
-                href="mailto:hello@murmuralabs.com"
-                className="group inline-flex items-center justify-center bg-linen text-espresso px-8 py-3 rounded-full font-medium hover:bg-sand transition-all duration-300 text-base"
-              >
-                hello@murmuralabs.com
-                <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-              </a>
-              <a
-                href="https://murmur.murmuralabs.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center border border-linen/40 text-linen px-8 py-3 rounded-full font-medium hover:bg-linen/10 transition-all duration-300 text-base"
-              >
-                Try murmur
-              </a>
-            </div>
+      {/* Contact — clean, centered */}
+      <section id="contact" className="py-32 px-8 bg-espresso text-linen">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Contact</p>
+          <h2 className="font-bold text-4xl sm:text-5xl text-linen mb-8 leading-tight">
+            Let's model your city
+          </h2>
+          <p className="text-lg text-sand leading-relaxed mb-12">
+            Based in San Francisco and working with cities across the Bay Area and beyond.
+            If you're a policymaker, urban planner, or community leader facing a consequential
+            decision, we'd love to show you what murmur can do. We prefer to present in person &mdash; schedule a visit, or we'll come to you.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <a
+              href="mailto:hello@murmuralabs.com"
+              className="group inline-flex items-center justify-center bg-linen text-espresso px-10 py-4 rounded-full font-medium hover:bg-sand transition-all duration-300 text-lg"
+            >
+              hello@murmuralabs.com
+              <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+            <a
+              href="https://murmur.murmuralabs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center border border-linen/40 text-linen px-10 py-4 rounded-full font-medium hover:bg-linen/10 transition-all duration-300 text-lg"
+            >
+              Try murmur
+            </a>
           </div>
         </div>
       </section>
 
       {/* Murmuration definition */}
-      <section className="py-48 px-8 sm:px-16 lg:px-24 bg-linen relative overflow-hidden">
+      <section className="py-32 px-8 sm:px-16 lg:px-24 bg-linen relative overflow-hidden">
         {/* Boid canvas on right half */}
         <div className="absolute top-0 right-0 w-1/2 h-full hidden sm:block">
           <Suspense fallback={null}>
@@ -583,9 +561,9 @@ export default function App() {
         </div>
         <div className="relative z-10">
           <div className="max-w-lg">
-            <p className="font-mono text-sm text-driftwood/80 tracking-[0.2em] uppercase mb-3 font-medium">mur·mu·ra·tion</p>
-            <p className="font-mono text-xs text-driftwood/50 mb-10">/ˌmərmyəˈrāSH(ə)n/</p>
-            <p className="text-xl sm:text-2xl text-driftwood leading-relaxed font-normal italic">
+            <p className="font-mono text-sm text-driftwood/60 tracking-[0.2em] uppercase mb-3">mur·mu·ra·tion</p>
+            <p className="font-mono text-xs text-driftwood/40 mb-10">/ˌmərmyəˈrāSH(ə)n/</p>
+            <p className="text-xl sm:text-2xl text-driftwood leading-relaxed font-light italic">
               The phenomenon in which many individual agents, each following simple local
               rules, produce coherent, system-wide behavior without central direction.
             </p>
