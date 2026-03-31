@@ -167,7 +167,7 @@ export function filterPointsByRadius(
 
 // Clip a path segment to a circular boundary
 // Returns array of clipped segments (a path crossing the boundary becomes multiple segments)
-function clipPathToRadius(
+function _clipPathToRadius(
   path: [number, number, number][],
   radius: number
 ): [number, number, number][][] {

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo, useCallback } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -144,7 +144,7 @@ export function DotGrid({
     // Raycast to get world position of mouse (only if active)
     let mouseLocal = localPosRef.current;
     if (mouse.isActive) {
-      raycaster.current.setFromCamera({ x: mouse.x, y: mouse.y }, camera);
+      raycaster.current.setFromCamera(new THREE.Vector2(mouse.x, mouse.y), camera);
       raycaster.current.ray.intersectPlane(plane.current, worldPosRef.current);
 
       // Transform world position to local space (rotate by +GRID_ANGLE to undo scene's -GRID_ANGLE rotation)

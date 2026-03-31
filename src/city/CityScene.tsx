@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import uniqBy from 'lodash/uniqBy'
 
 // City components
-import { DotGrid, GRID_ANGLE, GRID_EXTENTS } from './Grid'
+import { GRID_ANGLE } from './Grid'
 import { Roads, FlowParticles } from './Roads'
 import { InstancedPalmTrees } from './Trees'
 import { DetailedBuildings } from './Buildings'
@@ -51,7 +51,7 @@ function Scene({
   revealed,
   buildingColor,
   buildingOpacity,
-  dotGridColor,
+  dotGridColor: _dotGridColor,
   getLayerOpacity,
   sizeMode,
 }: SceneProps) {
@@ -61,12 +61,8 @@ function Scene({
   const orbitAngle = Math.PI / 4
   const elevation = Math.atan(1 / Math.sqrt(2))
 
-  // Grid extent based on size mode (medium max since large is disabled)
-  const gridExtent = GRID_EXTENTS[sizeMode]
-
   // Calculate responsive offset and zoom based on viewport and size mode
   useEffect(() => {
-    const aspect = size.width / size.height
     const orthoCamera = camera as THREE.OrthographicCamera
 
     // Zoom based on size mode — scale to canvas size, not full viewport

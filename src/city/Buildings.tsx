@@ -120,7 +120,7 @@ function parseOSMBuildings(data: any): BuildingData[] {
 }
 
 // Fallback: Fetch from third-party Overture API
-async function fetchBuildingsFromAPI(): Promise<BuildingData[]> {
+async function _fetchBuildingsFromAPI(): Promise<BuildingData[]> {
   try {
     // Using the free OvertureMapsAPI.com endpoint
     const url = `https://overture-maps-api.thatapicompany.com/places/buildings?lat=${CENTER.lat}&lng=${CENTER.lon}&radius=800`;
@@ -142,7 +142,7 @@ async function fetchBuildingsFromAPI(): Promise<BuildingData[]> {
 }
 
 // Parse Overture GeoJSON format
-function parseOvertureGeoJSON(geojson: any): BuildingData[] {
+function _parseOvertureGeoJSON(geojson: any): BuildingData[] {
   const buildings: BuildingData[] = [];
 
   if (!geojson.features) return buildings;

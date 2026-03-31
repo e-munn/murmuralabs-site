@@ -161,16 +161,6 @@ const TW_COLORS: { name: string; rgb: [number, number, number] }[] = [
   { name: 'red-600',     rgb: [220, 38, 38] },
 ]
 
-// Deterministic hash from position → integer
-function posHash(x: number, y: number): number {
-  // Round to avoid floating-point drift, then use integer mixing
-  const ix = Math.round(x * 100)
-  const iy = Math.round(y * 100)
-  let h = ix * 374761393 + iy * 668265263
-  h = (h ^ (h >>> 13)) * 1274126177
-  h = h ^ (h >>> 16)
-  return h >>> 0 // unsigned
-}
 
 function nearestTailwind(r: number, g: number, b: number): [number, number, number] {
   let best = TW_COLORS[0].rgb

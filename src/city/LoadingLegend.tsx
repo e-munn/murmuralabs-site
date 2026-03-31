@@ -2,7 +2,9 @@ import { useState, useEffect, createContext, useContext, useCallback } from 'rea
 import { motion, AnimatePresence } from 'motion/react';
 import { Route, TreePine, Building2, Bus, AlertTriangle, Activity, type LucideIcon, Bike, ArrowRight } from 'lucide-react';
 import { useLayerStore, type LayerKey, REVEAL_SEQUENCE } from '../stores/layerStore';
+// @ts-ignore
 import Magnet from './Magnet';
+// @ts-ignore
 import TextType from './TextType';
 import './TextType.css';
 
