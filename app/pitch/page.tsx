@@ -349,7 +349,7 @@ const slides: SlideConfig[] = [
   {
     theme: 'light',
     content: (
-      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
+      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-6 lg:gap-10">
         <div className="flex-1 flex flex-col gap-6">
           <div className="flex items-center gap-3">
             <IconBadge color="canopy"><Hexagon size={20} /></IconBadge>
@@ -377,7 +377,7 @@ const slides: SlideConfig[] = [
             ))}
           </div>
         </div>
-        <div className="flex-1 relative w-full" style={{ minHeight: 360 }}>
+        <div className="flex-1 relative w-full hidden lg:block" style={{ minHeight: 360 }}>
           <HexResolutions2D
             visibleLayers={3}
             svgScale={2}
@@ -392,7 +392,7 @@ const slides: SlideConfig[] = [
   {
     theme: 'light',
     content: (
-      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
+      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-6 lg:gap-10">
         <div className="flex-1 flex flex-col gap-6">
           <div className="flex items-center gap-3">
             <IconBadge color="ember"><Layers size={20} /></IconBadge>
@@ -424,7 +424,7 @@ const slides: SlideConfig[] = [
             Each composite metric is the result of multiple spatial, demographic, and network analyses aggregated from parcel-level data.
           </p>
         </div>
-        <div className="flex-1 relative w-full" style={{ minHeight: 360 }}>
+        <div className="flex-1 relative w-full hidden lg:block" style={{ minHeight: 360 }}>
           <HexResolutions2D
             visibleLayers={2}
             svgScale={2}
@@ -439,7 +439,7 @@ const slides: SlideConfig[] = [
   {
     theme: 'light',
     content: (
-      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
+      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-6 lg:gap-10">
         <div className="flex-1 flex flex-col gap-6">
           <div className="flex items-center gap-3">
             <IconBadge color="sky"><Network size={20} /></IconBadge>
@@ -467,7 +467,7 @@ const slides: SlideConfig[] = [
             ))}
           </div>
         </div>
-        <div className="flex-1 relative w-full" style={{ minHeight: 360 }}>
+        <div className="flex-1 relative w-full hidden lg:block" style={{ minHeight: 360 }}>
           <HexResolutions2D
             visibleLayers={1}
             svgScale={2}
@@ -505,7 +505,7 @@ const slides: SlideConfig[] = [
   {
     theme: 'dark',
     content: (
-      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
+      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-6 lg:gap-10">
         <div className="flex-1 flex flex-col gap-6">
           <p className="text-sand/50 uppercase tracking-[0.2em] text-sm font-mono">Versioning</p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-linen leading-tight">
