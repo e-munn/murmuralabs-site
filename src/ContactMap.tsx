@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN || ''
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || ''
 
 const DOLORES: [number, number] = [-122.42669625703857, 37.76505161652456]
 

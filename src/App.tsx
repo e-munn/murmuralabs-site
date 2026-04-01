@@ -1,15 +1,17 @@
-import { useState, useEffect, useRef, lazy, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { Menu, X, Users, HeartPulse, Home, Leaf, Footprints, Coins } from 'lucide-react'
-import './index.css'
+import dynamic from 'next/dynamic'
 
 // Register ldrs web component lazily (only used for a small nav animation)
-import('ldrs').then(({ ping }) => ping.register())
-const HexNetwork = lazy(() => import('./HexNetwork'))
-const ContactMap = lazy(() => import('./ContactMap'))
+if (typeof window !== 'undefined') {
+  import('ldrs').then(({ ping }) => ping.register())
+}
+const HexNetwork = dynamic(() => import('./HexNetwork'), { ssr: false })
+const ContactMap = dynamic(() => import('./ContactMap'), { ssr: false })
 import HexGridBackground from './HexGridBackground'
 import SplitText from './SplitText'
 import HexResolutions2D from './HexResolutions2D'
-const Murmuration = lazy(() => import('./Murmuration'))
+const Murmuration = dynamic(() => import('./Murmuration'), { ssr: false })
 import TypeWriter from './TypeWriter'
 import ScrambleValue from './ScrambleValue'
 import { CitySection } from './city/CitySection'

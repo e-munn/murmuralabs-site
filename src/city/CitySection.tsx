@@ -1,7 +1,8 @@
-import { Suspense, lazy } from 'react';
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { LoadingLegend } from './LoadingLegend';
 
-const CityScene = lazy(() => import('./CityScene'));
+const CityScene = dynamic(() => import('./CityScene'), { ssr: false });
 
 const CityLoadingFallback = (
   <div className="w-full h-full flex items-center justify-center">
