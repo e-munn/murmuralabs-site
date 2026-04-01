@@ -121,7 +121,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
   return (
     <section ref={sectionRef} className="bg-espresso relative" style={{ height: '400vh' }}>
       <div className="sticky top-0 h-screen flex items-center px-8">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-3 gap-8 items-center">
+        <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto w-full grid grid-cols-3 gap-8 2xl:gap-12 items-center">
           {/* Left 2/3: hex */}
           <div className="col-span-2 aspect-square relative">
             <HexResolutions2D visibleLayers={visibleLayers} />
@@ -131,8 +131,8 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
           <div className="flex flex-col gap-8 overflow-hidden">
             {/* Intro */}
             <div className={`transition-all duration-700 ${phase === 0 ? 'opacity-100 max-h-40' : 'opacity-0 max-h-0'}`}>
-              <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-3">Multi-resolution model</p>
-              <p className="text-base text-sand leading-relaxed">
+              <p className="font-mono text-xs 2xl:text-sm text-sand tracking-[0.3em] uppercase mb-3">Multi-resolution model</p>
+              <p className="text-base 2xl:text-lg text-sand leading-relaxed">
                 Three resolutions. One interconnected model.
               </p>
             </div>
@@ -155,11 +155,11 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                   {/* Title — always visible once shown */}
                   <div className="flex items-center gap-2 mb-3">
                     <span className={`w-2 h-2 rounded-full ${l.dot}`} />
-                    <span className={`font-mono text-xs ${l.titleColor} tracking-[0.2em] uppercase`}>
+                    <span className={`font-mono text-xs 2xl:text-sm ${l.titleColor} tracking-[0.2em] uppercase`}>
                       {l.title}
                     </span>
                     {l.scale && (
-                      <span className="font-mono text-[10px] text-driftwood/40 tracking-[0.15em]">
+                      <span className="font-mono text-[10px] 2xl:text-xs text-driftwood/40 tracking-[0.15em]">
                         {l.scale}
                       </span>
                     )}
@@ -174,7 +174,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                     }}
                   >
                     {'json' in l && l.json ? (
-                      <pre className="font-mono text-xs text-sand/60 leading-relaxed bg-linen/5 rounded-lg p-3 mb-3 overflow-hidden max-w-[280px]">
+                      <pre className="font-mono text-xs 2xl:text-sm text-sand/60 leading-relaxed bg-linen/5 rounded-lg p-3 2xl:p-4 mb-3 overflow-hidden max-w-[280px] 2xl:max-w-[340px]">
                         <span className="text-sand/30">{'{\n'}</span>
                         {[
                           { key: 'displacement_risk', val: '0.73' },
@@ -193,7 +193,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                           const Icon = typeof tag === 'object' ? tag.icon : null
                           const label = typeof tag === 'object' ? tag.label : tag
                           return (
-                            <span key={label} className={`font-mono text-xs ${l.tagStyle} px-2 py-0.5 rounded-full inline-flex items-center gap-1`}>
+                            <span key={label} className={`font-mono text-xs 2xl:text-sm ${l.tagStyle} px-2 2xl:px-2.5 py-0.5 rounded-full inline-flex items-center gap-1`}>
                               {Icon && <Icon size={11} />}
                               {label}
                             </span>
@@ -201,7 +201,7 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
                         })}
                       </div>
                     ) : null}
-                    {l.desc && <p className="text-base text-sand/60 leading-relaxed">{l.desc}</p>}
+                    {l.desc && <p className="text-base 2xl:text-lg text-sand/60 leading-relaxed">{l.desc}</p>}
                   </div>
                 </div>
               )
@@ -218,8 +218,8 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
               <div className="grid grid-cols-2 gap-4 pt-6 border-t border-sand/20">
                 {stats.map((s) => (
                   <div key={s.label}>
-                    <div className="font-mono text-xl font-medium text-linen tracking-tight">{s.value}</div>
-                    <div className="text-xs text-sand mt-1">{s.label}</div>
+                    <div className="font-mono text-xl 2xl:text-2xl font-medium text-linen tracking-tight">{s.value}</div>
+                    <div className="text-xs 2xl:text-sm text-sand mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -275,11 +275,24 @@ function useHideOnScroll() {
   return visible
 }
 
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)')
+    setMobile(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  return mobile
+}
+
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const navVisible = useHideOnScroll()
   usePreserveScrollOnResize()
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (!mobileOpen) return
@@ -414,7 +427,7 @@ export default function App() {
 
       {/* What is murmur — full dark manifesto section like lila.ai */}
       <section className="py-32 px-8 bg-espresso text-linen relative overflow-hidden">
-        <Suspense fallback={null}><HexNetwork className="opacity-25" dark /></Suspense>
+        {!isMobile && <Suspense fallback={null}><HexNetwork className="opacity-25" dark /></Suspense>}
         <div className="max-w-7xl mx-auto relative z-10">
           <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-10 flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-sand inline-block" />
@@ -423,7 +436,7 @@ export default function App() {
 
           <div className="mb-10 max-w-4xl">
             <SplitText
-              text="agent based simulations"
+              text="neighborhoods act"
               className="font-bold text-4xl sm:text-5xl lg:text-6xl text-linen leading-[1.15]"
               tag="h2"
               splitType="words"
@@ -434,7 +447,7 @@ export default function App() {
             />
             {' '}
             <SplitText
-              text="at the urban scale."
+              text="on behalf of their residents."
               className="font-bold text-4xl sm:text-5xl lg:text-6xl text-sand leading-[1.15]"
               tag="span"
               splitType="words"
@@ -447,7 +460,7 @@ export default function App() {
 
           <div className="max-w-4xl mb-10">
             <SplitText
-              text="With real data and network science, murmur models cascading impacts of urban decisions across demographics, health, environment, and equity."
+              text="Equipped with 100+ metrics spanning demographics, health, housing, environment, mobility, and equity, each policy agent responds to proposed scenarios with their residents' interests at the center."
               className="text-2xl sm:text-3xl lg:text-4xl text-linen/90 leading-[1.3] font-light"
               tag="p"
               splitType="words"
@@ -482,9 +495,17 @@ export default function App() {
               </p>
             </div>
 
-            {/* City visualization — 3/5 width */}
+            {/* City visualization — 3/5 width, skip on mobile */}
             <div className="lg:col-span-3">
-              <CitySection className="w-full aspect-square rounded-2xl" />
+              {isMobile ? (
+                <div className="w-full aspect-square rounded-2xl bg-espresso/5 border border-sand/20 flex items-center justify-center">
+                  <p className="text-driftwood/40 text-sm font-mono text-center px-6">
+                    3D city model available on desktop
+                  </p>
+                </div>
+              ) : (
+                <CitySection className="w-full aspect-square rounded-2xl" />
+              )}
             </div>
           </div>
 
@@ -630,11 +651,13 @@ export default function App() {
       {/* Murmuration definition */}
       <section className="py-48 px-8 sm:px-16 lg:px-24 bg-linen relative overflow-hidden">
         {/* Boid canvas on right half */}
-        <div className="absolute top-0 right-0 w-1/2 h-full hidden sm:block">
-          <Suspense fallback={null}>
-            <Murmuration />
-          </Suspense>
-        </div>
+        {!isMobile && (
+          <div className="absolute top-0 right-0 w-1/2 h-full">
+            <Suspense fallback={null}>
+              <Murmuration />
+            </Suspense>
+          </div>
+        )}
         <div className="relative z-10">
           <div className="max-w-lg">
             <p className="font-mono text-sm text-driftwood/60 tracking-[0.2em] uppercase mb-3">mur·mu·ra·tion</p>

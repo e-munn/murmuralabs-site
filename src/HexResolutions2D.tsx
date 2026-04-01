@@ -4,11 +4,20 @@
 const SQRT7 = Math.sqrt(7)
 const AP7_ROT = Math.atan2(Math.sqrt(3), 5) // ~19.1° aperture-7 rotation
 
+function hexToRgb(hex: string): string {
+  const h = hex.replace('#', '')
+  return `${parseInt(h.slice(0, 2), 16)}, ${parseInt(h.slice(2, 4), 16)}, ${parseInt(h.slice(4, 6), 16)}`
+}
+
+function round4(n: number): number {
+  return Math.round(n * 10000) / 10000
+}
+
 function hexPoints(cx: number, cy: number, r: number, rot = 0): string {
   const pts: string[] = []
   for (let i = 0; i < 6; i++) {
     const a = (Math.PI / 3) * i - Math.PI / 6 + rot
-    pts.push(`${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`)
+    pts.push(`${round4(cx + r * Math.cos(a))},${round4(cy + r * Math.sin(a))}`)
   }
   return pts.join(' ')
 }
@@ -62,9 +71,12 @@ function insideHex(px: number, py: number, cx: number, cy: number, r: number, ro
 interface Props {
   className?: string
   visibleLayers?: number // 1, 2, or 3
+  showAll?: boolean // force all layers visible at once
+  colors?: { parcel?: string; block?: string; neighborhood?: string } // override layer colors
+  svgScale?: number // multiplier for SVG size (default 0.8 = 80%)
 }
 
-export default function HexResolutions2D({ className = '', visibleLayers = 3 }: Props) {
+export default function HexResolutions2D({ className = '', visibleLayers = 3, showAll = false, colors, svgScale }: Props) {
   const rot3 = 0
   const R3 = 12
 
@@ -87,22 +99,23 @@ export default function HexResolutions2D({ className = '', visibleLayers = 3 }: 
 
   return (
     <div className={className} style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <svg viewBox={viewBox} style={{ width: '80%', height: '80%' }}>
+      <svg viewBox={viewBox} style={{ width: `${(svgScale ?? 0.8) * 100}%`, height: `${(svgScale ?? 0.8) * 100}%` }}>
         {/* Layer 3 — finest (data layer) — always visible */}
         {layer3.map(([cx, cy], i) => {
           const maxDist = R3 * Math.sqrt(3) * 4
           const dist = Math.sqrt(cx * cx + cy * cy)
           const t = dist / maxDist
+          const parcelColor = colors?.parcel ?? '#7f5e46'
           const fillAlpha = 0.3 * Math.exp(-3 * t * t)
           const isOverhang = !layer3Covered[i]
           // Fade out overhanging hexes when aggregate layer is visible
-          const hexOpacity = isOverhang && visibleLayers <= 2 ? 0 : 0.5
+          const hexOpacity = !showAll && isOverhang && visibleLayers <= 2 ? 0 : 0.5
           return (
             <polygon
               key={`l3-${i}`}
               points={hexPoints(cx, cy, R3 * 0.97, rot3)}
-              fill={`rgba(127, 94, 70, ${fillAlpha})`}
-              stroke="#7f5e46"
+              fill={`rgba(${hexToRgb(parcelColor)}, ${fillAlpha})`}
+              stroke={parcelColor}
               strokeWidth={0.3}
               opacity={hexOpacity}
               style={{ transition: 'opacity 0.6s ease' }}
@@ -114,31 +127,35 @@ export default function HexResolutions2D({ className = '', visibleLayers = 3 }: 
           const maxDist = R2 * Math.sqrt(3) * 1 // outermost ring distance (1 ring)
           const dist = Math.sqrt(cx * cx + cy * cy)
           const t = dist / maxDist
+          const blockColor = colors?.block ?? '#c6a181'
           const fillAlpha = 0.05 + 0.15 * Math.exp(-3 * t * t)
           return (
             <polygon
               key={`l2-${i}`}
               points={hexPoints(cx, cy, R2 * 0.98, rot2)}
-              fill={`rgba(198, 161, 129, ${fillAlpha})`}
-              stroke="#c6a181"
+              fill={`rgba(${hexToRgb(blockColor)}, ${fillAlpha})`}
+              stroke={blockColor}
               strokeWidth={1}
-              opacity={visibleLayers <= 2 ? 0.7 : 0}
+              opacity={showAll || visibleLayers <= 2 ? 0.7 : 0}
               style={{ transition: 'opacity 0.6s ease' }}
             />
           )
         })}
         {/* Layer 1 — parent (policy layer) */}
-        {layer1.map(([cx, cy], i) => (
+        {layer1.map(([cx, cy], i) => {
+          const neighborhoodColor = colors?.neighborhood ?? '#FFE4CC'
+          return (
           <polygon
             key={`l1-${i}`}
             points={hexPoints(cx, cy, R1 * 0.99, rot1)}
             fill="none"
-            stroke="#FFE4CC"
+            stroke={neighborhoodColor}
             strokeWidth={2}
-            opacity={visibleLayers <= 1 ? 0.9 : 0}
+            opacity={showAll || visibleLayers <= 1 ? 0.9 : 0}
             style={{ transition: 'opacity 0.6s ease' }}
           />
-        ))}
+          )
+        })}
       </svg>
     </div>
   )
