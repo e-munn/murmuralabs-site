@@ -206,6 +206,8 @@ function LoadingIcon({
               showCursor={true}
               cursorCharacter="_"
               loop={false}
+              variableSpeed={undefined}
+              onSentenceComplete={undefined}
               className="font-mono text-xs !whitespace-nowrap"
               style={{ color, whiteSpace: 'nowrap' }}
             />
