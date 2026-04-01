@@ -321,15 +321,15 @@ const slides: SlideConfig[] = [
 
   /* ── 5. What is murmur? ── */
   {
-    theme: 'dark',
+    theme: 'light',
     content: (
       <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
-        <p className="text-sand/50 uppercase tracking-[0.2em] text-sm font-mono">The Product</p>
-        <h2 className="font-display font-bold text-3xl sm:text-5xl text-linen leading-tight">
+        <p className="text-driftwood/60 uppercase tracking-[0.2em] text-sm font-mono">The Product</p>
+        <h2 className="font-display font-bold text-3xl sm:text-5xl text-espresso leading-tight">
           Agent-based simulation<br />
-          <span className="text-sand">at the urban scale</span>
+          <span className="text-driftwood">at the urban scale</span>
         </h2>
-        <p className="text-sand/70 text-lg leading-relaxed">
+        <p className="text-driftwood/80 text-lg leading-relaxed">
           With real data and network science, murmur models cascading impacts of urban
           decisions across demographics, health, environment, and equity.
         </p>
@@ -337,7 +337,7 @@ const slides: SlideConfig[] = [
           {['Agent-Based Modeling', 'Spatial Data Science', 'Network Science', 'Generative AI'].map((tag) => (
             <span
               key={tag}
-              className="px-3 py-1.5 rounded-full border border-sand/20 text-sand/70 text-sm font-mono"
+              className="px-3 py-1.5 rounded-full border border-espresso/15 text-driftwood text-sm font-mono"
             >
               {tag}
             </span>
@@ -839,7 +839,7 @@ export default function PitchPage() {
 
 function PitchDeck() {
   const searchParams = useSearchParams()
-  const name = searchParams.get('name')?.toLowerCase() ?? null
+  const name = searchParams.get('for')?.toLowerCase() ?? null
   const intro = name ? INTROS[name] ?? null : null
 
   const allSlides = useMemo(() => {
