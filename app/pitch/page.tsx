@@ -903,6 +903,9 @@ export default function PitchDeck() {
 
   const slide = allSlides[current]
   const isDark = slide.theme === 'dark'
+  const hasIntro = allSlides.length > slides.length
+  const isIntroSlide = hasIntro && current === 0
+  const displayNum = hasIntro ? current : current + 1
 
   return (
     <div
@@ -931,27 +934,30 @@ export default function PitchDeck() {
       >
         {/* Slide counter */}
         <span className="font-mono text-sm tabular-nums w-20">
-          {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          {isIntroSlide ? '' : `${String(displayNum).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`}
         </span>
 
         {/* Progress dots */}
         <div className="hidden sm:flex items-center gap-1.5">
-          {allSlides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Go to slide ${i + 1}`}
-              className={`w-1.5 h-1.5 rounded-full transition-all ${
-                i === current
-                  ? isDark
-                    ? 'bg-sand w-4'
-                    : 'bg-espresso w-4'
-                  : isDark
-                    ? 'bg-sand/20 hover:bg-sand/40'
-                    : 'bg-espresso/20 hover:bg-espresso/40'
-              }`}
-            />
-          ))}
+          {!isIntroSlide && slides.map((_, i) => {
+            const slideIndex = hasIntro ? i + 1 : i
+            return (
+              <button
+                key={i}
+                onClick={() => setCurrent(slideIndex)}
+                aria-label={`Go to slide ${i + 1}`}
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
+                  slideIndex === current
+                    ? isDark
+                      ? 'bg-sand w-4'
+                      : 'bg-espresso w-4'
+                    : isDark
+                      ? 'bg-sand/20 hover:bg-sand/40'
+                      : 'bg-espresso/20 hover:bg-espresso/40'
+                }`}
+              />
+            )
+          })}
         </div>
 
         {/* Nav arrows */}
