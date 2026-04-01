@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import HexResolutions2D from '@/HexResolutions2D'
 import {
@@ -829,7 +829,15 @@ const slides: SlideConfig[] = [
    PITCH DECK COMPONENT
    ═══════════════════════════════════════════════════════════════════════ */
 
-export default function PitchDeck() {
+export default function PitchPage() {
+  return (
+    <Suspense fallback={<div className="fixed inset-0 bg-espresso" />}>
+      <PitchDeck />
+    </Suspense>
+  )
+}
+
+function PitchDeck() {
   const searchParams = useSearchParams()
   const name = searchParams.get('name')?.toLowerCase() ?? null
   const intro = name ? INTROS[name] ?? null : null
