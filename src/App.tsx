@@ -229,9 +229,55 @@ function HexScrollSection({ stats }: { stats: { value: string; label: string }[]
   )
 }
 
+function usePreserveScrollOnResize() {
+  const scrollFraction = useRef(0)
+
+  useEffect(() => {
+    // Track current fraction on scroll
+    const onScroll = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      if (maxScroll > 0) scrollFraction.current = window.scrollY / maxScroll
+    }
+
+    const onResize = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+      if (maxScroll > 0) {
+        window.scrollTo(0, scrollFraction.current * maxScroll)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+}
+
+function useHideOnScroll() {
+  const [visible, setVisible] = useState(true)
+  const lastY = useRef(0)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY
+      // Show when near top (first section) or scrolling up
+      setVisible(y < 100 || y < lastY.current)
+      lastY.current = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return visible
+}
+
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const navVisible = useHideOnScroll()
+  usePreserveScrollOnResize()
 
   useEffect(() => {
     if (!mobileOpen) return
@@ -255,7 +301,8 @@ export default function App() {
       {/* Nav — minimal, floating */}
       <nav
         ref={mobileMenuRef}
-        className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20"
+        className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20 transition-transform duration-300 ease-in-out"
+        style={{ transform: navVisible ? 'translateY(0)' : 'translateY(calc(-100% - 2rem))' }}
       >
         <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5" aria-label="Murmura Labs home">

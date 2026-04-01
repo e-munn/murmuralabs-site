@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN || ''
 
-const DOLORES: [number, number] = [-122.4256, 37.7516]
+const DOLORES: [number, number] = [-122.42669625703857, 37.76505161652456]
 
 export default function ContactMap() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -24,7 +24,7 @@ export default function ContactMap() {
           url: 'mapbox://styles/mapbox/standard',
           config: {
             theme: 'warm',
-            lightPreset: 'dawn',
+            lightPreset: 'dusk',
             showPointOfInterestLabels: false,
             showTransitLabels: false,
             showPlaceLabels: false,
@@ -90,9 +90,9 @@ export default function ContactMap() {
       {/* Logo overlay — fixed in center, no jitter */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <svg viewBox="-60 -60 120 120" className="w-10 h-10">
-          <polygon points="37.71,-29.69 44.57,17.82 6.86,47.51 -37.71,29.69 -44.57,-17.82 -6.86,-47.51" fill="#190f0a" opacity="0.08" />
-          <polygon points="38.55,-13.35 30.84,26.71 -7.71,40.06 -38.55,13.35 -30.84,-26.71 7.71,-40.06" fill="#190f0a" opacity="0.2" />
-          <polygon points="34.68,0 17.34,30.03 -17.34,30.03 -34.68,0 -17.34,-30.03 17.34,-30.03" fill="#190f0a" stroke="#190f0a" strokeWidth="1" opacity="0.6" />
+          <polygon points="37.71,-29.69 44.57,17.82 6.86,47.51 -37.71,29.69 -44.57,-17.82 -6.86,-47.51" fill="#FF6A00" opacity="0.15" />
+          <polygon points="38.55,-13.35 30.84,26.71 -7.71,40.06 -38.55,13.35 -30.84,-26.71 7.71,-40.06" fill="#FF6A00" opacity="0.4" />
+          <polygon points="34.68,0 17.34,30.03 -17.34,30.03 -34.68,0 -17.34,-30.03 17.34,-30.03" fill="#FF6A00" stroke="#FF6A00" strokeWidth="1" opacity="0.9" />
         </svg>
       </div>
     </div>
