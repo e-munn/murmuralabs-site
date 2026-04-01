@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import HexResolutions2D from '@/HexResolutions2D'
+import dynamic from 'next/dynamic'
+
+const CityScene = dynamic(() => import('@/city/CityScene'), { ssr: false })
 import {
   ChevronLeft,
   ChevronRight,
@@ -251,21 +254,9 @@ const slides: SlideConfig[] = [
       <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
         <p className="text-sand/50 uppercase tracking-[0.2em] text-sm font-mono">The Problem</p>
         <h2 className="font-display font-bold text-3xl sm:text-5xl text-linen leading-tight">
-          Cities make decisions<br />
-          <span className="text-ember">blind to cascading effects</span>
+          Cities need better tools<br />
+          <span className="text-ember">to make decisions</span>
         </h2>
-        <div className="grid sm:grid-cols-3 gap-6 mt-4">
-          {[
-            { icon: <Building2 size={20} />, text: 'A new development displaces residents. Where do they go?' },
-            { icon: <Footprints size={20} />, text: 'A transit cut changes commutes. How does health shift?' },
-            { icon: <Leaf size={20} />, text: 'A zoning change alters pollution. Who bears the cost?' },
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col gap-3 p-4 rounded-xl bg-walnut/40">
-              <div className="text-ember">{item.icon}</div>
-              <p className="text-sand/80 text-sm leading-relaxed">{item.text}</p>
-            </div>
-          ))}
-        </div>
       </div>
     ),
   },
@@ -294,9 +285,6 @@ const slides: SlideConfig[] = [
             </div>
           ))}
         </div>
-        <p className="text-sand/50 text-sm">
-          Traditional planning tools see the 1st order. murmur models all of them.
-        </p>
       </div>
     ),
   },
@@ -306,15 +294,10 @@ const slides: SlideConfig[] = [
     theme: 'dark',
     content: (
       <div className="flex flex-col items-center justify-center h-full text-center max-w-3xl mx-auto gap-8">
-        <p className="text-sand/50 uppercase tracking-[0.2em] text-sm font-mono">The Vision</p>
         <h2 className="font-display font-bold text-3xl sm:text-5xl text-linen leading-tight">
-          What if you could <span className="text-canopy">see the future</span><br />
-          of every urban decision?
+          The tool to deliver on this<br />
+          <span className="text-canopy">doesn&#39;t exist yet</span>
         </h2>
-        <p className="text-sand/70 text-lg max-w-xl leading-relaxed">
-          Before breaking ground. Before passing policy. Before allocating a dollar.
-          See how a decision ripples across demographics, health, environment, and equity.
-        </p>
       </div>
     ),
   },
@@ -329,10 +312,6 @@ const slides: SlideConfig[] = [
           Agent-based simulation<br />
           <span className="text-driftwood">at the urban scale</span>
         </h2>
-        <p className="text-driftwood/80 text-lg leading-relaxed">
-          With real data and network science, murmur models cascading impacts of urban
-          decisions across demographics, health, environment, and equity.
-        </p>
         <div className="flex flex-wrap gap-3 mt-2">
           {['Agent-Based Modeling', 'Spatial Data Science', 'Network Science', 'Generative AI'].map((tag) => (
             <span
@@ -354,74 +333,54 @@ const slides: SlideConfig[] = [
       <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
         <p className="text-driftwood/60 uppercase tracking-[0.2em] text-sm font-mono">How It Works</p>
         <h2 className="font-display font-bold text-3xl sm:text-5xl text-espresso leading-tight">
-          Real data in. Simulated futures out.
+          Neighborhoods act<br />
+          on behalf of their residents.
         </h2>
-        <div className="grid sm:grid-cols-3 gap-6">
-          {[
-            {
-              step: '01',
-              title: 'Ingest',
-              desc: 'Census, health, transit, housing, pollution, schools, amenities — 100+ fields per hex cell',
-              icon: <Layers size={20} />,
-            },
-            {
-              step: '02',
-              title: 'Simulate',
-              desc: 'Agents respond to changes. Impacts cascade across connected neighborhoods via real networks',
-              icon: <Zap size={20} />,
-            },
-            {
-              step: '03',
-              title: 'Compare',
-              desc: 'Fork scenarios, run variations, compare outcomes side-by-side. Merge the best future',
-              icon: <GitMerge size={20} />,
-            },
-          ].map((item) => (
-            <div key={item.step} className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <span className="text-driftwood/40 font-mono text-sm">{item.step}</span>
-                <div className="text-driftwood">{item.icon}</div>
-              </div>
-              <h3 className="font-display font-bold text-xl text-espresso">{item.title}</h3>
-              <p className="text-driftwood/80 text-sm leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
+        <p className="text-driftwood/80 text-lg leading-relaxed">
+          Equipped with 100+ metrics spanning demographics, health, housing, environment,
+          mobility, and equity, each policy agent responds to proposed scenarios with their
+          residents&#39; interests at the center.
+        </p>
       </div>
     ),
   },
 
-  /* ── 7. Multi-Resolution Model ── */
+  /* ── 8. Parcel Scale ── */
   {
     theme: 'light',
     content: (
       <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
         <div className="flex-1 flex flex-col gap-6">
-          <p className="text-driftwood/60 uppercase tracking-[0.2em] text-sm font-mono">Core Innovation</p>
+          <div className="flex items-center gap-3">
+            <IconBadge color="canopy"><Hexagon size={20} /></IconBadge>
+            <p className="text-canopy uppercase tracking-[0.2em] text-sm font-mono">Parcel Scale · ~25m</p>
+          </div>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso leading-tight">
-            Three resolutions.<br />
-            One interconnected model.
+            100+ data fields per cell
           </h2>
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {[
-              { scale: '~25m', label: 'Parcel', color: 'text-canopy', desc: '100+ data fields per cell' },
-              { scale: '~250m', label: 'Block', color: 'text-ember', desc: 'Composite indices & risk scores' },
-              { scale: '~1km', label: 'Neighborhood', color: 'text-sky', desc: 'Policy agents & zoning constraints' },
+              { icon: <Users size={18} />, label: 'Demographics' },
+              { icon: <HeartPulse size={18} />, label: 'Health' },
+              { icon: <Home size={18} />, label: 'Housing' },
+              { icon: <Leaf size={18} />, label: 'Environment' },
+              { icon: <Footprints size={18} />, label: 'Mobility' },
+              { icon: <Coins size={18} />, label: 'Economy' },
+              { icon: <GraduationCap size={18} />, label: 'Education' },
+              { icon: <Shield size={18} />, label: 'Safety' },
+              { icon: <MapPin size={18} />, label: 'Amenities' },
             ].map((item) => (
-              <div key={item.scale} className="flex items-center gap-4">
-                <span className={`font-mono text-sm ${item.color} w-12`}>{item.scale}</span>
-                <div>
-                  <span className="font-display font-bold text-espresso">{item.label}</span>
-                  <span className="text-driftwood/60 text-sm ml-2">{item.desc}</span>
-                </div>
+              <div key={item.label} className="flex items-center gap-2.5 p-2.5 rounded-lg bg-canopy/8">
+                <span className="text-canopy">{item.icon}</span>
+                <span className="text-driftwood text-sm">{item.label}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="flex-1 relative w-full" style={{ minHeight: 240, maxHeight: '50vh' }}>
+        <div className="flex-1 relative w-full" style={{ minHeight: 360 }}>
           <HexResolutions2D
-            showAll
-            svgScale={1}
+            visibleLayers={3}
+            svgScale={2}
             colors={{ parcel: '#16a34a', block: '#ea580c', neighborhood: '#0284c7' }}
           />
         </div>
@@ -429,104 +388,91 @@ const slides: SlideConfig[] = [
     ),
   },
 
-  /* ── 8. Parcel Scale ── */
-  {
-    theme: 'dark',
-    content: (
-      <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
-        <div className="flex items-center gap-3">
-          <IconBadge color="canopy"><Hexagon size={20} /></IconBadge>
-          <p className="text-canopy uppercase tracking-[0.2em] text-sm font-mono">Parcel Scale · ~25m</p>
-        </div>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl text-linen leading-tight">
-          100+ data fields per cell
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {[
-            { icon: <Users size={18} />, label: 'Demographics', color: 'canopy' },
-            { icon: <HeartPulse size={18} />, label: 'Health', color: 'canopy' },
-            { icon: <Home size={18} />, label: 'Housing', color: 'canopy' },
-            { icon: <Leaf size={18} />, label: 'Environment', color: 'canopy' },
-            { icon: <Footprints size={18} />, label: 'Mobility', color: 'canopy' },
-            { icon: <Coins size={18} />, label: 'Economy', color: 'canopy' },
-            { icon: <GraduationCap size={18} />, label: 'Education', color: 'canopy' },
-            { icon: <Shield size={18} />, label: 'Safety', color: 'canopy' },
-            { icon: <MapPin size={18} />, label: 'Amenities', color: 'canopy' },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-2.5 p-3 rounded-lg bg-walnut/40">
-              <span className="text-canopy">{item.icon}</span>
-              <span className="text-sand/80 text-sm">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-
   /* ── 9. Block Scale ── */
   {
-    theme: 'dark',
+    theme: 'light',
     content: (
-      <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
-        <div className="flex items-center gap-3">
-          <IconBadge color="ember"><Layers size={20} /></IconBadge>
-          <p className="text-ember uppercase tracking-[0.2em] text-sm font-mono">Block Scale · ~250m</p>
+      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
+        <div className="flex-1 flex flex-col gap-6">
+          <div className="flex items-center gap-3">
+            <IconBadge color="ember"><Layers size={20} /></IconBadge>
+            <p className="text-ember uppercase tracking-[0.2em] text-sm font-mono">Block Scale · ~250m</p>
+          </div>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso leading-tight">
+            An aggregate layer
+          </h2>
+          <p className="text-driftwood/70 text-lg">
+            Built from dozens of network and geospatial analyses.
+          </p>
+          <div className="bg-espresso/5 rounded-xl p-5 font-mono text-sm">
+            <div className="text-driftwood/40 mb-3">{'// block-level composite'}</div>
+            {[
+              { key: 'displacement_risk', value: '0.72', color: 'text-ember' },
+              { key: 'health_burden', value: '0.58', color: 'text-ember' },
+              { key: 'transit_access', value: '0.41', color: 'text-danger' },
+              { key: 'green_coverage', value: '0.33', color: 'text-danger' },
+              { key: 'economic_mobility', value: '0.64', color: 'text-ember' },
+              { key: 'school_quality', value: '0.79', color: 'text-canopy' },
+            ].map((item) => (
+              <div key={item.key} className="flex justify-between py-1.5 border-b border-espresso/10 last:border-0">
+                <span className="text-driftwood/70">{item.key}</span>
+                <span className={item.color}>{item.value}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-driftwood/50 text-sm">
+            Each composite metric is the result of multiple spatial, demographic, and network analyses aggregated from parcel-level data.
+          </p>
         </div>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl text-linen leading-tight">
-          An aggregate layer built from<br />dozens of analyses
-        </h2>
-        <div className="bg-walnut/40 rounded-xl p-6 font-mono text-sm">
-          <div className="text-sand/40 mb-3">{'// block-level composite'}</div>
-          {[
-            { key: 'displacement_risk', value: '0.72', color: 'text-ember' },
-            { key: 'health_burden', value: '0.58', color: 'text-ember' },
-            { key: 'transit_access', value: '0.41', color: 'text-danger' },
-            { key: 'green_coverage', value: '0.33', color: 'text-danger' },
-            { key: 'economic_mobility', value: '0.64', color: 'text-ember' },
-            { key: 'school_quality', value: '0.79', color: 'text-canopy' },
-          ].map((item) => (
-            <div key={item.key} className="flex justify-between py-1.5 border-b border-sand/10 last:border-0">
-              <span className="text-sand/70">{item.key}</span>
-              <span className={item.color}>{item.value}</span>
-            </div>
-          ))}
+        <div className="flex-1 relative w-full" style={{ minHeight: 360 }}>
+          <HexResolutions2D
+            visibleLayers={2}
+            svgScale={2}
+            colors={{ parcel: '#16a34a', block: '#ea580c', neighborhood: '#0284c7' }}
+          />
         </div>
-        <p className="text-sand/50 text-sm">
-          Each composite metric is the result of multiple spatial, demographic, and network analyses aggregated from parcel-level data.
-        </p>
       </div>
     ),
   },
 
   /* ── 10. Neighborhood Scale ── */
   {
-    theme: 'dark',
+    theme: 'light',
     content: (
-      <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
-        <div className="flex items-center gap-3">
-          <IconBadge color="sky"><Network size={20} /></IconBadge>
-          <p className="text-sky uppercase tracking-[0.2em] text-sm font-mono">Neighborhood Scale · ~1km</p>
+      <div className="flex flex-col lg:flex-row items-center justify-center h-full max-w-4xl mx-auto gap-10">
+        <div className="flex-1 flex flex-col gap-6">
+          <div className="flex items-center gap-3">
+            <IconBadge color="sky"><Network size={20} /></IconBadge>
+            <p className="text-sky uppercase tracking-[0.2em] text-sm font-mono">Neighborhood Scale · ~1km</p>
+          </div>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl text-espresso leading-tight">
+            Policy agents acting on<br />
+            residents&#39; interests
+          </h2>
+          <p className="text-driftwood/70 text-lg leading-relaxed">
+            At the neighborhood scale, autonomous agents represent community interests,
+            advocating for residents within zoning constraints, budget limits, and equity targets.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {[
+              'Zoning & land-use constraints',
+              'Budget allocation optimization',
+              'Equity-weighted prioritization',
+              'Cross-neighborhood spillover modeling',
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-2.5 p-2.5 rounded-lg bg-sky/8">
+                <span className="text-sky">&#x2713;</span>
+                <span className="text-driftwood text-sm">{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl text-linen leading-tight">
-          Policy agents acting on<br />
-          residents&#39; interests
-        </h2>
-        <p className="text-sand/70 text-lg leading-relaxed">
-          At the neighborhood scale, autonomous agents represent community interests — advocating
-          for residents within zoning constraints, budget limits, and equity targets.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {[
-            'Zoning & land-use constraints',
-            'Budget allocation optimization',
-            'Equity-weighted prioritization',
-            'Cross-neighborhood spillover modeling',
-          ].map((item) => (
-            <div key={item} className="flex items-center gap-2.5 p-3 rounded-lg bg-walnut/40">
-              <span className="text-sky">&#x2713;</span>
-              <span className="text-sand/80 text-sm">{item}</span>
-            </div>
-          ))}
+        <div className="flex-1 relative w-full" style={{ minHeight: 360 }}>
+          <HexResolutions2D
+            visibleLayers={1}
+            svgScale={2}
+            colors={{ parcel: '#16a34a', block: '#ea580c', neighborhood: '#0284c7' }}
+          />
         </div>
       </div>
     ),
@@ -536,43 +482,20 @@ const slides: SlideConfig[] = [
   {
     theme: 'light',
     content: (
-      <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
-        <p className="text-driftwood/60 uppercase tracking-[0.2em] text-sm font-mono">Platform</p>
-        <h2 className="font-display font-bold text-3xl sm:text-5xl text-espresso leading-tight">
-          A living model of<br />every neighborhood
+      <div className="flex flex-col justify-center h-full max-w-5xl mx-auto gap-6">
+        <h2 className="font-display font-bold text-3xl sm:text-5xl text-espresso leading-tight text-center">
+          A living model of every neighborhood
         </h2>
-        <div className="grid sm:grid-cols-2 gap-5">
-          {[
-            {
-              icon: <Hexagon size={20} />,
-              title: '100+ data fields per cell',
-              desc: 'Demographics, health, pollution, housing, transit, amenities, schools, network metrics',
-            },
-            {
-              icon: <GitBranch size={20} />,
-              title: 'Scenario modeling',
-              desc: 'Test infrastructure, policy, investment — see impacts across every dimension',
-            },
-            {
-              icon: <Scale size={20} />,
-              title: 'Equity-first analysis',
-              desc: 'Displacement risk, equity breakdowns, demographic impact comparisons',
-            },
-            {
-              icon: <Network size={20} />,
-              title: 'Network intelligence',
-              desc: 'Neighborhoods connected by commute, schools, pollution, housing markets',
-            },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="flex flex-col gap-3 p-5 rounded-xl border border-espresso/10 bg-linen/50"
-            >
-              <div className="text-driftwood">{item.icon}</div>
-              <h3 className="font-display font-bold text-espresso">{item.title}</h3>
-              <p className="text-driftwood/70 text-sm leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
+        <div className="flex-1 relative overflow-hidden min-h-[200px] max-h-[60vh]">
+          <div className="absolute top-[-20%] bottom-[0%] left-[-18%] right-[-2%] scale-110">
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-driftwood/30 border-t-transparent rounded-full animate-spin" />
+              </div>
+            }>
+              <CityScene />
+            </Suspense>
+          </div>
         </div>
       </div>
     ),
@@ -604,36 +527,6 @@ const slides: SlideConfig[] = [
     ),
   },
 
-  /* ── 13. Equity-First ── */
-  {
-    theme: 'dark',
-    content: (
-      <div className="flex flex-col justify-center h-full max-w-3xl mx-auto gap-8">
-        <p className="text-sand/50 uppercase tracking-[0.2em] text-sm font-mono">Equity</p>
-        <h2 className="font-display font-bold text-3xl sm:text-5xl text-linen leading-tight">
-          Who benefits?<br />
-          <span className="text-ember">Who bears the cost?</span>
-        </h2>
-        <p className="text-sand/70 text-lg leading-relaxed">
-          Every scenario is analyzed through an equity lens. See displacement risk,
-          cost-benefit breakdowns by demographic group, and ripple effects on
-          vulnerable populations.
-        </p>
-        <div className="grid sm:grid-cols-3 gap-4">
-          {[
-            { label: 'Displacement risk scoring', icon: <Home size={18} /> },
-            { label: 'Demographic impact diffs', icon: <Users size={18} /> },
-            { label: 'Environmental justice', icon: <Leaf size={18} /> },
-          ].map((item) => (
-            <div key={item.label} className="flex items-center gap-2.5 p-3 rounded-lg bg-walnut/40">
-              <span className="text-ember">{item.icon}</span>
-              <span className="text-sand/80 text-sm">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
-  },
 
   /* ── 14. Network Intelligence ── */
   {
@@ -645,8 +538,9 @@ const slides: SlideConfig[] = [
           Neighborhoods don&#39;t exist in isolation
         </h2>
         <p className="text-driftwood/80 text-lg leading-relaxed">
-          murmur connects neighborhoods through the real networks that bind them — commute patterns,
-          school catchments, pollution corridors, housing markets, and economic ties.
+          Every cell is influenced by its neighbors. murmur connects neighborhoods through the
+          real networks that bind them — commute patterns, school catchments, pollution corridors,
+          housing markets, and economic ties.
         </p>
         <div className="flex flex-wrap gap-3 mt-2">
           {['Commute networks', 'School zones', 'Pollution corridors', 'Housing markets', 'Economic linkages'].map(
@@ -771,12 +665,12 @@ const slides: SlideConfig[] = [
         </h2>
         <div className="flex flex-col gap-4">
           {[
-            { phase: 'Now', items: ['v0.1 live for Bay Area', 'Multi-resolution hex model', 'Scenario engine MVP', '100+ data fields per cell'], color: 'canopy' },
-            { phase: 'Next', items: ['Advisor feedback round', 'Equity index refinement', 'Network intelligence layer', 'First pilot city partnerships'], color: 'ember' },
-            { phase: 'Later', items: ['Multi-city deployment', 'AI-generated scenario suggestions', 'Public scenario sharing', 'API for third-party tools'], color: 'sky' },
+            { phase: `Now · ${new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`, items: ['v0.1 live for Bay Area', 'Multi-resolution hex model', 'Scenario engine MVP'], color: 'canopy' },
+            { phase: 'Next · Weeks', items: ['Advisor feedback round', 'Network intelligence layer', 'First pilot city partnerships'], color: 'ember' },
+            { phase: 'Later · Months', items: ['Multi-city deployment', 'Scenario Builder', 'API for third-party tools'], color: 'sky' },
           ].map((col) => (
             <div key={col.phase} className="flex gap-4 p-4 rounded-xl bg-walnut/40">
-              <span className={`font-mono text-sm text-${col.color} shrink-0 w-12`}>{col.phase}</span>
+              <span className={`font-mono text-sm text-${col.color} shrink-0 whitespace-nowrap`}>{col.phase}</span>
               <div className="flex flex-wrap gap-2">
                 {col.items.map((item) => (
                   <span key={item} className="px-2.5 py-1 rounded-full bg-espresso/50 text-sand/70 text-xs">
