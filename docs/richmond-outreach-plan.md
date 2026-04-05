@@ -42,8 +42,8 @@
 
 Before any emails go out, activate the UC Berkeley connection:
 
-- **Jason Corburn** (UC Berkeley School of Public Health) collaborated with Shasa Curl on Richmond's Health in All Policies framework. Aretian's MIT-affiliated academic positioning makes a peer introduction natural.
-- **Action (Week 1):** Have Aretian leadership or a mutual academic contact email Jason Corburn asking him to make an introduction to Shasa Curl, framing murmur.ai as a tool that operationalizes the kind of health-equity analysis he advocates for.
+- **Jason Corburn** (UC Berkeley School of Public Health) collaborated with Shasa Curl on Richmond's Health in All Policies framework. A peer introduction through a mutual academic contact would be natural.
+- **Action (Week 1):** Reach out to Jason Corburn directly or through a mutual contact, framing murmur.ai as a tool that operationalizes the kind of health-equity analysis he advocates for, and asking if he'd be willing to introduce you to Shasa Curl.
 - **If Corburn agrees:** Reference his name in the Curl email ("Jason Corburn suggested we reach out..."). This transforms a cold email into a warm referral.
 - **If Corburn does not respond by Week 2:** Send the Curl email without the reference; do not delay the sequence.
 
@@ -58,8 +58,8 @@ Before any emails go out, activate the UC Berkeley connection:
 ```
 Dear City Manager Curl,
 
-I'm [SENDER NAME] from Murmura Labs, a city intelligence company born out of
-Aretian's urban analytics work at MIT. I'm reaching out because we've built
+I'm [SENDER NAME] from Murmura Labs, a city intelligence company focused on
+urban analytics and network science. I'm reaching out because we've built
 something directly relevant to the decisions you're navigating right now in
 Richmond.
 
@@ -91,7 +91,7 @@ live platform on your city's data.
 
 [If Corburn intro secured:] Jason Corburn at UC Berkeley suggested we connect,
 given your collaboration on Health in All Policies. The health-equity analysis
-in murmur.ai is directly informed by that framework.
+in murmur.ai aligns closely with that framework.
 
 Best regards,
 
@@ -113,7 +113,7 @@ murmur.ai — Listen to the city.
 Dear Director Velasco,
 
 I'm [SENDER NAME] from Murmura Labs. We build city intelligence tools grounded
-in Aretian's urban analytics research at MIT, and I wanted to share something
+in network science and urban complexity research, and I wanted to share something
 we've built specifically on Richmond.
 
 murmur.ai models Richmond at H3 hexagonal resolution — 4,655 cells, each
@@ -161,7 +161,7 @@ murmur.ai — Listen to the city.
 Dear Councilmember Robinson,
 
 I'm [SENDER NAME] from Murmura Labs. We build city intelligence tools rooted in
-Aretian's urban analytics work at MIT, and I'm reaching out because the equity
+network science and urban complexity research, and I'm reaching out because the equity
 analysis our platform produces is directly relevant to the decisions Richmond is
 facing right now.
 
@@ -210,7 +210,7 @@ murmur.ai — Listen to the city.
 Dear Councilmember Jimenez,
 
 I'm [SENDER NAME] from Murmura Labs. We build city intelligence tools grounded
-in Aretian's urban analytics research at MIT, and I wanted to reach out about
+in network science and urban complexity research, and I wanted to reach out about
 a tool we've built that's directly relevant to the Chevron settlement you helped
 negotiate.
 
@@ -257,7 +257,7 @@ murmur.ai — Listen to the city.
 Dear Vice Mayor Zepeda,
 
 I'm [SENDER NAME] from Murmura Labs. We build city intelligence tools rooted in
-Aretian's urban analytics research at MIT, and I wanted to share a platform
+network science and urban complexity research, and I wanted to share a platform
 we've built on Richmond's data that aligns with your infrastructure priorities.
 
 murmur.ai models Richmond at the neighborhood level — 4,655 zones, each
@@ -305,7 +305,7 @@ Use these in conversations with any Richmond official. Select and adapt based on
 
 #### The Platform in 30 Seconds
 
-> "murmur.ai models every neighborhood in Richmond using 118 real-world data fields — demographics, health outcomes, pollution exposure, housing pressure, transit access, school proximity. When you apply a scenario — an investment, a rezoning, an infrastructure project — the system computes cascading impacts across the whole city: who benefits, who's harmed, where displacement risk concentrates, and how equity outcomes shift. It's a way to see the second-order effects of decisions before they're made."
+> "murmur.ai models every neighborhood in Richmond using 118 real-world data fields — demographics, health outcomes, pollution exposure, housing pressure, transit access, school proximity. When you apply a scenario — an investment, a rezoning, an infrastructure project — the system computes cascading impacts across the whole city: who benefits, who's harmed, where displacement risk concentrates, and how equity outcomes shift. It's built on network science and agent-based modeling — a way to see the second-order effects of decisions before they're made."
 
 #### The Chevron Settlement ($550M)
 
@@ -351,7 +351,7 @@ Use these in conversations with any Richmond official. Select and adapt based on
 
 #### Credentials & Trust
 
-- Murmura Labs is built on Aretian's urban analytics research, with roots in MIT's work on network science and urban complexity.
+- Murmura Labs is built on deep expertise in network science, urban complexity, and spatial data science.
 - The platform uses only public, verifiable data sources: American Community Survey, CalEnviroScreen, CDC PLACES, Zillow Home Value Index, GTFS transit feeds, EPA walkability data, and OpenStreetMap. No proprietary black boxes.
 - Richmond is the first city modeled at this resolution. We chose Richmond deliberately because of the complexity and urgency of its decisions — not because it's a simple test case.
 - **Key line:** "We didn't build a generic tool and apply it to Richmond. We built this on Richmond's data, for Richmond's decisions."
@@ -442,7 +442,7 @@ Run the backup scenario. The contrast between two scenarios on the same data is 
 |-----|--------|-------|
 | Mon 3/30 | Confirm murmuralabs.com landing page is live and loads correctly | Engineering |
 | Mon 3/30 | Test all Richmond scenarios end-to-end; fix any broken demos | Engineering |
-| Tue 3/31 | Send warm intro request to Jason Corburn via Aretian academic contact | [SENDER NAME] |
+| Tue 3/31 | Send warm intro request to Jason Corburn via mutual academic contact | [SENDER NAME] |
 | Tue 3/31 | Research and confirm email addresses for Velasco, Robinson, Jimenez, Zepeda via Richmond city clerk's office (510-620-6513) or city website | [SENDER NAME] |
 | Wed 4/1 | Prepare screen recording of Richmond demo (backup if live demo has technical issues) | [SENDER NAME] |
 | Thu 4/2 | Practice 15-minute demo with internal team member playing each target persona | [SENDER NAME] |

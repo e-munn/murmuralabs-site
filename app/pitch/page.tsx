@@ -294,10 +294,28 @@ const slides: SlideConfig[] = [
     theme: 'dark',
     content: (
       <div className="flex flex-col items-center justify-center h-full text-center max-w-3xl mx-auto gap-8">
+        <p className="text-sand/50 uppercase tracking-[0.2em] text-sm font-mono">The Problem</p>
         <h2 className="font-display font-bold text-3xl sm:text-5xl text-linen leading-tight">
+          We deserve a better way to make decisions<br />
+          <span className="text-sand">and see second-order effects</span>
+        </h2>
+        <div className="flex flex-col gap-3 mt-4 text-left w-full max-w-xl">
+          <p className="text-sand/40 uppercase tracking-[0.2em] text-xs font-mono mb-1">What if you could know&hellip;</p>
+          {[
+            'The effect of a zoning law on child health',
+            'Whether a new school leads to learning gain or loss given the disruption',
+            'Which neighborhoods bear the cost of a transit line — and which benefit',
+          ].map((q, i) => (
+            <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-walnut/30">
+              <span className="text-canopy font-mono text-sm shrink-0">{i + 1}</span>
+              <span className="text-sand/80 text-sm">{q}</span>
+            </div>
+          ))}
+        </div>
+        <h3 className="font-display font-bold text-2xl sm:text-3xl text-linen leading-tight mt-4">
           The tool to deliver on this<br />
           <span className="text-canopy">doesn&#39;t exist yet</span>
-        </h2>
+        </h3>
       </div>
     ),
   },
