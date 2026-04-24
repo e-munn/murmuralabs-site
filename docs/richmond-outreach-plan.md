@@ -1,9 +1,8 @@
 # Richmond Policymaker Outreach & Scheduling Plan
 
-**Prepared:** March 30, 2026
-**Organization:** Murmura Labs (murmur.ai)
+**Organization:** Murmura Labs (murmuralabs.com)
 **Market:** Richmond, CA city government
-**Objective:** Secure 15-minute demo meetings with 5 key Richmond decision-makers within 6 weeks
+**Objective:** Secure 15-minute demo meetings with 5 key Richmond decision-makers over a ~6-week sequence
 
 ---
 
@@ -24,11 +23,11 @@
 
 | Priority | Target | Role | Contact Week | Rationale |
 |----------|--------|------|-------------|-----------|
-| 1 | **Shasa Curl** | City Manager | Week 2 (Apr 6) | Highest authority. Controls budget. Chevron settlement timing creates urgency. If she engages, others follow. |
-| 2 | **Lina Velasco** | Community Dev. Director | Week 2 (Apr 6) | Operationalizes planning. Send same day as Curl but framed as a peer-to-peer technical conversation. She is more likely to reply quickly and can validate the tool before Curl sees a demo. |
-| 3 | **Doria Robinson** | Councilmember, D3 | Week 3 (Apr 13) | Equity champion. Her endorsement gives the tool credibility on displacement and justice questions. Wait one week so we can reference any early traction with staff. |
-| 4 | **Claudia Jimenez** | Councilmember, D6 | Week 3 (Apr 13) | Negotiated Chevron settlement. Running for mayor. Frame around giving her a data-backed narrative for how the $550M should be allocated. |
-| 5 | **Cesar Zepeda** | Vice Mayor | Week 4 (Apr 20) | Infrastructure advocate. Last in sequence because his priorities (bridge, infrastructure) are addressed in the tool but are not the primary entry point. A warm reference from any earlier contact accelerates this. |
+| 1 | **Shasa Curl** | City Manager | Week 2 | Highest authority. Controls budget. Chevron settlement timing creates urgency. If she engages, others follow. |
+| 2 | **Lina Velasco** | Community Dev. Director | Week 2 | Operationalizes planning. Send same day as Curl but framed as a peer-to-peer technical conversation. She is more likely to reply quickly and can validate the tool before Curl sees a demo. |
+| 3 | **Doria Robinson** | Councilmember, D3 | Week 3 | Equity champion. Her endorsement gives the tool credibility on displacement and justice questions. Wait one week so we can reference any early traction with staff. |
+| 4 | **Claudia Jimenez** | Councilmember, D6 | Week 3 | Negotiated Chevron settlement. Running for mayor. Frame around giving her a data-backed narrative for how the $550M should be allocated. |
+| 5 | **Cesar Zepeda** | Vice Mayor | Week 4 | Infrastructure advocate. Last in sequence because his priorities (bridge, infrastructure) are addressed in the tool but are not the primary entry point. A warm reference from any earlier contact accelerates this. |
 
 ### Why This Order
 
@@ -43,7 +42,7 @@
 Before any emails go out, activate the UC Berkeley connection:
 
 - **Jason Corburn** (UC Berkeley School of Public Health) collaborated with Shasa Curl on Richmond's Health in All Policies framework. A peer introduction through a mutual academic contact would be natural.
-- **Action (Week 1):** Reach out to Jason Corburn directly or through a mutual contact, framing murmur.ai as a tool that operationalizes the kind of health-equity analysis he advocates for, and asking if he'd be willing to introduce you to Shasa Curl.
+- **Action (Week 1):** Reach out to Jason Corburn directly or through a mutual contact, framing murmur as a tool that operationalizes the kind of health-equity analysis he advocates for, and asking if he'd be willing to introduce you to Shasa Curl.
 - **If Corburn agrees:** Reference his name in the Curl email ("Jason Corburn suggested we reach out..."). This transforms a cold email into a warm referral.
 - **If Corburn does not respond by Week 2:** Send the Curl email without the reference; do not delay the sequence.
 
@@ -63,7 +62,7 @@ urban analytics and network science. I'm reaching out because we've built
 something directly relevant to the decisions you're navigating right now in
 Richmond.
 
-murmur.ai is a city intelligence platform that reveals the second-order effects
+murmur is a city intelligence platform that reveals the second-order effects
 of urban decisions before they're made. We've modeled all of Richmond at the
 neighborhood level — 4,655 distinct zones, each carrying 118 real-world data
 fields covering demographics, health outcomes, pollution burden, housing
@@ -91,16 +90,16 @@ live platform on your city's data.
 
 [If Corburn intro secured:] Jason Corburn at UC Berkeley suggested we connect,
 given your collaboration on Health in All Policies. The health-equity analysis
-in murmur.ai aligns closely with that framework.
+in murmur aligns closely with that framework.
 
 Best regards,
 
 [SENDER NAME]
 Murmura Labs
-murmur.ai — Listen to the city.
+murmuralabs.com — Listen to the city.
 ```
 
-**Send:** Week 2, Tuesday April 7 (morning, 8:30 AM)
+**Send:** Week 2, Tuesday morning (~8:30 AM PT)
 **To:** shasa_curl@ci.richmond.ca.us
 
 ---
@@ -116,7 +115,7 @@ I'm [SENDER NAME] from Murmura Labs. We build city intelligence tools grounded
 in network science and urban complexity research, and I wanted to share something
 we've built specifically on Richmond.
 
-murmur.ai models Richmond at H3 hexagonal resolution — 4,655 cells, each
+murmur models Richmond at H3 hexagonal resolution — 4,655 cells, each
 carrying 118 fields from the American Community Survey, CalEnviroScreen 4.0,
 CDC PLACES health data, Zillow home values, GTFS transit feeds, EPA walkability
 indices, and OpenStreetMap amenities. The system computes priority scores across
@@ -145,10 +144,10 @@ Best regards,
 
 [SENDER NAME]
 Murmura Labs
-murmur.ai — Listen to the city.
+murmuralabs.com — Listen to the city.
 ```
 
-**Send:** Week 2, Tuesday April 7 (morning, 9:00 AM)
+**Send:** Week 2, Tuesday morning (~9:00 AM PT, right after Curl)
 **To:** Research correct email via Richmond city directory; likely lina_velasco@ci.richmond.ca.us
 
 ---
@@ -165,7 +164,7 @@ network science and urban complexity research, and I'm reaching out because the 
 analysis our platform produces is directly relevant to the decisions Richmond is
 facing right now.
 
-murmur.ai models every neighborhood in Richmond using 118 real-world data
+murmur models every neighborhood in Richmond using 118 real-world data
 fields — income distribution, rent burden, pollution exposure, health outcomes,
 transit access, school proximity, and more. When a policy or investment is
 proposed, the platform computes who benefits, who is harmed, and where
@@ -194,10 +193,10 @@ With respect,
 
 [SENDER NAME]
 Murmura Labs
-murmur.ai — Listen to the city.
+murmuralabs.com — Listen to the city.
 ```
 
-**Send:** Week 3, Monday April 13 (morning)
+**Send:** Week 3, Monday morning
 **To:** Research correct council email via Richmond city clerk's office
 
 ---
@@ -214,7 +213,7 @@ in network science and urban complexity research, and I wanted to reach out abou
 a tool we've built that's directly relevant to the Chevron settlement you helped
 negotiate.
 
-murmur.ai models every neighborhood in Richmond at high resolution — 4,655
+murmur models every neighborhood in Richmond at high resolution — 4,655
 zones, each carrying 118 real-world data fields on demographics, health, housing
 pressure, pollution burden, and economic conditions. When you apply an
 investment scenario, the system computes cascading effects: which neighborhoods
@@ -241,10 +240,10 @@ Best regards,
 
 [SENDER NAME]
 Murmura Labs
-murmur.ai — Listen to the city.
+murmuralabs.com — Listen to the city.
 ```
 
-**Send:** Week 3, Wednesday April 15 (morning)
+**Send:** Week 3, Wednesday morning
 **To:** Research correct council email via Richmond city clerk's office
 
 ---
@@ -260,7 +259,7 @@ I'm [SENDER NAME] from Murmura Labs. We build city intelligence tools rooted in
 network science and urban complexity research, and I wanted to share a platform
 we've built on Richmond's data that aligns with your infrastructure priorities.
 
-murmur.ai models Richmond at the neighborhood level — 4,655 zones, each
+murmur models Richmond at the neighborhood level — 4,655 zones, each
 carrying 118 data fields on transit access, commute patterns, economic
 conditions, health outcomes, and environmental exposure. When you model an
 infrastructure change — a new transit line, a lane reduction, a road closure —
@@ -289,10 +288,10 @@ Best regards,
 
 [SENDER NAME]
 Murmura Labs
-murmur.ai — Listen to the city.
+murmuralabs.com — Listen to the city.
 ```
 
-**Send:** Week 4, Monday April 20 (morning)
+**Send:** Week 4, Monday morning
 **To:** Research correct council email via Richmond city clerk's office
 
 ---
@@ -305,19 +304,19 @@ Use these in conversations with any Richmond official. Select and adapt based on
 
 #### The Platform in 30 Seconds
 
-> "murmur.ai models every neighborhood in Richmond using 118 real-world data fields — demographics, health outcomes, pollution exposure, housing pressure, transit access, school proximity. When you apply a scenario — an investment, a rezoning, an infrastructure project — the system computes cascading impacts across the whole city: who benefits, who's harmed, where displacement risk concentrates, and how equity outcomes shift. It's built on network science and agent-based modeling — a way to see the second-order effects of decisions before they're made."
+> "murmur models every neighborhood in Richmond using 118 real-world data fields — demographics, health outcomes, pollution exposure, housing pressure, transit access, school proximity. When you apply a scenario — an investment, a rezoning, an infrastructure project — the system computes cascading impacts across the whole city: who benefits, who's harmed, where displacement risk concentrates, and how equity outcomes shift. It's built on network science and agent-based modeling — a way to see the second-order effects of decisions before they're made."
 
 #### The Chevron Settlement ($550M)
 
 - Richmond is allocating $550M from the Chevron settlement — the largest single investment decision in the city's history.
-- The city is hiring consultants to advise on allocation. murmur.ai doesn't replace that process; it gives the city an independent analytical lens that persists after the consultants leave.
+- The city is hiring consultants to advise on allocation. murmur doesn't replace that process; it gives the city an independent analytical lens that persists after the consultants leave.
 - Different allocation strategies will have different neighborhood-level impacts. Investing in Hilltop produces different cascading effects than investing in the Iron Triangle or North Richmond.
 - The platform can model multiple allocation scenarios side by side: Which neighborhoods see the greatest health improvement? Where does new investment trigger displacement? Which approach narrows the equity gap most effectively?
 - **Key line:** "You can run 50 allocation scenarios in an afternoon. Each one shows you who benefits and who bears hidden costs — at the neighborhood level, not just citywide averages."
 
 #### Reconnecting Communities Grant ($9.56M — Harbour Way / Ohio Ave)
 
-- The Harbour Way / Ohio Avenue project includes bike lanes, lane reductions, and pedestrian improvements. These are precisely the scenario types murmur.ai is built to analyze.
+- The Harbour Way / Ohio Avenue project includes bike lanes, lane reductions, and pedestrian improvements. These are precisely the scenario types murmur is built to analyze.
 - We've already modeled the Harbour Way corridor on Richmond's data. The analysis shows direct impacts (air quality improvement, pedestrian safety, mode shift) and indirect effects (commercial traffic diversion, rent pressure near improved corridors).
 - For a $9.56M federally funded project, having a quantitative equity impact analysis strengthens reporting to the federal grantor and demonstrates diligence in community impact assessment.
 - **Key line:** "We can show you which blocks gain the most from the lane reduction and which businesses face the greatest traffic diversion — before construction starts."
@@ -325,19 +324,19 @@ Use these in conversations with any Richmond official. Select and adapt based on
 #### Hilltop Horizon (5,000-7,500 Units)
 
 - The Hilltop Mall redevelopment is the largest housing development in Richmond's pipeline. Adding 5,000-7,500 units will transform surrounding neighborhoods.
-- murmur.ai models the displacement pressure that radiates outward from a major development: as property values rise near Hilltop, which adjacent neighborhoods face rent increases? Where do displaced residents likely relocate? What services do they lose access to?
+- murmur models the displacement pressure that radiates outward from a major development: as property values rise near Hilltop, which adjacent neighborhoods face rent increases? Where do displaced residents likely relocate? What services do they lose access to?
 - The platform can test mitigation strategies: What if 30% of units are affordable? What if a community land trust is established in adjacent neighborhoods? Each scenario produces a different displacement map.
 - **Key line:** "Hilltop Horizon will be transformative. The question isn't whether it changes surrounding neighborhoods — it's whether you can see the changes coming and plan for them."
 
 #### Sea Level Rise Adaptation
 
 - Richmond's sea level rise adaptation plan requires understanding compounding vulnerabilities: which neighborhoods face environmental exposure AND housing instability AND health disparities?
-- murmur.ai already integrates CalEnviroScreen pollution data, CDC health outcomes, and housing indicators at the neighborhood level. Overlaying flood/sea level projections on this existing data reveals which communities face cascading risk.
+- murmur already integrates CalEnviroScreen pollution data, CDC health outcomes, and housing indicators at the neighborhood level. Overlaying flood/sea level projections on this existing data reveals which communities face cascading risk.
 - **Key line:** "Sea level rise doesn't hit a city evenly. It compounds on neighborhoods that are already stressed in five other dimensions. We can show you exactly where those compound vulnerabilities are."
 
 #### Environmental Justice & Equity
 
-- Every scenario analysis in murmur.ai includes an equity assessment: does the intervention narrow or widen disparities across income, race, health, and environmental exposure?
+- Every scenario analysis in murmur includes an equity assessment: does the intervention narrow or widen disparities across income, race, health, and environmental exposure?
 - The Chevron buffer zone scenario illustrates this directly: creating a residential setback from the refinery displaces residents. Where do they go? Do they move to neighborhoods with worse or better conditions? Is the net effect positive or negative for the most vulnerable?
 - The tool makes invisible costs visible. A project that looks beneficial in aggregate may concentrate harm in specific neighborhoods.
 - **Key line:** "The question we help answer isn't just 'Is this good for Richmond?' It's 'Is this good for Richmond's most vulnerable residents, specifically?'"
@@ -345,7 +344,7 @@ Use these in conversations with any Richmond official. Select and adapt based on
 #### Infrastructure & Connectivity
 
 - Richmond's geography creates connectivity challenges: I-580 divides communities, BART access is concentrated, and the Richmond-San Rafael Bridge corridor shapes economic access.
-- murmur.ai models how infrastructure changes ripple through the mobility network: a new bus route doesn't just serve riders — it changes job access, commercial viability, and property values along the corridor.
+- murmur models how infrastructure changes ripple through the mobility network: a new bus route doesn't just serve riders — it changes job access, commercial viability, and property values along the corridor.
 - Truck route restrictions on I-580 improve air quality in residential areas but affect logistics employment. The platform quantifies both sides.
 - **Key line:** "Infrastructure isn't neutral. Every road, bridge, and bus route redistributes access. We show you who gains and who loses."
 
@@ -364,15 +363,15 @@ Use these in conversations with any Richmond official. Select and adapt based on
 
 **Setting:** Virtual (Zoom/Google Meet with screen share) or in-person at Richmond City Hall. Virtual is easier to schedule; offer both.
 
-**Equipment needed:** Laptop with murmur.ai loaded, stable internet connection, external mouse (hex cell selection is easier with a mouse than a trackpad).
+**Equipment needed:** Laptop with `murmur.murmuralabs.com/scenarios` loaded, stable internet connection, external mouse (hex cell selection is easier with a mouse than a trackpad).
 
 ### Demo Script (15 Minutes)
 
 #### Minutes 0-2: Context (No Screen Share Yet)
 
-> "Thank you for the time. I want to show you something we've built specifically on Richmond's data. murmur.ai is a city intelligence platform — it models every neighborhood in Richmond using 118 real-world data fields and lets you see the second-order effects of decisions before they're made. Let me show you rather than describe it."
+> "Thank you for the time. I want to show you something we've built specifically on Richmond's data. murmur is a city intelligence platform — it models every neighborhood in Richmond using 118 real-world data fields and lets you see the second-order effects of decisions before they're made. Let me show you rather than describe it."
 
-Share screen. Open murmur.ai to the Richmond map view.
+Share screen. Open `murmur.murmuralabs.com/scenarios` to the Richmond map view.
 
 #### Minutes 2-5: The City as Data (Hex Cell Exploration)
 
@@ -436,63 +435,63 @@ Run the backup scenario. The contrast between two scenarios on the same data is 
 
 ## 5. Week-by-Week Timeline
 
-### Week 1: March 30 - April 3 (Preparation)
+### Week 1 — Preparation
 
 | Day | Action | Owner |
 |-----|--------|-------|
-| Mon 3/30 | Confirm murmuralabs.com landing page is live and loads correctly | Engineering |
-| Mon 3/30 | Test all Richmond scenarios end-to-end; fix any broken demos | Engineering |
-| Tue 3/31 | Send warm intro request to Jason Corburn via mutual academic contact | [SENDER NAME] |
-| Tue 3/31 | Research and confirm email addresses for Velasco, Robinson, Jimenez, Zepeda via Richmond city clerk's office (510-620-6513) or city website | [SENDER NAME] |
-| Wed 4/1 | Prepare screen recording of Richmond demo (backup if live demo has technical issues) | [SENDER NAME] |
-| Thu 4/2 | Practice 15-minute demo with internal team member playing each target persona | [SENDER NAME] |
-| Fri 4/3 | Final review of all 5 email drafts; customize based on any news from Richmond that week | [SENDER NAME] |
+| Mon | Confirm murmuralabs.com landing page is live and loads correctly | Engineering |
+| Mon | Test all Richmond scenarios end-to-end; fix any broken demos | Engineering |
+| Tue | Send warm intro request to Jason Corburn via mutual academic contact | [SENDER NAME] |
+| Tue | Research and confirm email addresses for Velasco, Robinson, Jimenez, Zepeda via Richmond city clerk's office (510-620-6513) or city website | [SENDER NAME] |
+| Wed | Prepare screen recording of Richmond demo (backup if live demo has technical issues) | [SENDER NAME] |
+| Thu | Practice 15-minute demo with internal team member playing each target persona | [SENDER NAME] |
+| Fri | Final review of all 5 email drafts; customize based on any recent Richmond news | [SENDER NAME] |
 
-### Week 2: April 6 - 10 (First Wave: Staff)
-
-| Day | Action | Owner |
-|-----|--------|-------|
-| Tue 4/7 | Send email to Shasa Curl (8:30 AM PT) | [SENDER NAME] |
-| Tue 4/7 | Send email to Lina Velasco (9:00 AM PT) | [SENDER NAME] |
-| Thu 4/9 | If no response from either, no action. Do not follow up yet. | — |
-| Fri 4/10 | Check if Corburn has responded to warm intro request. If yes, forward intro to Curl. If no, proceed without. | [SENDER NAME] |
-
-### Week 3: April 13 - 17 (Second Wave: Council, First Follow-Up on Staff)
+### Week 2 — First Wave: Staff
 
 | Day | Action | Owner |
 |-----|--------|-------|
-| Mon 4/13 | Send email to Doria Robinson | [SENDER NAME] |
-| Tue 4/14 | First follow-up to Shasa Curl (see follow-up cadence below) | [SENDER NAME] |
-| Tue 4/14 | First follow-up to Lina Velasco | [SENDER NAME] |
-| Wed 4/15 | Send email to Claudia Jimenez | [SENDER NAME] |
-| Fri 4/17 | Status check: any responses? Adjust Week 4 based on traction. | [SENDER NAME] |
+| Tue | Send email to Shasa Curl (~8:30 AM PT) | [SENDER NAME] |
+| Tue | Send email to Lina Velasco (~9:00 AM PT) | [SENDER NAME] |
+| Thu | If no response from either, no action. Do not follow up yet. | — |
+| Fri | Check if Corburn has responded to warm intro request. If yes, forward intro to Curl. If no, proceed without. | [SENDER NAME] |
 
-### Week 4: April 20 - 24 (Third Wave: Vice Mayor, Second Follow-Up)
-
-| Day | Action | Owner |
-|-----|--------|-------|
-| Mon 4/20 | Send email to Cesar Zepeda | [SENDER NAME] |
-| Tue 4/21 | Second follow-up to Curl and Velasco (if no response) | [SENDER NAME] |
-| Wed 4/22 | First follow-up to Robinson and Jimenez | [SENDER NAME] |
-| Fri 4/24 | Any meetings booked this week? Begin scheduling. Prioritize in-person at City Hall if any target prefers. | [SENDER NAME] |
-
-### Week 5: April 27 - May 1 (Follow-Up Push & Meeting Execution)
+### Week 3 — Second Wave: Council, First Follow-Up on Staff
 
 | Day | Action | Owner |
 |-----|--------|-------|
-| Mon 4/27 | Final follow-up to Curl and Velasco (if still no response — see cadence below for alternate channel strategy) | [SENDER NAME] |
-| Tue 4/28 | First follow-up to Zepeda | [SENDER NAME] |
-| Wed 4/29 | Second follow-up to Robinson and Jimenez | [SENDER NAME] |
+| Mon | Send email to Doria Robinson | [SENDER NAME] |
+| Tue | First follow-up to Shasa Curl (see follow-up cadence below) | [SENDER NAME] |
+| Tue | First follow-up to Lina Velasco | [SENDER NAME] |
+| Wed | Send email to Claudia Jimenez | [SENDER NAME] |
+| Fri | Status check: any responses? Adjust Week 4 based on traction. | [SENDER NAME] |
+
+### Week 4 — Third Wave: Vice Mayor, Second Follow-Up
+
+| Day | Action | Owner |
+|-----|--------|-------|
+| Mon | Send email to Cesar Zepeda | [SENDER NAME] |
+| Tue | Second follow-up to Curl and Velasco (if no response) | [SENDER NAME] |
+| Wed | First follow-up to Robinson and Jimenez | [SENDER NAME] |
+| Fri | Any meetings booked this week? Begin scheduling. Prioritize in-person at City Hall if any target prefers. | [SENDER NAME] |
+
+### Week 5 — Follow-Up Push & Meeting Execution
+
+| Day | Action | Owner |
+|-----|--------|-------|
+| Mon | Final follow-up to Curl and Velasco (if still no response — see cadence below for alternate channel strategy) | [SENDER NAME] |
+| Tue | First follow-up to Zepeda | [SENDER NAME] |
+| Wed | Second follow-up to Robinson and Jimenez | [SENDER NAME] |
 | Thu-Fri | Execute any booked meetings | [SENDER NAME] |
 
-### Week 6: May 4 - 8 (Conversion & Expansion)
+### Week 6 — Conversion & Expansion
 
 | Day | Action | Owner |
 |-----|--------|-------|
-| Mon 5/4 | Assess results: who engaged, who didn't, what channels worked | [SENDER NAME] |
-| Tue 5/5 | For any completed meetings: send follow-up email with specific next steps (see cadence) | [SENDER NAME] |
-| Wed 5/6 | For non-responsive targets: activate alternate channels (see cadence section) | [SENDER NAME] |
-| Fri 5/8 | Internal debrief: What resonated? What didn't? Adjust messaging for next wave of Bay Area targets. | Team |
+| Mon | Assess results: who engaged, who didn't, what channels worked | [SENDER NAME] |
+| Tue | For any completed meetings: send follow-up email with specific next steps (see cadence) | [SENDER NAME] |
+| Wed | For non-responsive targets: activate alternate channels (see cadence section) | [SENDER NAME] |
+| Fri | Internal debrief: What resonated? What didn't? Adjust messaging for next wave of Bay Area targets. | Team |
 
 ---
 
@@ -509,7 +508,7 @@ Each target receives a maximum of 3 follow-up emails after the initial outreach.
 ```
 Dear [TITLE] [LAST NAME],
 
-I wanted to follow up briefly on my note last week about murmur.ai's Richmond
+I wanted to follow up briefly on my note last week about murmur's Richmond
 model.
 
 Since writing, we've [INSERT ONE OF THE FOLLOWING — choose the most relevant]:
@@ -570,9 +569,9 @@ Dear [TITLE] [LAST NAME],
 
 This is my last note on this — I don't want to add to your inbox burden.
 
-murmur.ai's Richmond model is live and open. If your team is ever evaluating a
+murmur's Richmond model is live and open. If your team is ever evaluating a
 scenario and wants to see the neighborhood-level impact analysis, the platform
-is available at murmur.ai.
+is available at https://murmur.murmuralabs.com/scenarios.
 
 I'm always reachable at [EMAIL] if a conversation becomes useful down the road.
 
@@ -636,15 +635,15 @@ No response after full sequence → Move to alternate channels (above). Do not
 
 ---
 
-## Appendix: Key Dates & Richmond Context
+## Appendix: Richmond Context Hooks
 
-| Date / Period | Richmond Event | Relevance |
-|---------------|---------------|-----------|
-| Ongoing (2026) | Chevron settlement allocation process | Primary entry point for Curl and Jimenez |
-| Ongoing (2026) | Hilltop Horizon entitlement process | Redevelopment of former mall; major displacement implications |
-| Active | Reconnecting Communities grant implementation | $9.56M federal grant; Harbour Way / Ohio Ave improvements |
-| TBD | Mayoral election cycle | Jimenez is running; settlement allocation is a campaign issue |
-| Ongoing | Sea level rise adaptation planning | Velasco's department; compounding vulnerability analysis |
+| Richmond Event | Status | Relevance |
+|---------------|--------|-----------|
+| Chevron settlement allocation process | Active | Primary entry point for Curl and Jimenez |
+| Hilltop Horizon entitlement process | Active | Redevelopment of former mall; major displacement implications |
+| Reconnecting Communities grant implementation | Active | $9.56M federal grant; Harbour Way / Ohio Ave improvements |
+| Mayoral election cycle | Active | Jimenez is running; settlement allocation is a campaign issue |
+| Sea level rise adaptation planning | Ongoing | Velasco's department; compounding vulnerability analysis |
 
 ### Richmond City Council Meeting Schedule
 

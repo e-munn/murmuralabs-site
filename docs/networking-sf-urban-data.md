@@ -295,16 +295,16 @@ These organizations work on environmental justice, housing, and community develo
 ## The Pitch
 
 **For government staff (BAAQMD, Richmond Planning, MTC):**
-"murmur.ai is a city intelligence platform that models the second-order effects of urban decisions. We use the same data sources your agency works with -- ACS, CalEnviroScreen, CDC PLACES -- but we connect them to show how an intervention in one area (air quality, housing, transportation) cascades into outcomes in other areas. We've built this for Richmond as a proof of concept. We'd love to show you a 15-minute demo and get your feedback on whether this kind of modeling would be useful for your planning process."
+"murmur is a city intelligence platform that models the second-order effects of urban decisions. We use the same data sources your agency works with -- ACS, CalEnviroScreen, CDC PLACES -- but we connect them to show how an intervention in one area (air quality, housing, transportation) cascades into outcomes in other areas. We've built this for Richmond as a proof of concept. We'd love to show you a 15-minute demo and get your feedback on whether this kind of modeling would be useful for your planning process."
 
 **For community organizations (APEN, CBE, WOEIP, Our Power Coalition):**
-"murmur.ai helps communities understand what really happens when a policy change or investment is made -- not just the direct effect, but the ripple effects across health, housing, jobs, and environment. We built it using real data for Richmond. We want to make sure it reflects community priorities and is actually useful for your advocacy. Can we show it to you and get your input?"
+"murmur helps communities understand what really happens when a policy change or investment is made -- not just the direct effect, but the ripple effects across health, housing, jobs, and environment. We built it using real data for Richmond. We want to make sure it reflects community priorities and is actually useful for your advocacy. Can we show it to you and get your input?"
 
 **For civic tech / data people (OpenOakland, SF Civic Tech, BayGeo, DataSF):**
-"murmur.ai models second-order effects of urban decisions using public data -- ACS, CalEnviroScreen, CDC PLACES, and more. We're building for Richmond, CA as our first city. The interesting technical challenge is connecting disparate datasets to model causal chains across domains. I'd love to show you what we've built and hear your ideas."
+"murmur models second-order effects of urban decisions using public data -- ACS, CalEnviroScreen, CDC PLACES, and more. We're building for Richmond, CA as our first city. The interesting technical challenge is connecting disparate datasets to model causal chains across domains. I'd love to show you what we've built and hear your ideas."
 
 **For academics (UC Berkeley DCRP, IURD):**
-"murmur.ai is a city intelligence platform that operationalizes urban systems thinking. We model how interventions cascade across domains -- housing, health, environment, transportation -- using real public data for Richmond, CA. We're interested in research partnerships to validate our models and explore new applications."
+"murmur is a city intelligence platform that operationalizes urban systems thinking. We model how interventions cascade across domains -- housing, health, environment, transportation -- using real public data for Richmond, CA. We're interested in research partnerships to validate our models and explore new applications."
 
 ---
 

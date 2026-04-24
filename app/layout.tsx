@@ -10,7 +10,7 @@ import '@fontsource/jetbrains-mono/500.css'
 import '../src/index.css'
 
 export const metadata: Metadata = {
-  title: 'Murmura Labs — Urban Foresight Platform | murmur.ai',
+  title: 'Murmura Labs — Urban Foresight Platform',
   description:
     "See the second-order effects of urban decisions before they're made. murmur models cascading impacts across demographics, health, environment, housing, transit, and equity.",
   metadataBase: new URL('https://murmuralabs.com'),

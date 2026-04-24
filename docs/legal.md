@@ -52,7 +52,7 @@ The **overlap is near-total** in domain terms.
 
 > All Developments made "at any time or times during my services... whether at any of your facilities or elsewhere and whether or not during normal business hours" that relate to Aretian's "current or contemplated business."
 
-**Risk level: HIGH.** murmur.ai is an urban analytics platform. Aretian builds urban analytics platforms. Under the plain language, Aretian could claim ownership of murmur.ai IP.
+**Risk level: HIGH.** murmur is an urban analytics platform. Aretian builds urban analytics platforms. Under the plain language, Aretian could claim ownership of murmur IP.
 
 ### Work Product Clause (Contractor Agreement)
 
@@ -70,7 +70,7 @@ Assigns all documentation, algorithms, software, inventions, ideas, and written 
 
 1. No prior developments list was (likely) attached
 2. Retroactive IP assignment clause in contractor agreement
-3. murmur.ai uses similar tech stack, data sources, and analytical approaches as Aretian products
+3. murmur uses similar tech stack, data sources, and analytical approaches as Aretian products
 4. Statement of Work shows breadth of Aretian's "contemplated business" (London, Barcelona, Paris, Nashville, Cape Town — international urban analytics)
 
 ---
@@ -79,10 +79,10 @@ Assigns all documentation, algorithms, software, inventions, ideas, and written 
 
 ### Option A: Negotiated Separation (Preferred)
 
-1. Approach Aretian leadership about spinning murmur.ai out
+1. Approach Aretian leadership about spinning murmur out
 2. Negotiate IP assignment or license from Aretian to Murmura Labs
-3. Define clear boundaries between Aretian's products and murmur.ai
-4. Get written agreement releasing IP claims on murmur.ai codebase
+3. Define clear boundaries between Aretian's products and murmur
+4. Get written agreement releasing IP claims on murmur codebase
 5. Possible structures: equity stake for Aretian, licensing deal, clean separation with non-compete scope reduction
 
 ### Option B: Clean-Room Development (Fallback)
@@ -95,7 +95,7 @@ Assigns all documentation, algorithms, software, inventions, ideas, and written 
 
 ### Option C: Continue as Internal Project
 
-1. Develop murmur.ai as an Aretian product line
+1. Develop murmur as an Aretian product line
 2. Negotiate internal ownership/equity/revenue share
 3. Lower legal risk but less founder control
 
@@ -103,7 +103,7 @@ Assigns all documentation, algorithms, software, inventions, ideas, and written 
 
 ## 4. Data Licensing & Attribution
 
-All data sources used in murmur.ai and their licensing status:
+All data sources used in murmur and their licensing status:
 
 | Source | License | Commercial Use | Attribution Required | Notes |
 |--------|---------|---------------|---------------------|-------|
@@ -133,8 +133,8 @@ All data sources used in murmur.ai and their licensing status:
 |----------|---------|-------|
 | Entity type | Delaware C-Corp (standard for VC), CA LLC (simpler) | C-Corp if seeking investment |
 | State | Delaware (incorporation) + CA (qualification) | Standard startup setup |
-| Trademark | "murmur" / "murmur.ai" / "Murmura Labs" | Search USPTO before filing |
-| Domain | murmuralabs.com (owned), murmur.ai (status?) | Confirm ownership/renewal |
+| Trademark | "murmur" / "Murmura Labs" | Search USPTO before filing |
+| Domain | murmuralabs.com (owned) | Confirm registrar renewal and DNS control |
 
 ### Pre-Formation Checklist
 
@@ -193,7 +193,7 @@ Reviewed all five Aretian contracts (`~/Desktop/contracts/`). Key findings:
    - Contractor Agreement: 2-year prohibition on working for Aretian customers/prospects
    - CA Bus. & Prof. Code 16600 (anti-non-compete) could limit enforceability if litigated in CA
 
-6. **murmur.ai overlap with Aretian is near-total** in domain terms (urban analytics, city data platforms, scenario modeling). This is the central risk.
+6. **murmur overlap with Aretian is near-total** in domain terms (urban analytics, city data platforms, scenario modeling). This is the central risk.
 
 7. **Data licensing:** Most sources are public domain. Zillow ZHVI terms need review for commercial use. OSM requires ODbL attribution in product UI.
 
