@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .vercel
 .next
+
+# Remotion outputs (videos, frame sequences)
+remotion/out/
+
+remotion/.env

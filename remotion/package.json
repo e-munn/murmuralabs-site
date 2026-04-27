@@ -1,0 +1,36 @@
+{
+  "name": "murmuralabs-remotion",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Isolated Remotion workspace for one-off video/animation assets. Not part of the deployed Next.js site.",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render",
+    "render:logo": "remotion render LogoIntro out/logo-intro.mp4",
+    "render:logo:gif": "remotion render LogoIntro out/logo-intro.gif --codec=gif",
+    "render:map": "remotion render RichmondMap out/richmond-map.mp4",
+    "render:what": "remotion render WhatIsMurmur out/what-is-murmur.mp4",
+    "render:flock": "remotion render Murmuration out/murmuration.mp4",
+    "render:fork": "remotion render ForkScenario out/fork-scenario.mp4",
+    "data:richmond": "tsx scripts/generate-richmond-overlay.ts",
+    "data:basemap": "tsx scripts/fetch-richmond-base.ts"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.452",
+    "@remotion/cli": "^4.0.452",
+    "@remotion/google-fonts": "^4.0.452",
+    "h3-js": "^4.4.0",
+    "mapbox-gl": "^3.22.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "remotion": "^4.0.452"
+  },
+  "devDependencies": {
+    "@types/mapbox-gl": "^3.4.1",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}
