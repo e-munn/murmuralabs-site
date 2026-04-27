@@ -6,7 +6,7 @@ import { Murmuration } from "./compositions/Murmuration";
 import { ForkScenario } from "./compositions/ForkScenario";
 
 const LOGO_FRAMES = 150;
-const MAP_FRAMES = 150;
+const MAP_FRAMES = 240;
 const WHAT_FRAMES = 390;
 const MURMURATION_FRAMES = 360;
 const FORK_FRAMES = 150;

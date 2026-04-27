@@ -35,14 +35,18 @@ const RESOLUTION = 9;
 const HEX_SRC = "hex-grid";
 const HEX_FILL_LAYER = "hex-grid-fill";
 
-// Spiral reveal arc — compressed for a fast, snappy fill.
-//   frames 0-10:    map fades in
-//   frames 10-50:   cells appear ring-by-ring, spiraling outward.
-//                   Direction alternates per ring; per-ring duration scales
-//                   so inner rings feel deliberate, outer rings flow fast.
-//   frames 50-150:  hold
+// Spiral reveal arc.
+//   frames 0-10:     map fades in
+//   frames 10-82:    cells appear ring-by-ring, spiraling outward (slower for legibility).
+//                    Direction alternates per ring; per-ring duration scales
+//                    so inner rings feel deliberate, outer rings flow fast.
+//   frames 82-90:    brief hold — full grid sits at solid rust so the choropleth reads
+//   frames 90-115:   undulation ramps in (cells shift from solid rust into the flock pattern)
+//   frames 115-240:  continuous undulating color + opacity driven by 5 wandering flock attractors
 const FADE_IN_END = 10;
-const REVEAL_END = 50;
+const REVEAL_END = 82;
+const UNDULATE_START = 90;
+const UNDULATE_RAMP_END = 115;
 
 // Tuning for ring pacing — frames per ring scale roughly with sqrt of cell count
 function rawRingWeight(ring: number, cellCount: number): number {
@@ -60,12 +64,36 @@ const RING_ANGLE_OFFSET = 0.45; // ~26° per ring
 // "gap" between cells, mimicking a stroke without actually drawing one. 0.94 = 6% inset.
 const HEX_INSET = 0.94;
 
+// Flock-attractor undulation — same pattern as HexFlockBackground (used in LogoIntro).
+// 4 warm-orange attractors + 1 reddish, each tracing a slow Lissajous over the canvas.
+// Each visible cell samples Gaussian influence from every flock; the result drives
+// per-cell opacity (amp) and a warmth shift toward the red flock's color.
+const FLOCK_COUNT = 5;
+// Tighter than HexFlockBackground (180px on a smaller canvas). On a 1920×1080
+// frame this keeps each attractor's hot zone distinct rather than washing the
+// whole map in one color.
+const FLOCK_RADIUS_PX = 220;
+
+function flockCenter(i: number, t: number, W: number, H: number): [number, number] {
+  const fx = 0.13 + i * 0.07;
+  const fy = 0.11 + i * 0.05;
+  const px = i * 1.7 + 0.3;
+  const py = i * 2.3 + 1.1;
+  const x = W / 2 + Math.sin(t * fx + px) * W * 0.4;
+  const y = H / 2 + Math.sin(t * fy + py) * H * 0.35;
+  return [x, y];
+}
+
+type CellRecord = { fid: number; px: number; py: number; appearAt: number };
+
 export const RichmondMap: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const cellsRef = useRef<CellRecord[]>([]);
+  const canvasSizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
 
   const [initHandle] = useState(() =>
     delayRender("Loading Mapbox tiles + building hex layer", {
@@ -190,7 +218,8 @@ export const RichmondMap: React.FC = () => {
 
       // Assign appearAt frame per cell: spread linearly within each ring's duration
       const ringIndexCounter = new Map<number, number>();
-      const features = meta.map(({ id, ring }) => {
+      const cellRecords: CellRecord[] = [];
+      const features = meta.map(({ id, ring, angle: _angle }, idx) => {
         const indexInRing = ringIndexCounter.get(ring) ?? 0;
         ringIndexCounter.set(ring, indexInRing + 1);
         const cellsInRing = ringCounts.get(ring)!;
@@ -206,12 +235,20 @@ export const RichmondMap: React.FC = () => {
             [cLng + (lng - cLng) * HEX_INSET, cLat + (lat - cLat) * HEX_INSET] as [number, number],
         );
         const closedRing = [...inset, inset[0]];
+
+        // Cache projected pixel centroid for per-frame flock sampling.
+        const projected = map.project([cLng, cLat]);
+        cellRecords.push({ fid: idx, px: projected.x, py: projected.y, appearAt });
+
         return {
           type: "Feature" as const,
+          id: idx, // numeric id required for setFeatureState
           properties: { id, appearAt, ring },
           geometry: { type: "Polygon" as const, coordinates: [closedRing] },
         };
       });
+      cellsRef.current = cellRecords;
+      canvasSizeRef.current = { w: cw, h: ch };
 
       console.log(
         `[RichmondMap] r${RESOLUTION}: ${features.length} cells across ${ringIndices.length} rings; spiral spans frames ${FADE_IN_END}-${REVEAL_END}`,
@@ -224,13 +261,30 @@ export const RichmondMap: React.FC = () => {
 
       // Rust fill (mid-range population color from murmur's choropleth) at light opacity.
       // No stroke — the inset on each polygon creates the visual gap between cells.
+      // Color and opacity are modulated per cell via feature-state once the spiral
+      // reveal completes — see the per-frame undulation effect below.
       map.addLayer({
         id: HEX_FILL_LAYER,
         type: "fill",
         source: HEX_SRC,
         paint: {
-          "fill-color": "#CB6327",
-          "fill-opacity": 0.28,
+          // Interpolate from a duskier rust at `warmth`=0 toward a vivid crimson at `warmth`=1.
+          // Wider color spread = stronger pattern read on the choropleth.
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["coalesce", ["feature-state", "warmth"], 0],
+            0,
+            "#A8421A",
+            1,
+            "#F02A1A",
+          ],
+          // Base 0.32 opacity, scaled by `amp` (defaults to 1, ranges ~0.15–2.0 once undulating).
+          "fill-opacity": [
+            "*",
+            0.32,
+            ["coalesce", ["feature-state", "amp"], 1],
+          ],
           "fill-antialias": true,
         },
         filter: ["<=", ["get", "appearAt"], -1],
@@ -248,8 +302,9 @@ export const RichmondMap: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Per-frame: advance the reveal by updating the layer filter, then hold the
-  // render until Mapbox finishes repainting so the captured frame is consistent.
+  // Per-frame: advance the reveal by updating the layer filter, push per-cell
+  // undulation state once cells are visible, then hold the render until Mapbox
+  // finishes repainting so the captured frame is consistent.
   useEffect(() => {
     if (!ready) return;
     const map = mapRef.current;
@@ -260,6 +315,47 @@ export const RichmondMap: React.FC = () => {
     });
     const filter = ["<=", ["get", "appearAt"], frame] as mapboxgl.FilterSpecification;
     map.setFilter(HEX_FILL_LAYER, filter);
+
+    // Undulation: per visible cell, sample the 5 flock attractors and update
+    // feature-state so the paint expressions can render the pulsing pattern.
+    // Ramps in over (REVEAL_END → UNDULATE_RAMP_END) so the transition from
+    // flat rust to undulating color is smooth, not a snap.
+    const cells = cellsRef.current;
+    const { w: cw, h: ch } = canvasSizeRef.current;
+    if (cells.length > 0 && cw > 0 && ch > 0 && frame >= UNDULATE_START) {
+      // 2.5x faster motion than the canvas LogoIntro variant — at 30fps with /12,
+      // a full Lissajous lap from the slowest flock takes ~6s instead of ~15s.
+      const t = (frame - UNDULATE_START) / 12;
+      const ramp = Math.min(
+        1,
+        Math.max(0, (frame - UNDULATE_START) / (UNDULATE_RAMP_END - UNDULATE_START)),
+      );
+      const flocks: [number, number][] = [];
+      for (let i = 0; i < FLOCK_COUNT; i++) flocks.push(flockCenter(i, t, cw, ch));
+
+      for (const cell of cells) {
+        if (cell.appearAt > frame) continue;
+        let acc = 0;
+        let warmAcc = 0;
+        for (let i = 0; i < FLOCK_COUNT; i++) {
+          const dx = cell.px - flocks[i][0];
+          const dy = cell.py - flocks[i][1];
+          const d2 = dx * dx + dy * dy;
+          const inf = Math.exp(-d2 / (2 * FLOCK_RADIUS_PX * FLOCK_RADIUS_PX));
+          acc += inf;
+          if (i === 4) warmAcc += inf; // red flock — drives warmth shift
+        }
+        const v = Math.min(acc, 1);
+        // amp: dips to ~0.15 in cold zones, peaks ~2.0 in hot zones (≈13× dynamic range)
+        const amp = 1 + (v * 1.7 - 0.85) * ramp;
+        const warmth = acc > 0.001 ? Math.min(1, (warmAcc / acc) * ramp) : 0;
+        map.setFeatureState(
+          { source: HEX_SRC, id: cell.fid },
+          { amp, warmth },
+        );
+      }
+    }
+
     map.once("idle", () => continueRender(h));
   }, [frame, ready]);
 
