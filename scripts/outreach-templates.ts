@@ -16,13 +16,13 @@ export interface Target {
 }
 
 export const SENDER = {
-  name: "Elijah Munn",
+  name: "Eli Munn",
   email: "elijah@munn.studio",
-  org: "Murmura Labs",
-  site: "murmuralabs.com",
-  toolUrl: "https://murmur.murmuralabs.com/scenarios",
-  toolDisplay: "murmur.murmuralabs.com/scenarios",
-  tagline: "Listen to the city.",
+  org: "Aretian",
+  site: "aretian.com",
+  toolUrl: "https://aretian.com",
+  toolDisplay: "aretian.com",
+  tagline: "Urban analytics and design",
 };
 
 export const TARGETS: Record<TargetKey, Target> = {
@@ -89,25 +89,35 @@ export function renderEmail(
   const corburn =
     opts.includeCorburnIntro && target.corburnEligible ? CORBURN_LINE : "";
 
-  const intro = `I'm ${SENDER.name} from ${SENDER.org}, a small team working on urban analytics and network science. I wanted to share something we've built specifically on Richmond that may be useful to you.`;
+  const intro = `I'm Eli with Aretian, working on a forecasting tool for urban planners.`;
 
-  const platformParagraph = `murmur is a city intelligence platform that surfaces the second-order effects of urban decisions before they're made. We've modeled Richmond at the neighborhood level: 4,655 zones, each carrying 118 data fields covering demographics, health, pollution, housing, transit, and economic conditions. Apply a scenario (an investment, a rezoning, an infrastructure change) and the system computes cascading impacts across every zone.`;
+  const platformParagraph = `murmur models the second-order effects of urban decisions before they're made.`;
 
-  const ctaParagraph = `I'd welcome 15 minutes to walk you through the model on Richmond's data. If a live walkthrough is harder to schedule, I can follow up with a short demo video instead.`;
+  const demoUrl = "https://youtu.be/67aNyscPWbM";
+  const ctaLead = `Here's a 2-minute demo: `;
+  const ctaTrail = `. Happy to walk you through it on Richmond's data if useful.`;
+  const ctaParagraph = `${ctaLead}${demoUrl}${ctaTrail}`;
+  const ctaHtml = `${escapeHtml(ctaLead)}<a href="${demoUrl}" style="color:#010029;border-bottom:1px solid #d4d8e2;text-decoration:none;">${demoUrl}</a>${escapeHtml(ctaTrail)}`;
 
-  const sigText = `Best regards,\n\n${SENDER.name}\n${SENDER.org}\n${SENDER.toolDisplay}\n${SENDER.tagline}`;
-  const sigHtml = `<hr style="border:0;border-top:1px solid #e8dfd6;margin:28px 0 20px 0;">` +
-    `<p style="margin:0 0 4px 0;color:#190f0a;">Best regards,</p>` +
-    `<p style="margin:16px 0 4px 0;color:#7a4a2d;font-weight:600;letter-spacing:0.01em;">${SENDER.name}</p>` +
-    `<p style="margin:0;color:#6b5a4e;font-size:14px;line-height:1.5;">${SENDER.org}<br>` +
-    `<a href="${SENDER.toolUrl}" style="color:#7a4a2d;text-decoration:none;border-bottom:1px solid #e8dfd6;">${SENDER.toolDisplay}</a><br>` +
-    `<span style="color:#9a8778;font-style:italic;">${SENDER.tagline}</span></p>`;
+  const sigText = `Best regards,\n\n${SENDER.name}\n${SENDER.org}\n${SENDER.tagline}\n${SENDER.toolDisplay}`;
+  const aretianLogo =
+    `<a href="${SENDER.toolUrl}" style="display:inline-block;margin-top:14px;text-decoration:none;">` +
+    `<svg viewBox="95 105 682 105" width="132" height="20" role="img" aria-label="Aretian" xmlns="http://www.w3.org/2000/svg">` +
+    `<path fill="#010029" d="M 178.148438 203 L 163.199219 203 L 156.828125 184.410156 L 120.296875 184.410156 L 113.929688 203 L 98.976562 203 L 132.90625 110.441406 L 144.21875 110.441406 Z M 152.929688 172.449219 L 138.886719 131.371094 L 124.457031 172.449219 Z M 284.746094 203 L 268.367188 203 L 248.867188 164 L 231.316406 164 L 231.316406 203 L 217.277344 203 L 217.277344 110.441406 L 253.15625 110.441406 C 270.707031 110.441406 281.886719 121.75 281.886719 137.480469 C 281.886719 150.738281 273.828125 159.191406 263.429688 162.050781 Z M 267.847656 137.609375 C 267.847656 128.511719 261.476562 123.050781 252.117188 123.050781 L 231.316406 123.050781 L 231.316406 152.039062 L 252.117188 152.039062 C 261.476562 152.039062 267.847656 146.710938 267.847656 137.609375 Z M 387.613281 203 L 328.464844 203 L 328.464844 110.441406 L 387.613281 110.441406 L 387.613281 123.050781 L 342.503906 123.050781 L 342.503906 150.089844 L 380.984375 150.089844 L 380.984375 162.570312 L 342.503906 162.570312 L 342.503906 190.390625 L 387.613281 190.390625 Z M 489.601562 123.050781 L 464.125 123.050781 L 464.125 203 L 450.082031 203 L 450.082031 123.050781 L 424.601562 123.050781 L 424.601562 110.441406 L 489.601562 110.441406 Z M 545.578125 203 L 531.539062 203 L 531.539062 110.441406 L 545.578125 110.441406 Z M 663.871094 203 L 648.921875 203 L 642.550781 184.410156 L 606.019531 184.410156 L 599.652344 203 L 584.699219 203 L 618.628906 110.441406 L 629.941406 110.441406 Z M 638.652344 172.449219 L 624.609375 131.371094 L 610.179688 172.449219 Z M 772.679688 203 L 759.808594 203 L 717.039062 137.871094 L 717.039062 203 L 703 203 L 703 110.441406 L 715.871094 110.441406 L 758.640625 175.441406 L 758.640625 110.441406 L 772.679688 110.441406 Z" />` +
+    `</svg></a>`;
+  const sigHtml =
+    `<hr style="border:0;border-top:1px solid #d4d8e2;margin:28px 0 20px 0;">` +
+    `<p style="margin:0 0 4px 0;color:#010029;">Best regards,</p>` +
+    `<p style="margin:16px 0 4px 0;color:#010029;font-weight:600;letter-spacing:0.01em;">${SENDER.name}</p>` +
+    `<p style="margin:0;color:#3d4163;font-size:14px;line-height:1.5;">${SENDER.org}<br>` +
+    `<span style="color:#5a5e7a;font-style:italic;">${SENDER.tagline}</span><br>` +
+    `<a href="${SENDER.toolUrl}" style="color:#010029;text-decoration:none;border-bottom:1px solid #d4d8e2;">${SENDER.toolDisplay}</a></p>` +
+    aretianLogo;
 
   const textParts = [
     `Dear ${target.salutation},`,
     intro,
     platformParagraph,
-    target.personalizedParagraph,
     ctaParagraph,
     corburn,
     sigText,
@@ -120,8 +130,7 @@ export function renderEmail(
     `<p style="${bodyStyle}">Dear ${escapeHtml(target.salutation)},</p>`,
     `<p style="${bodyStyle}">${escapeHtml(intro)}</p>`,
     `<p style="${bodyStyle}">${escapeHtml(platformParagraph)}</p>`,
-    `<p style="${bodyStyle}">${escapeHtml(target.personalizedParagraph)}</p>`,
-    `<p style="${bodyStyle}">${escapeHtml(ctaParagraph)}</p>`,
+    `<p style="${bodyStyle}">${ctaHtml}</p>`,
     corburn ? `<p style="${bodyStyle};color:#6b5a4e;font-style:italic;">${escapeHtml(corburn)}</p>` : "",
     sigHtml,
   ].filter(Boolean);

@@ -1,4 +1,4 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { loadFont as loadQuicksand } from "@remotion/google-fonts/Quicksand";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 import { loadFont as loadJetBrains } from "@remotion/google-fonts/JetBrainsMono";
@@ -9,27 +9,8 @@ loadQuicksand("normal", { weights: ["700"] });
 loadInter("normal", { weights: ["400"] });
 loadJetBrains("normal", { weights: ["400", "500"] });
 
-// Logo hex paths — mirror public/logo.svg, drawn outer → inner
-const LOGO_HEXES = [
-  {
-    points: "17.82,-44.57 47.51,-6.86 29.69,37.71 -17.82,44.57 -47.51,6.86 -29.69,-37.71",
-    opacity: 0.08,
-    stroke: false,
-  },
-  {
-    points: "26.71,-30.84 40.06,7.71 13.35,38.55 -26.71,30.84 -40.06,-7.71 -13.35,-38.55",
-    opacity: 0.2,
-    stroke: false,
-  },
-  {
-    points: "30.03,-17.34 30.03,17.34 0.00,34.68 -30.03,17.34 -30.03,-17.34 -0.00,-34.68",
-    opacity: 0.6,
-    stroke: true,
-  },
-];
-
 // Two-stage reveal:
-//   Stage 1 (frames 5-25):  logo + "murmura labs presents" fade in together
+//   Stage 1 (frames 5-25):  Aretian logo + "presents" fade in together
 //   Stage 2 (frames 30-55): big "murmur" + platform line + v0.1 pill fade in together
 const STAGE1_START = 5;
 const STAGE1_END = 25;
@@ -66,30 +47,18 @@ export const LogoIntro: React.FC = () => {
           position: "relative",
         }}
       >
-        {/* Stage 1: logo */}
-        <svg
-          viewBox="-60 -60 120 120"
-          width={200}
-          height={200}
+        {/* Stage 1: Aretian logo */}
+        <Img
+          src={staticFile("aretian-logo.svg")}
           style={{
-            marginBottom: 32,
+            width: 360,
+            height: "auto",
+            marginBottom: 24,
             opacity: stage1Opacity,
           }}
-        >
-          {LOGO_HEXES.map((hex, i) => (
-            <polygon
-              key={i}
-              points={hex.points}
-              fill={COLORS.espresso}
-              stroke={hex.stroke ? COLORS.espresso : undefined}
-              strokeWidth={hex.stroke ? 1 : undefined}
-              opacity={hex.opacity}
-              style={{ transformOrigin: "center center", transformBox: "fill-box" }}
-            />
-          ))}
-        </svg>
+        />
 
-        {/* Stage 1: "murmura labs presents" */}
+        {/* Stage 1: "presents" */}
         <div
           style={{
             fontFamily: FONTS.display,
@@ -102,7 +71,7 @@ export const LogoIntro: React.FC = () => {
             marginBottom: 28,
           }}
         >
-          murmura labs presents
+          presents
         </div>
 
         {/* Stage 2: "murmur" wordmark */}

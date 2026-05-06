@@ -29,3 +29,6 @@ dist-ssr
 remotion/out/
 
 remotion/.env
+
+# Generated artifacts (email previews, business cards, ad-hoc exports)
+/out/

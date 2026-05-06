@@ -1,69 +1,75 @@
-# Session Handoff — 2026-04-24
+# Session Handoff — 2026-05-06
 
 ## What was done this session
 
-- **Stripped calendar dates from `docs/richmond-outreach-plan.md`.** Converted six-week timeline from date-anchored (`"Week 2: April 6 – 10"`, `"Tue 4/7"`) to sequence-only (`"Week 2"`, `"Tue"`). Plan is now reusable from any Day 1 start.
-- **Scrubbed all `murmur.ai` references** across the repo (app metadata, legal doc, outreach plan, networking doc, templates). There is no `murmur.ai` domain. Replacements:
-  - Product name in prose: `murmur` (bare)
-  - Signature/brand URL: `murmuralabs.com`
-  - Live tool URL: `https://murmur.murmuralabs.com/scenarios`
-  - Trademark/domain row in `docs/legal.md` cleaned up after the global replace
-  - `app/layout.tsx` title tag shortened
-- **Built Richmond outreach email infrastructure via Resend:**
-  - `scripts/outreach-templates.ts` — unified HTML+text template, `SENDER` config, `TARGETS` map for 5 policymakers (Curl, Velasco, Robinson, Jimenez, Zepeda), `renderEmail()` function
-  - `scripts/send-outreach-email.ts` — CLI sender. Flags: `--target`, `--to`, `--from`, `--corburn`, `--dry-run`
-  - Added `resend` and `tsx` devDeps
-  - `RESEND_API_KEY` already present in `.env.local`
-  - Discovered `murmuralabs.com` was already verified in Resend (us-east-1, verified ~22 days prior)
-  - Default `--from` now `Elijah Munn <elijah@murmuralabs.com>`; reply-to `elijah@munn.studio`
-  - Resend tags on every send: `campaign=richmond-outreach-v1`, `target=<key>`
-- **Researched the $550M Chevron settlement** and concluded leading with it in outreach is strategically risky. It's a grassroots justice win (RPA, ACCE, Coalition of Black Excellence, Doria Robinson herself led the multi-year campaign), Chevron is contractually barred from taking credit for spending decisions, Richmond already hired a $300K community-engagement consultant, and Zepeda publicly said *"this is the people's money so the people should be the ones who tell us how to use it."* Vendor positioning around the $550M would read as opportunistic and damage long-term credibility in a small civic ecosystem.
-- **Rewrote all 5 outreach templates:** dropped Chevron framing entirely, cut word count from ~290 to ~115 per email, removed em dashes, removed bulleted scenario lists, dropped the data-sources paragraph, reduced each target's personalization to one sentence anchored on their *existing stated work* (Robinson's Black Resiliency Project, Zepeda's Richmond-San Rafael Bridge, etc.).
-- **Added CSS-only visual polish** to email HTML using the site's palette (body `#190f0a`, accent `#7a4a2d`, rule `#e8dfd6`, italic tagline `#9a8778`). Thin horizontal rule above signature is the single visual moment. No images, no SVGs — those don't render in Gmail/Outlook and trigger image-blocking elsewhere.
-- **Test sends performed** (to `elijah@munn.studio`): multiple successful Resend sends; one send to `emunn@aretian.com` confirmed that arbitrary recipients work from the verified domain.
-- **Discussion about verifying `aretian.com`** — walked through Squarespace DNS steps for both subdomain (`send.aretian.com`) and apex paths. Flagged strategic concerns twice about using an `@aretian.com` address for murmur outreach (fuses identities, creates IP trail, exposes venture to Aretian IT). Resolution pending.
+- **Replaced "Murmura Labs presents" with the Aretian wordmark in `LogoIntro.tsx`.** Stage 1 of the 5-second intro now shows the Aretian wordmark + "presents" caption; Stage 2 (big "murmur", "urban foresight platform", v0.1 + April 2026 pill) is unchanged.
+- **Added `remotion/public/aretian-logo.svg`** — the wordmark variant from `~/aretian/cdt/cdt-expansion/public/logo/aretian-logo-light.svg` with fills swapped from `rgb(100%, 100%, 100%)` to `#190f0a` (espresso) so it reads on the linen background. ViewBox preserved at `95 107 687 210`.
+- **Re-rendered `remotion/out/logo-intro.mp4`** (1.1 MB, 150 frames @ 30fps). Identical duration to prior cut, so dropping it onto the existing FCP timeline via Replace from Start preserves all downstream cuts.
+- **Walked through FCP replacement flow** for the case where the Finder file already exists: drag-with-Option, Relink Files dialog accepting drag-drop, "Replace from Start" as the safe default for same-duration re-renders.
+- **Wrote a full inventory of the project's data sources** (live APIs, bundled JSON, remotion data, outreach pipeline). See "Data sources" section below for the canonical list.
+- **Drafted a side-by-side comparison of murmur vs CDT** (Aretian's Catalan Digital Twin shipping early–mid May 2026). Captured the meaningful divergences: prescriptive vs exploratory, regional EU vs municipal US, spatial-intelligence vs agent-based-modeling lineages. The complementarity framing — "CDT recommends placement, murmur simulates consequence" — is the headline.
+- **Captured the Ramon + Fanny meeting context** (2026-04-30): Aretian leadership wants to absorb murmur as an Aretian product. Saved as `project_aretian_differentiation.md` in auto-memory; the strategic implication and three-shape decision frame (independent / JV / inside) are documented in conversation history but not yet in code or docs.
+- **Outlined deal-structure shapes for Option 3** (Aretian-owned, Elijah leads): revenue/profit share, phantom equity in murmur as a business unit, equity in a murmur subsidiary, bonus pool, parent-company equity. Critical fork is enterprise-value claim (founder economics) vs operating profit share (operator economics).
 
 ## Current state
 
-- **Site**: deploys on Vercel. Pitch deck at `/pitch`.
-- **Email sending**: works. `npx tsx --env-file=.env.local scripts/send-outreach-email.ts --target <key> --to <email> [--dry-run]`
-- **Verified Resend domain**: `murmuralabs.com` only. `aretian.com` not verified; not recommended either way.
-- **Templates**: all 5 targets (curl, velasco, robinson, jimenez, zepeda) have clean, Chevron-free copy. All ~115 words, no em dashes, no bullet lists, consistent personalization pattern.
-- **Target email addresses**:
-  - `curl`: `shasa_curl@ci.richmond.ca.us` (best guess)
-  - `velasco`: `lina_velasco@ci.richmond.ca.us` (best guess)
-  - `robinson`, `jimenez`, `zepeda`: `toEmail` fields empty — need to be researched via Richmond city clerk's office (510-620-6513) or the city website
-- **Zero real outreach has been sent** to Richmond officials yet. Only test sends to `elijah@munn.studio` and `emunn@aretian.com`.
-- **Tracking**: Resend tags attached to every send; click tracking active on the signature tool URL; reply-tracking via `elijah@munn.studio`.
-- **Uncommitted work**: all this session's changes are in the working tree awaiting this commit.
+- **Working tree being committed in this handoff:**
+  - `remotion/src/compositions/LogoIntro.tsx` — Aretian-branded intro
+  - `remotion/public/aretian-logo.svg` — new asset
+  - `scripts/outreach-templates.ts` — **strategic rebrand pre-existing in working tree** (see "Key decisions" below)
+  - `.gitignore` — added `/out/` so future generated artifacts (email previews, ad-hoc cards) don't pollute commits
+- **Generated but NOT committed (now gitignored):**
+  - `out/aretian-card-1920x1080.{pdf,png,svg}` — business-card-style exports of unknown provenance (no script in repo creates them)
+  - `out/email-preview.html` — rendered preview from `outreach-templates.ts` showing the new Aretian-branded email
+  - `remotion/out/logo-intro.mp4` and other `.mp4` renders — already gitignored under `remotion/out/`
+- **Site (Next.js)**: unchanged this session. Still deploys on Vercel; still uses the `Murmura Labs / murmur` brand throughout the public copy. The site/email branding is now **inconsistent** — site says Murmura Labs, outreach emails say Aretian. Resolve before sending real outreach.
+- **Resend**: still configured for `elijah@murmuralabs.com` with reply-to `elijah@munn.studio`. The new Aretian-branded template will send from a `murmuralabs.com` address — that mismatch will read as a phishing signal to recipients and to Gmail's spam classifier. Resolve before sending.
+- **Richmond outreach: zero real sends still.** All test sends so far have gone to `elijah@munn.studio` and `emunn@aretian.com`.
 
 ## Next steps (priority order)
 
-1. **Inbox-check the test sends in `elijah@munn.studio`.** Verify inbox placement (inbox vs Promotions vs Spam), sender rendering (`Elijah Munn <elijah@murmuralabs.com>` cleanly, no `via resend.dev` banner), and click behavior on the tool URL. If anything lands in spam, warm the domain before sending to `ci.richmond.ca.us`.
-2. **Warm the `murmuralabs.com` sending domain.** Send 10–20 low-stakes emails from `elijah@murmuralabs.com` over a few days (personal notes, newsletter-style sends to friends) before cold outreach to gov inboxes. Cold domains have zero reputation with Google Workspace / gov spam filters.
-3. **Research and confirm real email addresses** for Velasco (currently best-guess), Robinson, Jimenez, Zepeda via Richmond city clerk's office (510-620-6513) or the city's official site. Update `toEmail` fields in `scripts/outreach-templates.ts`.
-4. **External copy gut-check.** Send the rewritten Curl copy to 1–2 trusted readers (civic tech friend, another founder, someone in planning) and ask *"would you reply to this?"* before any real send.
-5. **Decide on first-send sequencing.** The plan in `docs/richmond-outreach-plan.md` targets Curl + Velasco simultaneously in Week 2. Alternative: start with a lower-stakes target (Velasco) alone, gauge response, then approach Curl.
-6. **Still outstanding from the prior (2026-04-05) handoff:**
-   - Address Josh's feedback on interactive levers (parameter sliders, "draw your own scenario")
-   - Address Josh's feedback on agent simulation transparency (show-your-work per cell, or update pitch language to match the actual cell-agency response model)
-   - Legal consult on IP/non-compete per `docs/legal.md`
-   - Attend networking events per `docs/networking-sf-urban-data.md`
+1. **Decide the shape of the murmur ↔ Aretian relationship** (independent / JV / Aretian product) before any further branding moves. The outreach-templates rebrand to Aretian implies movement toward Option 2 or 3 but no formal structure exists yet. Don't send the Aretian-branded email to Richmond officials until this is decided — once an `aretian.com`-signed email lands in a city manager's inbox referencing "murmur," the branding is publicly co-mingled.
+2. **Reconcile site brand vs outreach brand.** Either: (a) revert `outreach-templates.ts` to Murmura Labs framing if staying independent, (b) rebrand the site to Aretian if absorbing, or (c) explicitly position murmur as "an Aretian product" everywhere with consistent copy. Mixed branding is the worst of all worlds and will hurt deliverability and credibility.
+3. **Independent legal read on the employment agreement and IP/non-compete.** Required to negotiate Option 2 or 3 fairly and to confirm Option 1 is even available. Not optional before any deal conversation with Ramon/Fanny.
+4. **If staying independent (Option 1):** revert the outreach template rebrand, ship the differentiation pitch as the formal posture (simulation vs recommendation, US vs EU, agents vs spatial intelligence), don't accept Aretian distribution help, intros, or co-branded assets.
+5. **If pursuing Option 2 or 3:** get the proposed structure on paper from Aretian *before* counter-proposing. Anchor opening ask: 15–25% phantom equity in murmur as a business unit (or comparable rev-share floor), with tag-along rights, IP reversion clause, and good-leaver protections. Insist on revenue/gross-margin share — not "profit" — to avoid cost-allocation games.
+6. **Verify Resend domain alignment** with whatever sender identity wins (1). If outreach goes from `@aretian.com`, that domain needs verification and warming; if from `@murmuralabs.com`, the existing setup stands.
+7. **Inbox-check test sends** of the Aretian-branded email — particularly the inline SVG signature logo, which historically gets stripped or downloaded-as-attachment by some clients.
+8. **Still outstanding from prior handoffs:**
+   - Research and confirm real email addresses for Velasco, Robinson, Jimenez, Zepeda
+   - Warm the sending domain before any cold gov outreach
+   - Address Josh's feedback on interactive levers and agent-simulation transparency
+   - Address legal items in `docs/legal.md`
 
 ## Key decisions made
 
-- **Chevron framing dropped from all outreach.** Research showed it's a grassroots justice win with active community ownership of the allocation process. Any vendor mention of `$550M` reads as opportunistic. Template references were fully scrubbed and replaced with implementation-phase / existing-work anchors per target.
-- **CSS-only styling in emails, no images/SVGs.** SVG doesn't render in Gmail or classic Outlook; hosted PNGs are blocked by default in every major client on first receipt. Plain HTML with subtle color accents preserves deliverability and personal feel. Logos/image chrome saved for warm follow-ups after a reply.
-- **`murmuralabs.com` chosen over `aretian.com` for Resend verification.** Sending outreach from `@aretian.com` would fuse murmur and Aretian identities in recipients' inboxes, create an IP/non-compete paper trail (central risk per `docs/legal.md`), and require Aretian IT cooperation (surfacing the venture). Verified `murmuralabs.com` is the clean path.
-- **CLI-driven send script, not an env-configured send.** Flags (`--target`, `--to`, `--corburn`, `--dry-run`) keep tests trivial and composable.
-- **Resend tags on every send** (`campaign=richmond-outreach-v1`, `target=<key>`) so the dashboard can segment by recipient for engagement analytics.
-- **Per-target personalization is one prose sentence**, not a bulleted scenario list. Anchors on the recipient's own stated work (public projects, stated priorities), not speculative scenario catalogs.
+- **`scripts/outreach-templates.ts` was rebranded to Aretian outside of this Claude session.** Working tree at session start already had: sender = "Eli Munn" / Aretian / "Urban analytics and design" / `aretian.com`, with an inline Aretian wordmark SVG (fill `#010029`, brand blue per `reference_aretian_brand.md`) embedded in the signature. Body copy stripped from ~115 words to ~50 words around a YouTube demo link (`https://youtu.be/67aNyscPWbM`). Personalized paragraph removed entirely. **This decision predates this session and is being committed as-is**, but it's a meaningful posture shift and should be evaluated against the murmur↔Aretian decision in step 1 above.
+- **LogoIntro composition pivots Aretian-forward.** "Murmura Labs presents" → "[Aretian wordmark] / presents". Stage 2 still says "murmur" + "urban foresight platform" — preserves the product-name reveal but reframes the parent. Consistent with outreach rebrand direction.
+- **`/out/` added to .gitignore.** Treating top-level `out/` the same way as `remotion/out/` — generated artifacts don't belong in git. Anyone regenerating cards/previews will produce them locally.
+- **Aretian logo asset sourcing.** Pulled from sibling repo `~/aretian/cdt/cdt-expansion/public/logo/`, fill swapped to espresso for linen-background use. If Aretian updates the master wordmark, port the new path data over.
 
 ## Open questions
 
-- **aretian.com verification path.** User asked about verifying it for Resend; I walked through Squarespace DNS steps but flagged strategic concerns twice. User didn't explicitly close the loop on whether they're proceeding. Default assumption: not proceeding for murmur outreach.
-- **Send order and timing.** Plan says Curl + Velasco together in Week 2; no user decision yet on whether to start from Day 1 of a fresh sequence or send sooner.
-- **Engagement monitoring script.** I offered to build `scripts/outreach-status.ts` to poll Resend events for a per-target funnel view (opens, clicks, replies). User didn't pick up.
-- **A/B testing flag.** I offered to add `--tags-extra` for future subject-line variants. User didn't pick up.
-- **Logo in signature for warm follow-ups.** I proposed adding a small hex logo PNG to the signature for the follow-up thread (after first reply, when image-blocking is no longer gating). Template for this not yet built.
-- **Josh's open product feedback.** Still unresolved from the prior session: interactive levers and simulation transparency.
+- **What does Elijah want murmur to be?** This is the upstream question to everything else. Independent founder upside (Option 1), JV/spinout with Aretian as minority stakeholder (Option 2), or Aretian-owned with Elijah leading inside (Option 3). The outreach-template rebrand suggests directional movement toward 2 or 3 but is reversible until real sends happen.
+- **Did Ramon/Fanny propose a specific structure?** Their "make it an Aretian product" was an implication, not an offer. Need to elicit a written proposal before counter-proposing.
+- **Who controls Richmond customer relationships if Aretian absorbs?** Particularly delicate because the Richmond outreach was researched and built independently; if those become Aretian accounts, they're not founder-defensible later.
+- **Is there a path where CDT and murmur are the same Aretian product family** (CDT = recommendation engine, murmur = simulation engine, sold together)? Ramon and Fanny may already have this in mind. Worth probing in the next conversation.
+- **What is Aretian's position on murmur using `aretian.com` for outreach?** The inline-logo email is being prepared but no permission has been confirmed.
+
+## Data sources reference
+
+For the next session — full inventory was compiled this turn:
+
+**Live API fetches (site):**
+- Overture Maps (`overture-maps-api.thatapicompany.com`) → buildings (`src/city/Buildings.tsx`, demo key)
+- OSM Overpass (`overpass-api.de/api/interpreter`) → roads/infra (`src/city/osm-utils.ts`, `Infrastructure.tsx`)
+- Barcelona Open Data datastore SQL → street trees, *Arbrat Viari* (`src/city/Trees.tsx`)
+- Barcelona Open Data, *carrils-bici-construccio* → bike lanes (TODO, captcha-blocked)
+
+**Bundled JSON (`public/data/`):**
+- `barcelona/{bicing-stations,bus-stops,parking-zones,traffic-violations,transit-stops}.json`
+- `perimeter/barcelona-{buildings,roads,trees}{,-1200m,-custom}.json`, `custom-perimeter{,-shrunk}.json`
+
+**Remotion:**
+- `remotion/src/data/richmond-cells.json` (1.2 MB, H3 cells via `scripts/generate-richmond-overlay.ts`)
+- `remotion/public/richmond-base.png` (basemap via `scripts/fetch-richmond-base.ts`, Mapbox)
