@@ -1,75 +1,62 @@
-# Session Handoff — 2026-05-06
+# Session Handoff — 2026-05-13
 
 ## What was done this session
 
-- **Replaced "Murmura Labs presents" with the Aretian wordmark in `LogoIntro.tsx`.** Stage 1 of the 5-second intro now shows the Aretian wordmark + "presents" caption; Stage 2 (big "murmur", "urban foresight platform", v0.1 + April 2026 pill) is unchanged.
-- **Added `remotion/public/aretian-logo.svg`** — the wordmark variant from `~/aretian/cdt/cdt-expansion/public/logo/aretian-logo-light.svg` with fills swapped from `rgb(100%, 100%, 100%)` to `#190f0a` (espresso) so it reads on the linen background. ViewBox preserved at `95 107 687 210`.
-- **Re-rendered `remotion/out/logo-intro.mp4`** (1.1 MB, 150 frames @ 30fps). Identical duration to prior cut, so dropping it onto the existing FCP timeline via Replace from Start preserves all downstream cuts.
-- **Walked through FCP replacement flow** for the case where the Finder file already exists: drag-with-Option, Relink Files dialog accepting drag-drop, "Replace from Start" as the safe default for same-duration re-renders.
-- **Wrote a full inventory of the project's data sources** (live APIs, bundled JSON, remotion data, outreach pipeline). See "Data sources" section below for the canonical list.
-- **Drafted a side-by-side comparison of murmur vs CDT** (Aretian's Catalan Digital Twin shipping early–mid May 2026). Captured the meaningful divergences: prescriptive vs exploratory, regional EU vs municipal US, spatial-intelligence vs agent-based-modeling lineages. The complementarity framing — "CDT recommends placement, murmur simulates consequence" — is the headline.
-- **Captured the Ramon + Fanny meeting context** (2026-04-30): Aretian leadership wants to absorb murmur as an Aretian product. Saved as `project_aretian_differentiation.md` in auto-memory; the strategic implication and three-shape decision frame (independent / JV / inside) are documented in conversation history but not yet in code or docs.
-- **Outlined deal-structure shapes for Option 3** (Aretian-owned, Elijah leads): revenue/profit share, phantom equity in murmur as a business unit, equity in a murmur subsidiary, bonus pool, parent-company equity. Critical fork is enterprise-value claim (founder economics) vs operating profit share (operator economics).
+- Brainstormed three video formats to showcase murmur (trailer / walkthrough / engineer explainer) — captured as `docs/video-specs.md`.
+- Mapped the VC outreach surface beyond Richmond city-government targets — captured as `docs/vc-outreach.md`.
+- Investigated Pebblebed (deep-tech VC, San Francisco) — concluded it is *not* a fit for murmur's current vertical positioning, but documented a possible "urban simulation substrate" reframe as a low-cost experiment.
+- Confirmed Urban Innovation Fund (SF, Julie Lein + Clara Brenner) as the single best-fit fund on the list — pre-seed/seed, $500K–$3.5M, explicit govtech thesis.
+- Explained pre-seed vs seed funding mechanics and the equity/dilution model to the user (foundational context, no doc artifact).
 
 ## Current state
 
-- **Working tree being committed in this handoff:**
-  - `remotion/src/compositions/LogoIntro.tsx` — Aretian-branded intro
-  - `remotion/public/aretian-logo.svg` — new asset
-  - `scripts/outreach-templates.ts` — **strategic rebrand pre-existing in working tree** (see "Key decisions" below)
-  - `.gitignore` — added `/out/` so future generated artifacts (email previews, ad-hoc cards) don't pollute commits
-- **Generated but NOT committed (now gitignored):**
-  - `out/aretian-card-1920x1080.{pdf,png,svg}` — business-card-style exports of unknown provenance (no script in repo creates them)
-  - `out/email-preview.html` — rendered preview from `outreach-templates.ts` showing the new Aretian-branded email
-  - `remotion/out/logo-intro.mp4` and other `.mp4` renders — already gitignored under `remotion/out/`
-- **Site (Next.js)**: unchanged this session. Still deploys on Vercel; still uses the `Murmura Labs / murmur` brand throughout the public copy. The site/email branding is now **inconsistent** — site says Murmura Labs, outreach emails say Aretian. Resolve before sending real outreach.
-- **Resend**: still configured for `elijah@murmuralabs.com` with reply-to `elijah@munn.studio`. The new Aretian-branded template will send from a `murmuralabs.com` address — that mismatch will read as a phishing signal to recipients and to Gmail's spam classifier. Resolve before sending.
-- **Richmond outreach: zero real sends still.** All test sends so far have gone to `elijah@munn.studio` and `emunn@aretian.com`.
+**Docs added/modified this session:**
+- `docs/video-specs.md` — NEW. Three video specs with production cost / audience / distribution.
+- `docs/vc-outreach.md` — NEW. Three-tier VC list + grants + adjacent operators + sequencing plan.
+- `docs/launch-video-script.md` — MODIFIED (small VO tweaks, pre-existing in working tree). Serves as the spec for video #2.
+
+**Untracked, NOT committed in this handoff:**
+- `app/logo-lab/page.tsx` — exploratory logo design page from prior session.
+- `public/logo-variations/v01-prism.svg` through `v10-prism-comb.svg` — logo SVG variants.
+- `.env` — secrets, never commit.
+
+These were left untracked because they're unrelated to this session's scope. Decide separately whether to commit, gitignore, or delete.
+
+**Production status of the videos themselves:**
+- Trailer (1min): NOT started. Assets exist (`RichmondMap.mp4`, `WhatIsMurmur.mp4`, `Murmuration.mp4`) — needs re-cut + music + title cards.
+- Walkthrough (2:30): scenes done, awaiting SF B-roll capture, on-camera intro, two live demo screen recordings.
+- Engineer explainer (5–10min): NOT started. Format decision pending (recommended: whiteboard + code, Karpathy-style).
+
+**Larger murmur ↔ Aretian context (carried from 2026-05-06 handoff):**
+- Outreach templates were rebranded to Aretian; site still says Murmura Labs. Mixed branding unresolved.
+- Three-shape decision (independent / JV / Aretian product) still open. Affects how VCs in `docs/vc-outreach.md` should even be approached — if murmur becomes an Aretian product, the VC plan is moot.
 
 ## Next steps (priority order)
 
-1. **Decide the shape of the murmur ↔ Aretian relationship** (independent / JV / Aretian product) before any further branding moves. The outreach-templates rebrand to Aretian implies movement toward Option 2 or 3 but no formal structure exists yet. Don't send the Aretian-branded email to Richmond officials until this is decided — once an `aretian.com`-signed email lands in a city manager's inbox referencing "murmur," the branding is publicly co-mingled.
-2. **Reconcile site brand vs outreach brand.** Either: (a) revert `outreach-templates.ts` to Murmura Labs framing if staying independent, (b) rebrand the site to Aretian if absorbing, or (c) explicitly position murmur as "an Aretian product" everywhere with consistent copy. Mixed branding is the worst of all worlds and will hurt deliverability and credibility.
-3. **Independent legal read on the employment agreement and IP/non-compete.** Required to negotiate Option 2 or 3 fairly and to confirm Option 1 is even available. Not optional before any deal conversation with Ramon/Fanny.
-4. **If staying independent (Option 1):** revert the outreach template rebrand, ship the differentiation pitch as the formal posture (simulation vs recommendation, US vs EU, agents vs spatial intelligence), don't accept Aretian distribution help, intros, or co-branded assets.
-5. **If pursuing Option 2 or 3:** get the proposed structure on paper from Aretian *before* counter-proposing. Anchor opening ask: 15–25% phantom equity in murmur as a business unit (or comparable rev-share floor), with tag-along rights, IP reversion clause, and good-leaver protections. Insist on revenue/gross-margin share — not "profit" — to avoid cost-allocation games.
-6. **Verify Resend domain alignment** with whatever sender identity wins (1). If outreach goes from `@aretian.com`, that domain needs verification and warming; if from `@murmuralabs.com`, the existing setup stands.
-7. **Inbox-check test sends** of the Aretian-branded email — particularly the inline SVG signature logo, which historically gets stripped or downloaded-as-attachment by some clients.
-8. **Still outstanding from prior handoffs:**
-   - Research and confirm real email addresses for Velasco, Robinson, Jimenez, Zepeda
-   - Warm the sending domain before any cold gov outreach
-   - Address Josh's feedback on interactive levers and agent-simulation transparency
-   - Address legal items in `docs/legal.md`
+1. **Resolve murmur ↔ Aretian shape first.** From the prior handoff, still unresolved. If murmur becomes an Aretian product, the VC outreach plan in `docs/vc-outreach.md` is irrelevant and should be archived. Don't send to VCs until this is decided.
+2. **Decide VC positioning** (assuming staying independent) — vertical govtech (A) vs platform simulation (B). See `docs/vc-outreach.md` "The framing decision." Blocks all outreach copy.
+3. **Cut the 1min trailer.** Cheapest unlock — assets exist, mostly re-cut + music. Days, not weeks. Required for every outreach lane (VC, accelerator, city pilot).
+4. **Send Tier 1 VC batch in one week** — UIF first (local + best fit), then Urban.us, Govtech Fund, Bloomberg Beta, Equal Ventures. See `docs/vc-outreach.md` "Sequencing."
+5. **Capture remaining walkthrough footage** — SF B-roll, on-camera intro, two live demo recordings (pre-bake Macdonald + Iron Triangle scenarios first).
+6. **Apply for one non-dilutive grant in parallel** — NSF SBIR Phase I or Knight Foundation. Long lead time, start now.
+7. **One Pebblebed experiment** — single paragraph with platform reframe, attach trailer. Treat response as positioning data, not a verdict.
+8. **Two warm-intro requests to adjacent operators** — Replica or Tolemi alumni. One conversation reshapes the pitch faster than VC rejection feedback.
+9. **Defer the engineer video** — do not produce until trailer + walkthrough are generating technical-due-diligence requests.
 
 ## Key decisions made
 
-- **`scripts/outreach-templates.ts` was rebranded to Aretian outside of this Claude session.** Working tree at session start already had: sender = "Eli Munn" / Aretian / "Urban analytics and design" / `aretian.com`, with an inline Aretian wordmark SVG (fill `#010029`, brand blue per `reference_aretian_brand.md`) embedded in the signature. Body copy stripped from ~115 words to ~50 words around a YouTube demo link (`https://youtu.be/67aNyscPWbM`). Personalized paragraph removed entirely. **This decision predates this session and is being committed as-is**, but it's a meaningful posture shift and should be evaluated against the murmur↔Aretian decision in step 1 above.
-- **LogoIntro composition pivots Aretian-forward.** "Murmura Labs presents" → "[Aretian wordmark] / presents". Stage 2 still says "murmur" + "urban foresight platform" — preserves the product-name reveal but reframes the parent. Consistent with outreach rebrand direction.
-- **`/out/` added to .gitignore.** Treating top-level `out/` the same way as `remotion/out/` — generated artifacts don't belong in git. Anyone regenerating cards/previews will produce them locally.
-- **Aretian logo asset sourcing.** Pulled from sibling repo `~/aretian/cdt/cdt-expansion/public/logo/`, fill swapped to espresso for linen-background use. If Aretian updates the master wordmark, port the new path data over.
+- **Three video tiers, not three videos with similar weight.** Trailer is cheap and high-leverage. Walkthrough is medium effort and the closer. Engineer video is 5–10× the cost and only justified if the first two pull technical interest.
+- **All three videos share the same `LogoIntro.mp4` opener** for brand consistency regardless of entry point.
+- **Pebblebed is a Tier 3 experiment, not a default target.** Wrong thesis fit unless murmur reframes as a platform.
+- **City pilots and grants run in parallel with VC outreach,** not after. A Richmond pilot is non-dilutive runway and a credibility multiplier for any subsequent raise.
+- **Vertical positioning (A) is the default.** The platform reframe (B) is a different company, not a different deck — only commit to it if the founder believes the platform play is the bigger business.
 
 ## Open questions
 
-- **What does Elijah want murmur to be?** This is the upstream question to everything else. Independent founder upside (Option 1), JV/spinout with Aretian as minority stakeholder (Option 2), or Aretian-owned with Elijah leading inside (Option 3). The outreach-template rebrand suggests directional movement toward 2 or 3 but is reversible until real sends happen.
-- **Did Ramon/Fanny propose a specific structure?** Their "make it an Aretian product" was an implication, not an offer. Need to elicit a written proposal before counter-proposing.
-- **Who controls Richmond customer relationships if Aretian absorbs?** Particularly delicate because the Richmond outreach was researched and built independently; if those become Aretian accounts, they're not founder-defensible later.
-- **Is there a path where CDT and murmur are the same Aretian product family** (CDT = recommendation engine, murmur = simulation engine, sold together)? Ramon and Fanny may already have this in mind. Worth probing in the next conversation.
-- **What is Aretian's position on murmur using `aretian.com` for outreach?** The inline-logo email is being prepared but no permission has been confirmed.
-
-## Data sources reference
-
-For the next session — full inventory was compiled this turn:
-
-**Live API fetches (site):**
-- Overture Maps (`overture-maps-api.thatapicompany.com`) → buildings (`src/city/Buildings.tsx`, demo key)
-- OSM Overpass (`overpass-api.de/api/interpreter`) → roads/infra (`src/city/osm-utils.ts`, `Infrastructure.tsx`)
-- Barcelona Open Data datastore SQL → street trees, *Arbrat Viari* (`src/city/Trees.tsx`)
-- Barcelona Open Data, *carrils-bici-construccio* → bike lanes (TODO, captcha-blocked)
-
-**Bundled JSON (`public/data/`):**
-- `barcelona/{bicing-stations,bus-stops,parking-zones,traffic-violations,transit-stops}.json`
-- `perimeter/barcelona-{buildings,roads,trees}{,-1200m,-custom}.json`, `custom-perimeter{,-shrunk}.json`
-
-**Remotion:**
-- `remotion/src/data/richmond-cells.json` (1.2 MB, H3 cells via `scripts/generate-richmond-overlay.ts`)
-- `remotion/public/richmond-base.png` (basemap via `scripts/fetch-richmond-base.ts`, Mapbox)
+- **murmur ↔ Aretian shape still unresolved** (carried from 2026-05-06). Upstream to everything in this handoff.
+- Which VC positioning — vertical govtech or platform substrate? Blocks Tier 1 outreach copy.
+- Music license budget for the trailer? Affects custom score vs library (Musicbed / Artlist) vs original.
+- Founder willing to go on-camera for the walkthrough? VO-only is an alternative.
+- Is Richmond willing to be a *public* reference customer or only a quiet pilot? Affects walkthrough + case study aggressiveness.
+- Engineer-video production budget — Option A (talking head, ~$0), B (whiteboard, ~$500 setup), C (full Remotion, ~2 weeks)? Pick before scheduling.
+- Should `app/logo-lab/` and `public/logo-variations/` be committed, gitignored, or deleted?

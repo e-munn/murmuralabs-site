@@ -34,7 +34,7 @@
 
 **VO**
 
-> Think of your city as a collection of policy makers acting on residents' interests. Here's how it works.
+> Think of your city as a collection of policy makers acting on residents' interests. Each with the ability to respond to potential scenarios. Here's how it works.
 
 ---
 
@@ -44,7 +44,7 @@
 
 **VO** — sync to layer phases
 
-> _(parcel layer)_ We assign as much data as possible to every cell. _(block layer)_ Then we run economic complexity models to surface how those cells interact. _(agent layer)_ Those interactions become priorities for each agent to respond accurately to changing scenarios.
+> _(parcel layer)_ We assign as much data as possible to every cell. _(block layer)_ Then we layer geospatial analysis, network science, and economic complexity models on top to surface how those cells interact. _(agent layer)_ Those interactions become priorities for each agent to respond accurately to changing scenarios.
 
 ---
 
@@ -62,7 +62,7 @@
 
 **VO**
 
-> Here's a real one. Richmond wants to redesign Macdonald Avenue — protected bike lanes, transit priority, pedestrian crossings. Most decks would show you a rendering. murmur shows you what the _city_ does in response. Pedestrian access climbs along the corridor. Local retail revenue shifts toward the south end. Air quality improves on these blocks. And — watch this — displacement risk ticks up two streets over. Every change ripples, and you can see exactly where.
+> From this, we can build a tool that lets you see what might happen given a scenario. Say we improve the main street in Richmond, California — Macdonald Avenue. The tool shows that these cells along the corridor will gain pedestrian access. These blocks will see air quality lift. These retailers on the south end will pick up revenue. And — watch this — these cells two streets east will show rising displacement pressure. Every change ripples. You see which cells respond, and how — before anyone breaks ground.
 
 ---
 
@@ -100,7 +100,7 @@
 
 **VO**
 
-> murmur comes out of the complexity economics tradition — Santa Fe Institute, agent-based modeling, cities as emergent systems. v0.1 ships in Richmond. Next, every coastal city facing the same fights at once. If this is your work — find me.
+> murmur comes from the word murmuration. We want to think of cities as emergent systems, with complex behaviors that arise from countless small interactions — no single agent in charge. v0.1 ships in Richmond. Next, every coastal city facing the same fights at once. If this is your work — find me.
 
 ---
 
