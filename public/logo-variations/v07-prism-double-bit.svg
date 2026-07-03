@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -50 160 100" width="320" height="200">
+  <defs>
+    <linearGradient id="ga7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
+    <linearGradient id="gb7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#ec4899"/></linearGradient>
+  </defs>
+  <path d="M0 -44 L38 -22 L38 22 L0 44 L-38 22 L-38 -22 Z" fill="url(#ga7)" opacity="0.35"/>
+  <path d="M0 -28 L24 -14 L24 14 L0 28 L-24 14 L-24 -14 Z" fill="url(#gb7)" opacity="0.6"/>
+  <circle cx="0" cy="0" r="8" fill="url(#ga7)"/>
+  <!-- shaft with teeth on top AND bottom -->
+  <rect x="38" y="-5" width="58" height="10" fill="url(#ga7)"/>
+  <rect x="62" y="-21" width="8" height="16" fill="url(#ga7)"/>
+  <rect x="80" y="-25" width="8" height="20" fill="url(#ga7)"/>
+  <rect x="62" y="5" width="8" height="16" fill="url(#ga7)"/>
+  <rect x="80" y="5" width="8" height="20" fill="url(#ga7)"/>
+</svg>

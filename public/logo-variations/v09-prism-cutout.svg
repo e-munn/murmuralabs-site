@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -50 160 100" width="320" height="200">
+  <defs>
+    <linearGradient id="ga9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
+    <linearGradient id="gb9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#ec4899"/></linearGradient>
+  </defs>
+  <path d="M0 -44 L38 -22 L38 22 L0 44 L-38 22 L-38 -22 Z" fill="url(#ga9)" opacity="0.35"/>
+  <path d="M0 -28 L24 -14 L24 14 L0 28 L-24 14 L-24 -14 Z" fill="url(#gb9)" opacity="0.6"/>
+  <circle cx="0" cy="0" r="8" fill="#f5f1ea"/>
+  <circle cx="0" cy="0" r="3" fill="url(#ga9)"/>
+  <!-- key shaft as a single tooth profile shape -->
+  <path d="M38 -7 L96 -7 L96 21 L88 21 L88 7 L78 7 L78 17 L70 17 L70 7 L38 7 Z" fill="url(#ga9)"/>
+</svg>
