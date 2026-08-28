@@ -32,3 +32,8 @@ remotion/.env
 
 # Generated artifacts (email previews, business cards, ad-hoc exports)
 /out/
+
+# never commit local env files (this repo is public)
+.env
+.env.local
+.env*.local
