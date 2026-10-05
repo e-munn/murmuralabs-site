@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense, type ReactNode } from 'react'
 import { Menu, X, Users, HeartPulse, Home, Leaf, Footprints, Coins } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { motion } from 'motion/react'
 
 // Register ldrs web component lazily (only used for a small nav animation)
 if (typeof window !== 'undefined') {
@@ -27,6 +28,7 @@ function hexPoints(cx: number, cy: number, r: number, rot = 0): string {
 }
 
 const NAV_LINKS = [
+  { label: 'Projects', href: '/#projects' },
   { label: 'Platform', href: '#platform' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
@@ -257,24 +259,6 @@ function usePreserveScrollOnResize() {
   }, [])
 }
 
-function useHideOnScroll() {
-  const [visible, setVisible] = useState(true)
-  const lastY = useRef(0)
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY
-      // Show when near top (first section) or scrolling up
-      setVisible(y < 100 || y < lastY.current)
-      lastY.current = y
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  return visible
-}
-
 function useIsMobile() {
   const [mobile, setMobile] = useState(false)
   useEffect(() => {
@@ -287,145 +271,9 @@ function useIsMobile() {
   return mobile
 }
 
-export default function App() {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const mobileMenuRef = useRef<HTMLDivElement>(null)
-  const navVisible = useHideOnScroll()
-  usePreserveScrollOnResize()
+export function MurmurSections() {
   const isMobile = useIsMobile()
-
-  useEffect(() => {
-    if (!mobileOpen) return
-    function handleClickOutside(e: MouseEvent) {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
-        setMobileOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [mobileOpen])
-
-  return (
-    <div className="min-h-screen bg-linen text-walnut">
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-espresso focus:text-linen focus:px-4 focus:py-2 focus:rounded-lg"
-      >
-        Skip to main content
-      </a>
-      {/* Nav — minimal, floating */}
-      <nav
-        ref={mobileMenuRef}
-        className="fixed top-4 inset-x-4 z-50 bg-linen/60 backdrop-blur-xl rounded-2xl border border-sand/20 transition-transform duration-300 ease-in-out"
-        style={{ transform: navVisible ? 'translateY(0)' : 'translateY(calc(-100% - 2rem))' }}
-      >
-        <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-2.5" aria-label="Murmura Labs home">
-            <svg viewBox="-60 -60 120 120" className="w-8 h-8 text-espresso" aria-hidden="true">
-              <polygon points={hexPoints(0, 0, 48, -AP7_ROT * 2)} fill="currentColor" stroke="none" opacity="0.08" />
-              <polygon points={hexPoints(0, 0, 48 * 0.85, -AP7_ROT)} fill="currentColor" stroke="none" opacity="0.2" />
-              <polygon points={hexPoints(0, 0, 48 * 0.85 * 0.85, 0)} fill="currentColor" stroke="currentColor" strokeWidth="1" opacity="0.6" />
-            </svg>
-            <span className="font-display font-bold text-espresso tracking-[0.22em] lowercase text-lg">murmura labs</span>
-          </a>
-
-          {/* Desktop nav */}
-          <div className="hidden sm:flex items-center gap-10">
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm text-driftwood hover:text-espresso transition-colors duration-300"
-              >
-                {l.label}
-              </a>
-            ))}
-            <a
-              href="https://murmur.murmuralabs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center gap-2"
-            >
-              {/* @ts-ignore */}
-              <l-ping size="14" speed="2" color="#FAF0E6" />
-              Open murmur
-            </a>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="sm:hidden flex items-center justify-center w-9 h-9 rounded-xl text-driftwood hover:text-espresso hover:bg-sand/20 transition-colors duration-200"
-            aria-label="Navigation menu"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-nav"
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-
-        {/* Mobile dropdown */}
-        {mobileOpen && (
-          <div
-            id="mobile-nav"
-            className="sm:hidden border-t border-sand/20 px-6 py-4 flex flex-col gap-1"
-          >
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="font-mono text-sm text-driftwood hover:text-espresso py-2.5 transition-colors duration-200"
-                onClick={() => setMobileOpen(false)}
-              >
-                {l.label}
-              </a>
-            ))}
-            <a
-              href="https://murmur.murmuralabs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center justify-center gap-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              {/* @ts-ignore */}
-              <l-ping size="14" speed="2" color="#FAF0E6" />
-              Open murmur
-            </a>
-          </div>
-        )}
-      </nav>
-
-      <main id="main-content">
-      {/* Hero — full viewport, cinematic */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden">
-        <HexGridBackground delay={500} />
-        <div className="text-center max-w-5xl mx-auto animate-fade-in relative z-10">
-          <p className="font-display font-bold text-sm text-driftwood tracking-[0.22em] lowercase mb-6">
-            murmura labs presents
-          </p>
-          <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-espresso lowercase leading-none mb-4 tracking-[0.22em]">
-            murmur
-            <span className="sr-only"> — urban foresight platform by Murmura Labs</span>
-          </h1>
-          <p className="text-lg sm:text-xl tracking-[0.15em] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
-            <TypeWriter text="urban foresight platform" speed={60} delay={800} className="text-driftwood" />
-          </p>
-          <div className="flex items-center justify-center gap-3 mt-5">
-            <span className="inline-flex items-center gap-1.5 font-mono text-xs bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 px-2.5 py-1 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              v0.1
-            </span>
-            <span className="font-mono text-xs text-driftwood/50">April 2026</span>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-          <div className="w-px h-12 bg-gradient-to-b from-transparent to-sand/60" />
-        </div>
-      </section>
-
-      {/* What is murmur — full dark manifesto section like lila.ai */}
+  return <>      {/* What is murmur — full dark manifesto section like lila.ai */}
       <section className="py-32 px-8 bg-espresso text-linen relative overflow-hidden">
         {!isMobile && <Suspense fallback={null}><HexNetwork className="opacity-25" dark /></Suspense>}
         <div className="max-w-7xl mx-auto relative z-10">
@@ -436,7 +284,7 @@ export default function App() {
 
           <div className="mb-10 max-w-4xl">
             <SplitText
-              text="neighborhoods act"
+              text="neighborhood conditions"
               className="font-bold text-4xl sm:text-5xl lg:text-6xl text-linen leading-[1.15]"
               tag="h2"
               splitType="words"
@@ -447,7 +295,7 @@ export default function App() {
             />
             {' '}
             <SplitText
-              text="on behalf of their residents."
+              text="shape different responses."
               className="font-bold text-4xl sm:text-5xl lg:text-6xl text-sand leading-[1.15]"
               tag="span"
               splitType="words"
@@ -460,7 +308,7 @@ export default function App() {
 
           <div className="max-w-4xl mb-10">
             <SplitText
-              text="Equipped with 100+ metrics spanning demographics, health, housing, environment, mobility, and equity, each policy agent responds to proposed scenarios with their residents' interests at the center."
+              text="Equipped with 100+ metrics spanning demographics, health, housing, environment, mobility, and equity, the model explores how neighborhood conditions shape responses to proposed scenarios. These are modeled estimates, not observed effects or the voices of actual residents."
               className="text-2xl sm:text-3xl lg:text-4xl text-linen/90 leading-[1.3] font-light"
               tag="p"
               splitType="words"
@@ -532,19 +380,16 @@ export default function App() {
         <div className="max-w-7xl mx-auto grid sm:grid-cols-2 gap-16 items-center">
           {/* Left — text */}
           <div>
-            <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Collaborate</p>
+            <p className="font-mono text-xs text-sand tracking-[0.3em] uppercase mb-4">Research direction</p>
             <h2 className="font-bold text-4xl sm:text-5xl text-linen leading-tight mb-8">
               Fork a scenario.
               <br />Compare futures.
             </h2>
             <p className="text-base text-sand leading-relaxed mb-6">
-              Every team starts from the same living baseline &mdash; a shared, always-current
-              model of your city. When you want to test an idea, fork a scenario and
-              explore it independently.
+              The long-term goal is a shared baseline with independent scenarios, so teams can explore an idea and compare its assumptions with other proposals.
             </p>
             <p className="text-base text-sand leading-relaxed">
-              Compare branches side by side. Merge the best outcomes back. City planning
-              as version control.
+              This collaboration workflow is a development direction. Data freshness and coverage depend on the underlying sources.
             </p>
           </div>
           {/* Right — branch visual */}
@@ -585,12 +430,166 @@ export default function App() {
       </section>
 
 
+</>
+}
+
+export function SiteNav({ links = NAV_LINKS, projectRow }: {
+  links?: { label: string; href: string }[]
+  projectRow?: ReactNode
+}) {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    function handleClickOutside(e: MouseEvent) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
+        setMobileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [mobileOpen])
+
+  return (
+      <motion.nav
+        layoutRoot
+        id="site-navigation"
+        aria-label="Main navigation"
+        ref={mobileMenuRef}
+        className="fixed top-4 inset-x-4 z-50 bg-linen/65 backdrop-blur-2xl rounded-2xl border border-sand/20"
+      >
+        <div id="site-navigation-main" className="w-full px-4 lg:px-5 h-16 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2.5" aria-label="Murmura Labs home">
+            <svg viewBox="-60 -60 120 120" className="w-8 h-8 text-espresso" aria-hidden="true">
+              <polygon points={hexPoints(0, 0, 48, -AP7_ROT * 2)} fill="currentColor" stroke="none" opacity="0.08" />
+              <polygon points={hexPoints(0, 0, 48 * 0.85, -AP7_ROT)} fill="currentColor" stroke="none" opacity="0.2" />
+              <polygon points={hexPoints(0, 0, 48 * 0.85 * 0.85, 0)} fill="currentColor" stroke="currentColor" strokeWidth="1" opacity="0.6" />
+            </svg>
+            <span className="font-display font-bold text-espresso tracking-[0.22em] lowercase text-lg">murmura labs</span>
+          </a>
+
+          {/* Desktop nav */}
+          <div className="hidden lg:flex items-center gap-10">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-sm text-driftwood hover:text-espresso transition-colors duration-300"
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="https://murmur.murmuralabs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center gap-2"
+            >
+              {/* @ts-ignore */}
+              <l-ping size="14" speed="2" color="#FAF0E6" />
+              Open murmur
+            </a>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl text-driftwood hover:text-espresso hover:bg-sand/20 transition-colors duration-200"
+            aria-label="Navigation menu"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        {/* Mobile dropdown */}
+        {mobileOpen && (
+          <div
+            id="mobile-nav"
+            className="lg:hidden border-t border-sand/20 px-6 py-4 flex flex-col gap-1"
+          >
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="font-mono text-sm text-driftwood hover:text-espresso py-2.5 transition-colors duration-200"
+                onClick={() => setMobileOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="https://murmur.murmuralabs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 text-sm font-medium bg-espresso text-linen px-5 py-2.5 rounded-full hover:bg-walnut transition-colors duration-300 inline-flex items-center justify-center gap-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              {/* @ts-ignore */}
+              <l-ping size="14" speed="2" color="#FAF0E6" />
+              Open murmur
+            </a>
+          </div>
+        )}
+        {projectRow && <div className="border-t border-sand/20 rounded-b-2xl" onClick={() => setMobileOpen(false)}>{projectRow}</div>}
+      </motion.nav>
+  )
+}
+
+export default function App() {
+  usePreserveScrollOnResize()
+  const isMobile = useIsMobile()
+
+  return (
+    <div className="min-h-screen bg-linen text-walnut">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-espresso focus:text-linen focus:px-4 focus:py-2 focus:rounded-lg"
+      >
+        Skip to main content
+      </a>
+      <SiteNav />
+
+      <main id="main-content">
+      {/* Hero — full viewport, cinematic */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden">
+        <HexGridBackground delay={500} />
+        <div className="text-center max-w-5xl mx-auto animate-fade-in relative z-10">
+          <p className="font-display font-bold text-sm text-driftwood tracking-[0.22em] lowercase mb-6">
+            murmura labs presents
+          </p>
+          <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-espresso lowercase leading-none mb-4 tracking-[0.22em]">
+            murmur
+            <span className="sr-only"> — urban foresight platform by Murmura Labs</span>
+          </h1>
+          <p className="text-lg sm:text-xl tracking-[0.15em] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
+            <TypeWriter text="urban foresight platform" speed={60} delay={800} className="text-driftwood" />
+          </p>
+          <div className="flex items-center justify-center gap-3 mt-5">
+            <span className="inline-flex items-center gap-1.5 font-mono text-xs bg-emerald-500/15 text-emerald-700 border border-emerald-500/30 px-2.5 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              v0.2
+            </span>
+            <span className="font-mono text-xs text-driftwood/50">October 2026</span>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-px h-12 bg-gradient-to-b from-transparent to-sand/60" />
+        </div>
+      </section>
+
+      <MurmurSections />
+
       {/* About */}
       <section id="about" className="py-48 px-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-xs text-driftwood tracking-[0.3em] uppercase mb-4">About</p>
           <h2 className="font-bold text-4xl sm:text-5xl text-espresso mb-8 leading-tight">
-            Built by urban scientists
+            A project by Murmura Labs
           </h2>
           <p className="text-lg text-driftwood leading-relaxed max-w-2xl mx-auto mb-6">
             Murmura Labs builds decision tools for cities — powered by the latest in
@@ -623,7 +622,7 @@ export default function App() {
               Let's model your city
             </h2>
             <p className="text-lg text-sand leading-relaxed mb-12">
-              Based in San Francisco and working with cities across the Bay Area and beyond. Find out how murmur can help your city.
+              Built in San Francisco. Get in touch to discuss a research collaboration or a focused pilot for your city.
             </p>
             <div className="flex flex-col sm:flex-row gap-5">
               <a

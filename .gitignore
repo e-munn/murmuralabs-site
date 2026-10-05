@@ -37,3 +37,7 @@ remotion/.env
 .env
 .env.local
 .env*.local
+
+# Generated TypeScript cache and local-only career planning
+*.tsbuildinfo
+/docs/job-first-plan.md

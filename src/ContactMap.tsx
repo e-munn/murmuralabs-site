@@ -8,7 +8,7 @@ const DOLORES: [number, number] = [-122.42669625703857, 37.76505161652456]
 
 export default function ContactMap() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const mapRef = useRef<mapboxgl.Map | null>(null)
+  const mapRef = useRef<InstanceType<typeof mapboxgl.Map> | null>(null)
   const frameRef = useRef<number>(0)
 
   useEffect(() => {

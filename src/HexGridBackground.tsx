@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 // Presets: [shade label, orange RGB, red RGB, layer1 max alpha, layer2 max alpha]
 const PRESETS: { label: string; orange: [number, number, number]; red: [number, number, number]; a1: number; a2: number }[] = [
   { label: '1: 300 light, low alpha',    orange: [253, 186, 116], red: [252, 165, 165], a1: 0.08, a2: 0.03 },
-  { label: '2: 300 light, med alpha',    orange: [253, 186, 116], red: [252, 165, 165], a1: 0.15, a2: 0.06 },
+  { label: '2: 300 light, med alpha',    orange: [253, 186, 116], red: [252, 165, 165], a1: 0.21, a2: 0.08 },
   { label: '3: 300 light, high alpha',   orange: [253, 186, 116], red: [252, 165, 165], a1: 0.25, a2: 0.10 },
   { label: '4: 400 mid, low alpha',      orange: [251, 146, 60],  red: [248, 113, 113], a1: 0.06, a2: 0.025 },
   { label: '5: 400 mid, med alpha',      orange: [251, 146, 60],  red: [248, 113, 113], a1: 0.12, a2: 0.04 },
@@ -86,6 +86,7 @@ function insideHex(px: number, py: number, cx: number, cy: number, r: number, ro
 // Wandering flock attractors — each traces a Lissajous-like path
 const FLOCK_COUNT = 5
 const FLOCK_RADIUS = 180
+const FLOW_SPEED = 1.8
 
 function flockCenter(i: number, t: number, W: number, H: number): [number, number] {
   const fx = 0.13 + i * 0.07
@@ -239,7 +240,7 @@ export default function HexGridBackground({ className = '', dark = false, delay 
     let t0: number | null = null
     const loop = (ts: number) => {
       if (t0 === null) t0 = ts
-      const t = (ts - t0) / 1000
+      const t = ((ts - t0) / 1000) * FLOW_SPEED
       const ox = W / 2
       const oy = H / 2
 

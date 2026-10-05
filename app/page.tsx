@@ -1,2 +1,1 @@
-'use client'
-export { default } from '@/App'
+export { default } from '@/LabsHome'
