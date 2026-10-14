@@ -7,17 +7,19 @@ import { useReducedMotion, type MotionValue } from 'motion/react'
 import { CatmullRomCurve3, Matrix4, Vector3 } from 'three'
 import railData from './ground-data/noeRail.json'
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
+import { loadSplatBlob } from './ground/loadSplat'
 
 // Matches the existing Ground Reconstruction scene. The quaternion includes
 // Rx(180°) to cancel drei Splat's coordinate flip before horizon alignment.
 const ALIGN: [number, number, number, number] = [0.003436214256554722, 0.8673006391958621, -0.0034027016463509738, 0.4977612030919425]
 const SRC = '/ground/noe-14th-15th-render.splat'
 
-class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+class SceneBoundary extends Component<{ children: ReactNode; onRetry: () => void }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() { return { failed: true } }
+  componentDidCatch(error: Error) { console.error('[Ground preview]', error) }
   render() {
-    return this.state.failed ? <div className="h-full flex flex-col items-center justify-center gap-4 px-8 text-center text-walnut"><p>The 3D preview could not load on this device.</p><a className="underline" href="https://district.murmuralabs.com" target="_blank" rel="noopener noreferrer">Open the Ground viewer ↗</a></div> : this.props.children
+    return this.state.failed ? <div className="h-full flex flex-col items-center justify-center gap-4 px-8 text-center text-walnut"><p>The 3D preview could not start.</p><button className="underline" onClick={this.props.onRetry}>Try again</button><a className="underline" href="https://district.murmuralabs.com" target="_blank" rel="noopener noreferrer">Open the Ground viewer ↗</a></div> : this.props.children
   }
 }
 
@@ -61,7 +63,7 @@ function CaptureCamera({ progress, reduced }: { progress: MotionValue<number>; r
   return null
 }
 
-function Scene({ rotate, step, onInteract }: { rotate: boolean; step: number; onInteract: () => void }) {
+function Scene({ src, rotate, step, onInteract }: { src: string; rotate: boolean; step: number; onInteract: () => void }) {
   const controls = useRef<OrbitControlsImpl>(null)
   const { camera } = useThree()
   useEffect(() => {
@@ -72,7 +74,7 @@ function Scene({ rotate, step, onInteract }: { rotate: boolean; step: number; on
   }, [camera, step])
   return <>
     <Suspense fallback={<Html center><p className="whitespace-nowrap text-sm text-walnut bg-linen/90 rounded-full px-5 py-3">Loading Noe Street…</p></Html>}>
-      <group position={[0, 6, 5]} scale={5} quaternion={ALIGN}><Splat src={SRC} /></group>
+      <group position={[0, 6, 5]} scale={5} quaternion={ALIGN}><Splat src={src} /></group>
     </Suspense>
     <OrbitControls ref={controls} target={[0, 6, 5]} autoRotate={rotate} autoRotateSpeed={0.45} enableZoom={false} enablePan={false} minPolarAngle={0.2} maxPolarAngle={Math.PI / 2.05} onStart={onInteract} />
   </>
@@ -85,18 +87,41 @@ export default function GroundSplat({ visible, progress }: { visible: boolean; p
   const [step, setStep] = useState(0)
   const [pageVisible, setPageVisible] = useState(true)
   const [contextLost, setContextLost] = useState(false)
+  const [attempt, setAttempt] = useState(0)
+  const [asset, setAsset] = useState<{ src: string; error: string | null }>({ src: '', error: null })
+  useEffect(() => {
+    const controller = new AbortController()
+    let objectUrl = ''
+    setAsset({ src: '', error: null })
+    loadSplatBlob(SRC, controller.signal).then(blob => {
+      if (controller.signal.aborted) return
+      objectUrl = URL.createObjectURL(blob)
+      setAsset({ src: objectUrl, error: null })
+    }).catch(error => {
+      if (!controller.signal.aborted) setAsset({ src: '', error: error instanceof Error ? error.message : 'The street capture could not download.' })
+    })
+    return () => {
+      controller.abort()
+      if (objectUrl) URL.revokeObjectURL(objectUrl)
+    }
+  }, [attempt])
+  const retry = () => { setContextLost(false); setAsset({ src: '', error: null }); setAttempt(value => value + 1) }
   useEffect(() => {
     const update = () => setPageVisible(!document.hidden)
     document.addEventListener('visibilitychange', update)
     return () => document.removeEventListener('visibilitychange', update)
   }, [])
   const rotate = !paused && !reduced && visible && pageVisible
+  if (!asset.src) return <div className="h-full flex flex-col items-center justify-center gap-4 px-8 text-center text-walnut" role="status">
+    <p>{asset.error || 'Downloading Noe Street reconstruction…'}</p>
+    {asset.error ? <button className="underline" onClick={retry}>Try again</button> : <p className="text-sm">49 MiB street capture · preparing the 3D preview</p>}
+  </div>
   return <>
-    <SceneBoundary>
+    <SceneBoundary key={attempt} onRetry={retry}>
       {contextLost ? <div className="h-full flex items-center justify-center px-8 text-center text-walnut">The 3D preview paused because graphics memory is unavailable. Reload to try again.</div> : <Canvas camera={{ position: [56, 30, -26], fov: 40, near: 0.1, far: 2000 }} dpr={[1, 1.5]} frameloop={visible && pageVisible ? 'always' : 'never'} gl={{ antialias: false, alpha: true }} fallback={<p className="p-8 text-walnut">Your browser does not support this 3D preview.</p>} onCreated={({ gl }) => { gl.domElement.addEventListener('webglcontextlost', () => setContextLost(true), { once: true }) }}>
-        {mode === 'orbit' ? <Scene rotate={rotate} step={step} onInteract={() => setPaused(true)} /> : <>
+        {mode === 'orbit' ? <Scene src={asset.src} rotate={rotate} step={step} onInteract={() => setPaused(true)} /> : <>
           <Suspense fallback={<Html center><p className="whitespace-nowrap text-sm text-walnut bg-linen/90 rounded-full px-5 py-3">Loading Noe Street…</p></Html>}>
-            <group position={[0, 6, 5]} scale={5} quaternion={ALIGN}><Splat src={SRC} /></group>
+            <group position={[0, 6, 5]} scale={5} quaternion={ALIGN}><Splat src={asset.src} /></group>
           </Suspense>
           <CaptureCamera progress={progress} reduced={!!reduced} />
         </>}
