@@ -1,6 +1,15 @@
 {
   "headers": [
     {
+      "source": "/ground/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, no-transform"
+        }
+      ]
+    },
+    {
       "source": "/data/(.*)",
       "headers": [
         {
